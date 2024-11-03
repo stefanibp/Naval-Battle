@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1150.0" style="-fx-background-color: #634a18;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.navalbattle.controller.GameController">
+   <children>
+      <Pane layoutX="25.0" layoutY="25.0" prefHeight="750.0" prefWidth="1100.0" style="-fx-background-color: #57aef1;">
+         <children>
+            <Button fx:id="buttonPlayGame" layoutX="218.0" layoutY="664.0" mnemonicParsing="false" onAction="#buttonPlayGame" prefHeight="47.0" prefWidth="150.0" style="-fx-background-color: #634a18; -fx-border-color: white; -fx-border-radius: 20px; -fx-background-radius: 20px; -fx-border-width: 4px;" text="EMPEZAR" textFill="#f5f5f5">
+               <font>
+                  <Font name="Consolas Bold" size="24.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="45.0" fitWidth="180.0" layoutX="215.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@jugado.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="45.0" fitWidth="180.0" layoutX="719.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@enemig.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="95.0" fitWidth="923.0" layoutX="110.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@naval.png" />
+               </image>
+            </ImageView>
+            <AnchorPane fx:id="enemyAnchorPane" layoutX="571.0" layoutY="204.0" prefHeight="440.0" prefWidth="440.0" style="-fx-background-image: url('image.mar.jpg');" />
+            <AnchorPane fx:id="playerAnchorPane" layoutX="94.0" layoutY="204.0" prefHeight="440.0" prefWidth="440.0" />
+         </children>
+      </Pane>
+   </children>
+</Pane>
