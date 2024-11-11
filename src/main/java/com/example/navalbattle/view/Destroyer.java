@@ -18,13 +18,19 @@ public class Destroyer extends Application {
 
         Pane root = new Pane();
 
-        Line line1 = Shape.lineStyle(25, 55, 75, 55, Color.BLACK, 2.0);   // Línea inferior
-        Line line2 = Shape.lineStyle(25, 55, 25, 25, Color.BLACK, 2.0);   // Línea izquierda
-        Line line3 = Shape.lineStyle(25, 25, 75, 25, Color.BLACK, 2.0);   // Línea superior
-        Line line4 = Shape.lineStyle(75, 25, 100, 41, Color.BLACK, 2.0);  // Línea diagonal superior
-        Line line5 = Shape.lineStyle(100, 41, 75, 55, Color.BLACK, 2.0);  // Línea diagonal inferior
+        Polygon triangle1 = new Polygon();
+        triangle1.getPoints().addAll(
+                100.0, 40.0,
+                83.0, 25.0,
+                83.0, 55.0);
 
-        root.getChildren().addAll(line1, line2, line3, line4, line5);
+        triangle1.setFill(Color.DARKGRAY);
+        root.getChildren().addAll(triangle1);
+
+        Rectangle body = Shape.square(20, 25, 70, 30, Color.DARKGRAY);
+        body.setArcWidth(20);
+        body.setArcHeight(40);
+        root.getChildren().add(body);
 
         double squareSize = 10;
         Rectangle square1 = Shape.squareStyle(35, 28, squareSize, squareSize, Color.GREY);
@@ -47,13 +53,12 @@ public class Destroyer extends Application {
         );
 
         hexagon.setFill(Color.GREY);
-        hexagon.setStrokeWidth(0); // Grosor del borde
-
+        hexagon.setStrokeWidth(0);
         root.getChildren().add(hexagon);
 
-        Ellipse e1 = Shape.circleStyle(3, 3, Color.BLACK, Color.BLACK, 1.0, 30, 45);
+        Ellipse e1 = Shape.circleStyle(3, 3, Color.GREY, Color.BLACK, 1.0, 30, 45);
 
-        Ellipse e2 = Shape.circleStyle(3, 3, Color.BLACK, Color.BLACK, 1.0, 30, 35);
+        Ellipse e2 = Shape.circleStyle(3, 3, Color.GREY, Color.BLACK, 1.0, 30, 35);
 
         root.getChildren().addAll(e1, e2);
 
@@ -61,7 +66,7 @@ public class Destroyer extends Application {
         hbox.getChildren().addAll(root);
         hbox.setSpacing(10);
 
-        Scene scene = new Scene(hbox, 150, 100);
+        Scene scene = new Scene(hbox, 200, 200);
         stage.setScene(scene);
         stage.setTitle("DESTRUCTOR");
         stage.show();
