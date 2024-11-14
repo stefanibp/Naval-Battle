@@ -1,6 +1,7 @@
 package com.example.navalbattle.controller;
 
 
+import com.example.navalbattle.model.Game;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -24,10 +25,14 @@ public class GameController {
 
     }
 
+    private Game game;
+
     @FXML
     public void initialize() {
         initializeBoard(playerAnchorPane);
         initializeBoard(enemyAnchorPane);
+        game = new Game();
+        game.displayBoards();
     }
 
     private void initializeBoard(AnchorPane anchorPane) {
