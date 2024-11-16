@@ -10,35 +10,22 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 
-public class GameController {
+public class EnemyController {
 
     @FXML
     private AnchorPane enemyAnchorPane;
 
-    @FXML
-    private AnchorPane playerAnchorPane;
 
-
-
-    @FXML
-    void buttonViewEnemy(ActionEvent event) {
-        EnemyStage.getInstance();
-    }
     @FXML
     void handleClickExit(ActionEvent event) {
-        GameStage.deleteInstance();
-     //   FleetStage.getInstance();
-    }
-
-    @FXML
-    void buttonPlayGame() {
-
+        EnemyStage.deleteInstance();
+        //   FleetStage.getInstance();
     }
 
     @FXML
     public void initialize() {
-       initializeBoard(playerAnchorPane);
-       initializeBoard(enemyAnchorPane);
+
+        initializeBoard(enemyAnchorPane);
     }
 
     private void initializeBoard(AnchorPane anchorPane) {

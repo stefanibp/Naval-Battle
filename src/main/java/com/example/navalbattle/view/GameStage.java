@@ -6,48 +6,48 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
 public class GameStage extends Stage {
     private GameController gameController;
+    private Parent root;
 
-
-    public GameStage() throws IOException {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/com/example/navalbattle/game-view.fxml"));
-        Parent root = loader.load();
-        gameController = loader.getController();
-        setTitle("Batalla naval");
+    public GameStage() {
+        super();
+        FXMLLoader loader = new FXMLLoader(
+                getClass().getResource("/com/example/navalbattle/game-view.fxml"));
+        try{
+            root = loader.load();
+            gameController = loader.getController();
+        } catch (IOException e){
+            e.printStackTrace();
+        }
         Scene scene = new Scene(root);
-        getIcons().add(new Image(String.valueOf(getClass().getResource("/com/example/navalbattle/icon.png"))));
         setScene(scene);
+        setTitle("Sopa de letras");
         setResizable(false);
+       // initStyle(StageStyle.UNDECORATED);
         show();
-
     }
 
 
-    /**
-     * Retrieves the singleton instance of the GameStage.
-     * @return The singleton instance of the GameStage.
-     * @throws IOException If an I/O exception occurs.
-     */
-    public static GameStage getInstance() throws IOException {
-        return GameStageHolder.INSTANCE = new GameStage();
+    public GameController getGameController() {
+        return gameController;
     }
 
-    /**
-     * Deletes the singleton instance of the GameStage.
-     */
+    private static class GameStageHolder {
+        private static GameStage INSTANCE;
+    }
+
+    public static GameStage getInstance() {
+        GameStageHolder.INSTANCE = (GameStageHolder.INSTANCE != null ? GameStageHolder.INSTANCE : new GameStage());
+        return GameStageHolder.INSTANCE;
+    }
+
     public static void deleteInstance() {
         GameStageHolder.INSTANCE.close();
         GameStageHolder.INSTANCE = null;
-    }
-
-    /**
-     * Holder class for the singleton instance of the GameStage.
-     */
-    private static class GameStageHolder {
-        private static GameStage INSTANCE;
     }
 }

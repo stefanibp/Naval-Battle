@@ -1,0 +1,22 @@
+Button {
+    -fx-background-color: #634a18; /* Color marrón oscuro */
+    -fx-text-fill: #fff; /* Blanco para el texto */
+    -fx-font-family: "Consolas";
+    -fx-font-weight: bold;
+    -fx-font-size: 40px; /* Tamaño de letra de 40px */
+    -fx-cursor: "hand";
+    -fx-border-color: white; /* Borde blanco */
+    -fx-border-radius: 20px; /* Bordes redondeados */
+    -fx-background-radius: 20px; /* Radio de fondo redondeado */
+    -fx-border-width: 4px; /* Ancho del borde */
+}
+
+Button:hover {
+    -fx-background-color: #3e2a0d; /* Color marrón más oscuro al hacer hover */
+    -fx-text-fill: #fff; /* Blanco para el texto */
+    -fx-font-family: "Consolas";
+    -fx-font-weight: bold;
+    -fx-font-size: 45px; /* Aumenta el tamaño de la letra al pasar el mouse */
+    -fx-border-color: #fff; /* Mantiene el borde blanco en hover */
+    -fx-border-width: 4px; /* Mantiene el mismo ancho del borde */
+}

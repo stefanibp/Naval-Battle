@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1150.0" style="-fx-background-color: #634a18;" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.navalbattle.controller.LoginController">
+   <children>
+      <Pane layoutX="25.0" layoutY="25.0" prefHeight="750.0" prefWidth="1100.0" style="-fx-background-color: #57aef1;">
+         <children>
+            <Button layoutX="77.0" layoutY="513.0" mnemonicParsing="false" onAction="#buttonPlayGame" prefHeight="71.0" prefWidth="235.0" stylesheets="@css/index.css" text="JUGAR" textFill="#f5f5f5">
+               <font>
+                  <Font name="Consolas Bold" size="24.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="95.0" fitWidth="776.0" layoutX="110.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@naval.png" />
+               </image>
+            </ImageView>
+            <Button layoutX="969.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClickExit" prefHeight="51.0" prefWidth="54.0" stylesheets="@css/index.css" text="X" />
+            <TextField fx:id="userTxt" alignment="CENTER" layoutX="36.0" layoutY="390.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="69.0" prefWidth="330.0" promptText="Nombre Usuario" style="-fx-background-color: #b7b7b7;">
+               <font>
+                  <Font name="Lucida Console" size="34.0" />
+               </font>
+            </TextField>
+            <ImageView fitHeight="26.0" fitWidth="248.0" layoutX="73.0" layoutY="295.0">
+               <image>
+                  <Image url="@label.gif" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="70.0" fitWidth="370.0" layoutX="33.0" layoutY="145.0">
+               <image>
+                  <Image url="@registerLabel.gif" />
+               </image>
+            </ImageView>
+            <Line endX="-10.066680908203125" endY="-113.33332824707031" layoutX="428.0" layoutY="223.0" startX="-10.066680908203125" startY="490.4000244140625" />
+            <ImageView fitHeight="70.0" fitWidth="503.0" layoutX="499.0" layoutY="141.0">
+               <image>
+                  <Image url="@instructions.gif" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</Pane>

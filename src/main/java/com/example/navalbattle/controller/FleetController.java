@@ -1,7 +1,10 @@
 package com.example.navalbattle.controller;
 
 
-import com.example.navalbattle.view.*;
+import com.example.navalbattle.view.FleetStage;
+import com.example.navalbattle.view.GameStage;
+import com.example.navalbattle.view.LoginStage;
+import com.example.navalbattle.view.WelcomeStage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -10,35 +13,28 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
 
-public class GameController {
+public class FleetController {
 
-    @FXML
-    private AnchorPane enemyAnchorPane;
+
 
     @FXML
     private AnchorPane playerAnchorPane;
 
-
-
     @FXML
-    void buttonViewEnemy(ActionEvent event) {
-        EnemyStage.getInstance();
+    void buttonStartGame(ActionEvent event) {
+        FleetStage.deleteInstance();
+        GameStage.getInstance();
     }
+
     @FXML
     void handleClickExit(ActionEvent event) {
-        GameStage.deleteInstance();
-     //   FleetStage.getInstance();
+        FleetStage.deleteInstance();
+        //LoginStage.getInstance();
     }
-
-    @FXML
-    void buttonPlayGame() {
-
-    }
-
     @FXML
     public void initialize() {
-       initializeBoard(playerAnchorPane);
-       initializeBoard(enemyAnchorPane);
+        initializeBoard(playerAnchorPane);
+
     }
 
     private void initializeBoard(AnchorPane anchorPane) {
