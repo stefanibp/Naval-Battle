@@ -39,8 +39,6 @@ public class GameController {
     private Board boardModel;
 
 
-
-
     private void initializeBoard(AnchorPane anchorPane) {
         GridPane board = boardModel.createBoard();
         anchorPane.getChildren().add(board);
@@ -85,7 +83,7 @@ public class GameController {
 
     }
 
-    private Game game;
+   //git  private Game game;
 
     @FXML
     public void initialize() {
