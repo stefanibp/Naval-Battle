@@ -22,9 +22,3 @@ public class MoveAdapter implements IMove {
     }
 }
 
-
-git init                       # Inicializa un repositorio local (si es necesario)
-git add .                      # Agrega todos los archivos al área de preparación
-git commit -m "Mensaje"        # Realiza un commit con un mensaje
-git remote add origin <url>    # (Solo la primera vez) Añade la URL remota
-git push -u origin main        # Envía tus cambios al repositorio remoto
