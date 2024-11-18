@@ -37,6 +37,21 @@ public class Game implements IGame, Serializable {
         }
 
     }
+  
+   @Override
+    public ArrayList<ArrayList<Integer>> generateBoard10x10() {
+        ArrayList<ArrayList<Integer>> board = new ArrayList<>();
+
+        // Crear una estructura de 11x11 llena de ceros
+        for (int i = 0; i < 10; i++) {
+            ArrayList<Integer> row = new ArrayList<>();
+            for (int j = 0; j < 10; j++) {
+                row.add(0); // Añadir un cero a cada celda
+            }
+            board.add(row); // Añadir cada fila a la lista principal
+        }
+        return board;
+    }
 
     public void modifyRandomCell() { Random rand = new Random();
 
@@ -97,4 +112,6 @@ public class Game implements IGame, Serializable {
             System.out.println(row);
         }
     }
+
+   
 }

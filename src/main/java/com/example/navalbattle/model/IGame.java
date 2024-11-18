@@ -10,4 +10,5 @@ public interface IGame {
     void setPlayerBoard(ArrayList<ArrayList<Integer>> playerBoard);  // Establece el tablero del jugador
     void setEnemyBoard(ArrayList<ArrayList<Integer>> enemyBoard);  // Establece el tablero del enemigo
     void printBoard();  // Método para imprimir los tableros (opcional)
+    ArrayList<ArrayList<Integer>> generateBoard10x10();
 }

@@ -2,6 +2,7 @@ package com.example.navalbattle.controller;
 
 
 import com.example.navalbattle.model.Game;
+
 import com.example.navalbattle.model.IGame;
 import com.example.navalbattle.model.SerializableFileHandler;
 import com.example.navalbattle.view.*;
@@ -84,6 +85,8 @@ public class GameController {
 
     }
 
+    private Game game;
+
     @FXML
     public void initialize() {
         boardModel = new Board();
@@ -91,9 +94,10 @@ public class GameController {
         initializeBoard(playerAnchorPane);
         initializeBoard(enemyAnchorPane);
         displayUserName(userName);
-
     }
+  
     private static GameController controller;
+  
     public static GameController getController() {
         return controller; // Devuelve la referencia del controlador
     }
@@ -107,7 +111,4 @@ public class GameController {
             idUser.setStyle("-fx-font-size: 60px; -fx-font-family: 'Arial'; -fx-text-fill: #6F4F28; -fx-font-weight: bold;");
         }
     }
-
-
 }
-
