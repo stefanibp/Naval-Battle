@@ -27,11 +27,6 @@
                   <Image url="@enemig.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="95.0" fitWidth="776.0" layoutX="110.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@naval.png" />
-               </image>
-            </ImageView>
             <AnchorPane fx:id="enemyAnchorPane" layoutX="571.0" layoutY="204.0" prefHeight="440.0" prefWidth="440.0" style="-fx-background-image: url('image.mar.jpg');" />
             <AnchorPane fx:id="playerAnchorPane" layoutX="94.0" layoutY="204.0" prefHeight="440.0" prefWidth="440.0" />
             <Button layoutX="969.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClickExit" prefHeight="51.0" prefWidth="54.0" stylesheets="@css/index.css" text="X" />
@@ -50,6 +45,7 @@
                   <Font size="36.0" />
                </font>
             </Label>
+            <Label fx:id="idUser" layoutX="72.0" layoutY="47.0" prefHeight="72.0" prefWidth="648.0" />
          </children>
       </Pane>
    </children>
