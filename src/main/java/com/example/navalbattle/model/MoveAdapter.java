@@ -21,6 +21,3 @@ public class MoveAdapter implements IMove {
         return pane;
     }
 }
-
-
-

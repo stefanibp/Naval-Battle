@@ -5,6 +5,11 @@ import com.example.navalbattle.model.Game;
 import com.example.navalbattle.model.IGame;
 import com.example.navalbattle.model.SerializableFileHandler;
 import com.example.navalbattle.view.*;
+
+import com.example.navalbattle.model.Board;
+import com.example.navalbattle.view.EnemyStage;
+import com.example.navalbattle.view.GameStage;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -12,8 +17,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 
+
 import java.io.File;
 import java.util.ArrayList;
+
 
 
 public class GameController {
@@ -25,8 +32,18 @@ public class GameController {
     @FXML
     private AnchorPane playerAnchorPane;
 
+
     private Game game;
 
+    private Board boardModel;
+
+
+
+
+    private void initializeBoard(AnchorPane anchorPane) {
+        GridPane board = boardModel.createBoard();
+        anchorPane.getChildren().add(board);
+    }
 
     @FXML
     private Label idUser;
@@ -41,6 +58,7 @@ public class GameController {
         game.initializeBoardList();
         this.userName = staticUserName;
     }
+
     @FXML
     void buttonViewEnemy(ActionEvent event) {
        game.modifyRandomCell();
@@ -63,10 +81,12 @@ public class GameController {
     @FXML
     void buttonPlayGame() {
 
+
     }
 
     @FXML
     public void initialize() {
+        boardModel = new Board();
         controller = this; // Almacena la instancia del controlador
         initializeBoard(playerAnchorPane);
         initializeBoard(enemyAnchorPane);
@@ -78,46 +98,6 @@ public class GameController {
         return controller; // Devuelve la referencia del controlador
     }
 
-    private void initializeBoard(AnchorPane anchorPane) {
-        GridPane board = new GridPane();
-        board.setPrefSize(440, 440);
-        board.setLayoutX(0);
-        board.setLayoutY(0);
-
-        // Letras para la primera fila
-        String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
-
-        for (int row = 0; row <= 10; row++) {
-            for (int col = 0; col <= 10; col++) {
-                if (row == 0 && col == 0) {
-                    Label label = new Label();
-                    label.setPrefSize(40, 40);
-                    label.setStyle("-fx-border-color: grey; -fx-background-color: #c8c8c8;");
-                    board.add(label, col, row);
-                } else if (row == 0 && col > 0) {
-                    // Primera fila (etiquetas de letras)
-                    Label label = new Label(letters[col - 1]);
-                    label.setPrefSize(40, 40);
-                    label.setStyle("-fx-border-color: grey; -fx-alignment: center; -fx-background-color: #c8c8c8; -fx-font-weight: bold;");
-                    board.add(label, col, row);
-                } else if (col == 0 && row > 0) {
-                    // Primera columna (etiquetas de números)
-                    Label label = new Label(String.valueOf(row));
-                    label.setPrefSize(40, 40);
-                    label.setStyle("-fx-border-color: grey; -fx-alignment: center; -fx-background-color: #c8c8c8; -fx-font-weight: bold;");
-                    board.add(label, col, row);
-                } else if (row > 0 && col > 0) {
-                    // Resto de celdas (botones para el tablero)
-                    Button cell = new Button();
-                    cell.setPrefSize(40, 40);
-                    cell.setStyle("-fx-border-color: grey; -fx-background-color: #3e8ee8");
-                    board.add(cell, col, row);
-                }
-            }
-        }
-
-        anchorPane.getChildren().add(board);
-    }
     public void displayUserName(String user) {
         if (user != null && !user.isEmpty()) {
             idUser.setText("Usuario: " + user);
@@ -130,3 +110,4 @@ public class GameController {
 
 
 }
+
