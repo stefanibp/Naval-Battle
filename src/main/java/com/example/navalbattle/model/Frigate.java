@@ -1,21 +1,27 @@
-package com.example.navalbattle.view;
+package com.example.navalbattle.model;
 
-import javafx.application.Application;
+import com.example.navalbattle.view.Shape;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.*;
-import javafx.stage.Stage;
-import javafx.scene.Scene;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Polygon;
 
+public class Frigate implements IShip {
 
-public class Frigate extends Application {
-    public static void main(String[] args) {
-        Application.launch(args);
+    @Override
+    public String getName() {
+        return "Frigate";
     }
 
     @Override
-    public void start(Stage stage) {
+    public int getSize() {
+        return 1; // El tamaño en celdas
+    }
 
+    @Override
+    public Pane render() {
         Pane root = new Pane();
         Polygon polygon = new Polygon();
         polygon.getPoints().addAll(
@@ -38,11 +44,7 @@ public class Frigate extends Application {
         Line line6 =  Shape.lineStyle(49, 34, 48, 34, Color.DARKGRAY, 4.0);
 
         root.getChildren().addAll(line1, line2, line3, line4, line5, line6);
-
-        Scene scene = new Scene(root, 200, 200);
-        stage.setScene(scene);
-        stage.setTitle("Fragata");
-        stage.show();
+        return root;
 
 
     }

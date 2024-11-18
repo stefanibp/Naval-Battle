@@ -1,21 +1,28 @@
-package com.example.navalbattle.view;
+package com.example.navalbattle.model;
 
-import javafx.application.Application;
-import javafx.scene.Scene;
+import com.example.navalbattle.view.Shape;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
+import javafx.scene.shape.Polygon;
 
-public class AircraftCarrier extends Application {
+public class AircraftCarrier implements IShip {
 
     @Override
-    public void start(Stage stage) {
-        Pane root = new Pane();
+    public String getName() {
+        return "Aircraft Carrier";
+    }
 
+    @Override
+    public int getSize() {
+        return 4; // El tamaño en celdas
+    }
+
+    @Override
+    public Pane render() {
+        Pane root = new Pane();
 
         Ellipse back = new Ellipse(63, 150, 10, 15);
         back.setFill(Color.DARKGRAY);
@@ -44,10 +51,7 @@ public class AircraftCarrier extends Application {
         Polygon airplane2 = createAirplane(130, 155);
         root.getChildren().addAll(airplane1, airplane2);
 
-        Scene scene = new Scene(root, 300, 250);
-        stage.setTitle("Aircraft Carrier");
-        stage.setScene(scene);
-        stage.show();
+        return root;
     }
 
     private Polygon createAirplane(double x, double y) {
@@ -58,9 +62,5 @@ public class AircraftCarrier extends Application {
         );
         airplane.setFill(Color.LIGHTGRAY);
         return airplane;
-    }
-
-    public static void main(String[] args) {
-        launch(args);
     }
 }

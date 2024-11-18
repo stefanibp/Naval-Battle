@@ -1,21 +1,27 @@
-package com.example.navalbattle.view;
+package com.example.navalbattle.model;
 
-
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
+import com.example.navalbattle.view.Shape;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.*;
-import javafx.stage.Stage;
+import javafx.scene.shape.Ellipse;
+import javafx.scene.shape.Line;
+import javafx.scene.shape.Rectangle;
+import javafx.scene.shape.Polygon;
 
-public class Destroyer extends Application {
-    public static void main(String[] args) {
-        Application.launch(args);
-    }
+public class Destroyer implements IShip {
+
     @Override
-    public void start(Stage stage) {
+    public String getName() {
+        return "Destroyer";
+    }
 
+    @Override
+    public int getSize() {
+        return 2; // El tamaño en celdas
+    }
+
+    @Override
+    public Pane render() {
         Pane root = new Pane();
 
         Polygon triangle1 = new Polygon();
@@ -62,13 +68,7 @@ public class Destroyer extends Application {
 
         root.getChildren().addAll(e1, e2);
 
-        HBox hbox = new HBox();
-        hbox.getChildren().addAll(root);
-        hbox.setSpacing(10);
-
-        Scene scene = new Scene(hbox, 200, 200);
-        stage.setScene(scene);
-        stage.setTitle("DESTRUCTOR");
-        stage.show();
+        return root;
     }
 }
+
