@@ -40,7 +40,7 @@ public class GameController {
 
 
     private void initializeBoard(AnchorPane anchorPane) {
-        GridPane board = boardModel.createBoard();
+        GridPane board = boardModel.createBoard(Game.getInstance().getPlayerBoard());
         anchorPane.getChildren().add(board);
     }
 
@@ -53,7 +53,7 @@ public class GameController {
         staticUserName = userName; // Método para configurar la variable estática
     }
     public GameController() {
-        game = new Game(10); // Suponiendo que el tamaño del tablero es 10
+        game = Game.getInstance();
         game.initializeBoardList();
         this.userName = staticUserName;
     }

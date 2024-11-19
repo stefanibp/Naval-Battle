@@ -61,7 +61,6 @@ public class WelcomeController {
         SerializableFileHandler fileHandler = new SerializableFileHandler();
         String fileName = "game_boards.dat";
         fileHandler.deserialize(fileName, game);  // Deserializa los tableros y los carga en el objeto 'game'
-        game.printBoard();  // Imprime los tableros cargados para verificar
     }
 
     @FXML
@@ -71,8 +70,8 @@ public class WelcomeController {
 
     @FXML
     public void initialize() {
-        game = new Game(10);
-        // Deserializamos los tableros al inicio
+        // Inicializa la instancia de Game
+        game = Game.getInstance(10);  // Se asume un tablero de tamaño 10x10
 
         // Si no se encontró ningún archivo guardado, inicializamos los tableros
         if (game.getPlayerBoard().isEmpty() || game.getEnemyBoard().isEmpty()) {
