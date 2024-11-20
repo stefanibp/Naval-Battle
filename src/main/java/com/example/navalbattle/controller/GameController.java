@@ -91,6 +91,7 @@ public class GameController {
         controller = this; // Almacena la instancia del controlador
         initializeBoard(playerAnchorPane);
         initializeBoard(enemyAnchorPane);
+        Board.getInstance().mapShipsToAnchorPane( playerAnchorPane, true);
         displayUserName(userName);
     }
   
