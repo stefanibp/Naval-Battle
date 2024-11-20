@@ -26,7 +26,8 @@ public class GameStage extends Stage {
         }
         Scene scene = new Scene(root);
         setScene(scene);
-        setTitle("Sopa de letras");
+        setTitle("BATALLA NAVAL");
+        getIcons().add(new Image(String.valueOf(getClass().getResource("/com/example/navalbattle/favicon.png"))));
         setResizable(false);
        // initStyle(StageStyle.UNDECORATED);
         show();
@@ -34,6 +35,9 @@ public class GameStage extends Stage {
 
 
     public GameController getGameController() {
+        if (gameController == null) {
+            throw new IllegalStateException("El controlador del juego no ha sido inicializado.");
+        }
         return gameController;
     }
 
@@ -50,4 +54,5 @@ public class GameStage extends Stage {
         GameStageHolder.INSTANCE.close();
         GameStageHolder.INSTANCE = null;
     }
+
 }

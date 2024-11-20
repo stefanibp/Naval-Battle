@@ -5,6 +5,7 @@ import com.example.navalbattle.controller.WelcomeController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
@@ -26,7 +27,8 @@ public class WelcomeStage extends Stage {
         }
         Scene scene = new Scene(root);
         setScene(scene);
-        setTitle("Sopa de letras");
+        setTitle("BATALLA NAVAL");
+        getIcons().add(new Image(String.valueOf(getClass().getResource("/com/example/navalbattle/favicon.png"))));
         setResizable(false);
        // initStyle(StageStyle.UNDECORATED);
         show();

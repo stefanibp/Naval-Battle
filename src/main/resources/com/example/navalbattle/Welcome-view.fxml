@@ -15,11 +15,6 @@
                   <Image url="@node-navy.gif" />
                </image>
             </ImageView>
-            <ImageView fitHeight="71.0" fitWidth="775.0" layoutX="12.0" layoutY="456.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@naval.png" />
-               </image>
-            </ImageView>
             <Button layoutX="653.0" layoutY="16.0" mnemonicParsing="false" onAction="#handleClickExit" prefHeight="51.0" prefWidth="54.0" stylesheets="@css/index.css" text="X" />
             <Button fx:id="buttonPlayGame" layoutX="424.0" layoutY="632.0" mnemonicParsing="false" onAction="#handleClickPlay" prefHeight="94.0" prefWidth="291.0" stylesheets="@css/index.css" text="JUGAR" textFill="#f5f5f5">
                <font>
@@ -31,6 +26,16 @@
                   <Font name="Consolas Bold" size="24.0" />
                </font>
             </Button>
+            <ImageView fitHeight="185.0" fitWidth="472.0" layoutX="257.0" layoutY="340.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@titleLabel.png" />
+               </image>
+            </ImageView>
+            <ImageView fitHeight="118.0" fitWidth="466.0" layoutX="147.0" layoutY="458.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@titleLabel2.png" />
+               </image>
+            </ImageView>
          </children>
       </Pane>
    </children>

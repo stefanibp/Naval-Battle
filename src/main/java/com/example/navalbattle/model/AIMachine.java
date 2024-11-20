@@ -1,8 +1,5 @@
 package com.example.navalbattle.model;
 
-import com.example.navalbattle.exceptions.InvalidShipPlacementException;
-import com.example.navalbattle.exceptions.OutOfBoundsException;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -13,12 +10,15 @@ public class AIMachine {
     private Random random;
 
     public AIMachine() {
-        this.board = new Board();
+       this.board = new Board(game);
         this.fleet = new ArrayList<>();
         this.random = new Random();
         initializeFleet();
     }
-
+    private Game game;
+    public void setGame(Game game) {
+        this.game = game;
+    }
     // Inicializa la flota de la IA
     private void initializeFleet() {
         fleet.add(new AircraftCarrier()); // 1 portaaviones
