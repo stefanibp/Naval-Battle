@@ -26,10 +26,39 @@ public class FleetController {
 
     private GridPane playerBoard;
 
+    private int frigateCount = 0; // Contador para las fragatas colocadas
+    private static final int MAX_FRIGATES = 4; // Límite máximo
+
+    private int destroyerCount = 0;
+    private static final int MAX_DESTROYER = 3;
+
+    private int aircraftCarrierCount = 0;
+    private static final int MAX_AIRCRAFTCARRIER = 1;
+
+    private int submarineCount = 0;
+    private static final int MAX_SUBMARINE = 2;
+
     @FXML
     void buttonStartGame(ActionEvent event) {
-        FleetStage.deleteInstance();
-        GameStage.getInstance();
+        if(frigateCount == MAX_FRIGATES){
+            FleetStage.deleteInstance();
+            GameStage.getInstance();
+        }
+
+        if(destroyerCount == MAX_DESTROYER){
+            FleetStage.deleteInstance();
+            GameStage.getInstance();
+        }
+
+        if(aircraftCarrierCount == MAX_AIRCRAFTCARRIER){
+            FleetStage.deleteInstance();
+            GameStage.getInstance();
+        }
+
+        if(submarineCount == MAX_SUBMARINE){
+            FleetStage.deleteInstance();
+            GameStage.getInstance();
+        }
     }
 
     @FXML
@@ -145,6 +174,27 @@ public class FleetController {
 
     private <T extends IShip> void enableDragWithClone(Pane shipPane, T ship) {
         shipPane.setOnMousePressed(event -> {
+
+            if (ship instanceof Frigate && frigateCount >= MAX_FRIGATES) {
+                System.out.println("No se pueden colocar más de " + MAX_FRIGATES + " fragatas.");
+                return; // No permitir más fragatas
+            }
+
+            if (ship instanceof Destroyer && destroyerCount >= MAX_DESTROYER) {
+                System.out.println("No se pueden colocar más de " + MAX_DESTROYER + " destructores.");
+                return; // No permitir más fragatas
+            }
+
+            if (ship instanceof AircraftCarrier && aircraftCarrierCount >= MAX_AIRCRAFTCARRIER) {
+                System.out.println("No se pueden colocar más de " + MAX_AIRCRAFTCARRIER + " portaaviones.");
+                return; // No permitir más fragatas
+            }
+
+            if (ship instanceof Submarine && submarineCount >= MAX_SUBMARINE) {
+                System.out.println("No se pueden colocar más de " + MAX_SUBMARINE + " submarinos.");
+                return; // No permitir más fragatas
+            }
+
             // Crear una copia del barco y agregarla al tablero de agua
             T clonedShip = (T) ship.clone(); // Clonación del barco usando el método clone
             StackPane clonedPane = clonedShip.render();
@@ -233,7 +283,7 @@ public class FleetController {
                         case 3 -> {
                             if (associatedShip.getCurrentRotation() == 90 || associatedShip.getCurrentRotation() == 270) {
                                 clonedPane.setLayoutX(newLayoutX - 25);
-                                clonedPane.setLayoutY(newLayoutY + 20);
+                                clonedPane.setLayoutY(newLayoutY + 45);
                             } else if (associatedShip.getCurrentRotation() == 0 || associatedShip.getCurrentRotation() == 180) {
                                 clonedPane.setLayoutX(newLayoutX + 20);
                                 clonedPane.setLayoutY(newLayoutY + 8);
@@ -242,18 +292,18 @@ public class FleetController {
                         case 2 -> {
                             if (associatedShip.getCurrentRotation() == 90 || associatedShip.getCurrentRotation() == 270) {
                                 clonedPane.setLayoutX(newLayoutX - 15);
-                                clonedPane.setLayoutY(newLayoutY + 20);
+                                clonedPane.setLayoutY(newLayoutY + 30);
                             } else if (associatedShip.getCurrentRotation() == 0 || associatedShip.getCurrentRotation() == 180) {
-                                clonedPane.setLayoutX(newLayoutX + 6);
+                                clonedPane.setLayoutX(newLayoutX + 2);
                                 clonedPane.setLayoutY(newLayoutY + 5.5);
                             }
                         }
                         case 1 -> {
                             if (associatedShip.getCurrentRotation() == 90 || associatedShip.getCurrentRotation() == 270) {
-                                clonedPane.setLayoutX(newLayoutX);
+                                clonedPane.setLayoutX(newLayoutX + 1);
                                 clonedPane.setLayoutY(newLayoutY + 5);
                             } else if (associatedShip.getCurrentRotation() == 0 || associatedShip.getCurrentRotation() == 180) {
-                                clonedPane.setLayoutX(newLayoutX);
+                                clonedPane.setLayoutX(newLayoutX + 1);
                                 clonedPane.setLayoutY(newLayoutY + 5.8);
                             }
                         }
@@ -299,6 +349,21 @@ public class FleetController {
                     if (!playerAnchorPane.getChildren().contains(clonedPane)) {
                         playerAnchorPane.getChildren().add(clonedPane);
                         boardWater.getChildren().remove(clonedPane);
+
+                        if (clonedShip instanceof Frigate) {
+                            frigateCount++;
+                        }
+
+                        if (clonedShip instanceof Destroyer) {
+                            destroyerCount++;
+                        }
+                        if (clonedShip instanceof AircraftCarrier) {
+                            aircraftCarrierCount++;
+                        }
+                        if (clonedShip instanceof Submarine) {
+                            submarineCount++;
+                        }
+
                         System.out.println("Barco colocado en posiciones: " + occupiedPositions);
                     }
                 } else {
