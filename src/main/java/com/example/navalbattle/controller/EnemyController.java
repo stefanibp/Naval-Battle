@@ -1,6 +1,7 @@
 package com.example.navalbattle.controller;
 
 import com.example.navalbattle.model.Board;
+import com.example.navalbattle.model.Game;
 import com.example.navalbattle.view.EnemyStage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,7 +19,7 @@ public class EnemyController {
 
     @FXML
     public void initialize() {
-        Board enemyBoard = new Board();
-        enemyAnchorPane.getChildren().add(enemyBoard.createBoard());
+        Board board = new Board();
+        enemyAnchorPane.getChildren().add(board.createBoard(Game.getInstance().getEnemyBoard()));
     }
 }
