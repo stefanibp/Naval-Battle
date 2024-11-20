@@ -272,39 +272,95 @@ public class FleetController {
 
                     switch (associatedShip.getSize()) {
                         case 4 -> {
-                            if (associatedShip.getCurrentRotation() == 90 || associatedShip.getCurrentRotation() == 270) {
-                                clonedPane.setLayoutX(newLayoutX - 40);
-                                clonedPane.setLayoutY(newLayoutY + 65);
-                            } else if (associatedShip.getCurrentRotation() == 0 || associatedShip.getCurrentRotation() == 180) {
-                                clonedPane.setLayoutX(newLayoutX + 20);
-                                clonedPane.setLayoutY(newLayoutY + 5.5);
+                            switch (associatedShip.getCurrentRotation()) {
+                                case 0: // horizontal -- cara apuntando hacia derecha
+                                    clonedPane.setLayoutX(newLayoutX + 20);
+                                    clonedPane.setLayoutY(newLayoutY + 5.5);
+                                    break;
+                                case 90: // vertical -- cara apuntando hacia abajo
+                                    clonedPane.setLayoutX(newLayoutX - 40);
+                                    clonedPane.setLayoutY(newLayoutY + 65);
+                                    break;
+                                case 180: // horizontal -- cara apuntando hacia izquierda
+                                    clonedPane.setLayoutX(newLayoutX + 20);
+                                    clonedPane.setLayoutY(newLayoutY + 5.5);
+                                    break;
+                                case 270: // vertical -- cara apuntando hacia arriba
+                                    clonedPane.setLayoutX(newLayoutX - 40);
+                                    clonedPane.setLayoutY(newLayoutY + 65);
+                                    break;
+                                default:
+                                    clonedPane.setLayoutX(newLayoutX);
+                                    clonedPane.setLayoutY(newLayoutY);
                             }
                         }
                         case 3 -> {
-                            if (associatedShip.getCurrentRotation() == 90 || associatedShip.getCurrentRotation() == 270) {
-                                clonedPane.setLayoutX(newLayoutX - 25);
-                                clonedPane.setLayoutY(newLayoutY + 45);
-                            } else if (associatedShip.getCurrentRotation() == 0 || associatedShip.getCurrentRotation() == 180) {
-                                clonedPane.setLayoutX(newLayoutX + 20);
-                                clonedPane.setLayoutY(newLayoutY + 8);
+                            switch (associatedShip.getCurrentRotation()) {
+                                case 0: // horizontal -- cara apuntando hacia derecha
+                                    clonedPane.setLayoutX(newLayoutX + 20);
+                                    clonedPane.setLayoutY(newLayoutY + 9);
+                                    break;
+                                case 90: // vertical -- cara apuntando hacia abajo
+                                    clonedPane.setLayoutX(newLayoutX - 25);
+                                    clonedPane.setLayoutY(newLayoutY + 50);
+                                    break;
+                                case 180: // horizontal -- cara apuntando hacia izquierda
+                                    clonedPane.setLayoutX(newLayoutX + 15);
+                                    clonedPane.setLayoutY(newLayoutY + 9);
+                                    break;
+                                case 270: // vertical -- cara apuntando hacia arriba
+                                    clonedPane.setLayoutX(newLayoutX - 25);
+                                    clonedPane.setLayoutY(newLayoutY + 40);
+                                    break;
+                                default:
+                                    clonedPane.setLayoutX(newLayoutX);
+                                    clonedPane.setLayoutY(newLayoutY);
                             }
                         }
                         case 2 -> {
-                            if (associatedShip.getCurrentRotation() == 90 || associatedShip.getCurrentRotation() == 270) {
-                                clonedPane.setLayoutX(newLayoutX - 15);
-                                clonedPane.setLayoutY(newLayoutY + 30);
-                            } else if (associatedShip.getCurrentRotation() == 0 || associatedShip.getCurrentRotation() == 180) {
-                                clonedPane.setLayoutX(newLayoutX + 2);
-                                clonedPane.setLayoutY(newLayoutY + 5.5);
+                            switch (associatedShip.getCurrentRotation()) {
+                                case 0: // horizontal -- cara apuntando hacia derecha
+                                    clonedPane.setLayoutX(newLayoutX + 2);
+                                    clonedPane.setLayoutY(newLayoutY + 5.5);
+                                    break;
+                                case 90: // vertical -- cara apuntando hacia abajo
+                                    clonedPane.setLayoutX(newLayoutX - 15);
+                                    clonedPane.setLayoutY(newLayoutY + 20);
+                                    break;
+                                case 180: // horizontal -- cara apuntando hacia izquierda
+                                    clonedPane.setLayoutX(newLayoutX + 10);
+                                    clonedPane.setLayoutY(newLayoutY + 5.5);
+                                    break;
+                                case 270: // vertical -- cara apuntando hacia arriba
+                                    clonedPane.setLayoutX(newLayoutX - 15);
+                                    clonedPane.setLayoutY(newLayoutY + 30);
+                                    break;
+                                default:
+                                    clonedPane.setLayoutX(newLayoutX);
+                                    clonedPane.setLayoutY(newLayoutY);
                             }
                         }
                         case 1 -> {
-                            if (associatedShip.getCurrentRotation() == 90 || associatedShip.getCurrentRotation() == 270) {
-                                clonedPane.setLayoutX(newLayoutX + 1);
-                                clonedPane.setLayoutY(newLayoutY + 5);
-                            } else if (associatedShip.getCurrentRotation() == 0 || associatedShip.getCurrentRotation() == 180) {
-                                clonedPane.setLayoutX(newLayoutX + 1);
-                                clonedPane.setLayoutY(newLayoutY + 5.8);
+                            switch (associatedShip.getCurrentRotation()) {
+                                case 0: // horizontal -- cara apuntando hacia derecha
+                                    clonedPane.setLayoutX(newLayoutX + 1);
+                                    clonedPane.setLayoutY(newLayoutY + 5.8);
+                                    break;
+                                case 90: // vertical -- cara apuntando hacia abajo
+                                    clonedPane.setLayoutX(newLayoutX + 1);
+                                    clonedPane.setLayoutY(newLayoutY + 5);
+                                    break;
+                                case 180: // horizontal -- cara apuntando hacia izquierda
+                                    clonedPane.setLayoutX(newLayoutX + 1);
+                                    clonedPane.setLayoutY(newLayoutY + 5.8);
+                                    break;
+                                case 270: // vertical -- cara apuntando hacia arriba
+                                    clonedPane.setLayoutX(newLayoutX + 1);
+                                    clonedPane.setLayoutY(newLayoutY + 5);
+                                    break;
+                                default:
+                                    clonedPane.setLayoutX(newLayoutX);
+                                    clonedPane.setLayoutY(newLayoutY);
                             }
                         }
                         default -> {
@@ -357,12 +413,17 @@ public class FleetController {
                         if (clonedShip instanceof Destroyer) {
                             destroyerCount++;
                         }
+
                         if (clonedShip instanceof AircraftCarrier) {
                             aircraftCarrierCount++;
                         }
+
                         if (clonedShip instanceof Submarine) {
                             submarineCount++;
                         }
+
+                        // Usar el Singleton para registrar posiciones
+                        Board.getInstance().registerShipPosition(clonedShip, occupiedPositions, true);
 
                         System.out.println("Barco colocado en posiciones: " + occupiedPositions);
                     }
