@@ -27,7 +27,7 @@ public class LoginStage extends Stage {
         }
         Scene scene = new Scene(root);
         setScene(scene);
-        setTitle("Sopa de letras");
+        setTitle("Batalla naval");
         setResizable(false);
         // initStyle(StageStyle.UNDECORATED);
         show();
