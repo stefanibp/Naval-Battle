@@ -45,8 +45,8 @@
                <padding>
                   <Insets bottom="50.0" top="20.0" />
                </padding></Pane>
-            <Button layoutX="991.0" layoutY="225.0" mnemonicParsing="false" onAction="#rotateShipsLeft" text="&lt;-" />
-            <Button layoutX="991.0" layoutY="267.0" mnemonicParsing="false" onAction="#rotateShipsRight" text="-&gt;" />
+            <Button layoutX="991.0" layoutY="225.0" mnemonicParsing="false" onAction="#rotateShipsLeft" style="-fx-border-width: 2PX; -fx-background-radius: 20PX; -fx-border-radius: 20px; -fx-background-color: #5b4729; -fx-border-color: white;" text="&lt;-" textFill="WHITE" />
+            <Button layoutX="991.0" layoutY="267.0" mnemonicParsing="false" onAction="#rotateShipsRight" style="-fx-border-width: 2PX; -fx-background-radius: 20PX; -fx-border-radius: 20px; -fx-border-color: #ffffff; -fx-background-color: #5b4729;" text="-&gt;" textFill="WHITE" />
          </children>
       </Pane>
    </children>

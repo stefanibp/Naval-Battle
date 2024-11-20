@@ -30,7 +30,6 @@ public class Frigate implements IShip {
 
         StackPane root = new StackPane();
 
-        root.setStyle("-fx-background-color: lightgray;");
         Polygon polygon = new Polygon();
         polygon.getPoints().addAll(
                 50.0, 50.0,

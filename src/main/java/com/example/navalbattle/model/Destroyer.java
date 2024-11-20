@@ -27,8 +27,6 @@ public class Destroyer implements IShip {
     public StackPane render() {
         StackPane root = new StackPane();
 
-        root.setStyle("-fx-background-color: lightgray;");
-
         Polygon triangle1 = new Polygon();
         triangle1.getPoints().addAll(
                 100.0, 40.0,
@@ -37,6 +35,9 @@ public class Destroyer implements IShip {
 
         triangle1.setFill(Color.BLACK);
         root.getChildren().addAll(triangle1);
+
+        triangle1.setTranslateX(35);
+        triangle1.setTranslateY(0);
 
         Rectangle body = Shape.square(20, 25, 70, 30, Color.BLACK);
         body.setArcWidth(20);
@@ -50,6 +51,18 @@ public class Destroyer implements IShip {
         Rectangle square4 = Shape.squareStyle(48, 42, squareSize, squareSize, Color.WHITE);
 
         root.getChildren().addAll(square1, square2, square3, square4);
+
+        square1.setTranslateX(-15);
+        square1.setTranslateY(6);
+
+        square2.setTranslateX(-15);
+        square2.setTranslateY(-6);
+
+        square3.setTranslateX(-2);
+        square3.setTranslateY(6);
+
+        square4.setTranslateX(-2);
+        square4.setTranslateY(-6);
 
         double deltaX = 20;
         double deltaY = 22;
@@ -67,11 +80,19 @@ public class Destroyer implements IShip {
         hexagon.setStrokeWidth(0);
         root.getChildren().add(hexagon);
 
+        hexagon.setTranslateX(15);
+
         Ellipse e1 = Shape.circleStyle(3, 3, Color.WHITE, Color.BLACK, 1.0, 30, 45);
 
         Ellipse e2 = Shape.circleStyle(3, 3, Color.WHITE, Color.BLACK, 1.0, 30, 35);
 
         root.getChildren().addAll(e1, e2);
+
+        e1.setTranslateX(-25);
+        e1.setTranslateY(-6);
+
+        e2.setTranslateX(-25);
+        e2.setTranslateY(6);
 
         return root;
     }
