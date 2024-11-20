@@ -12,7 +12,6 @@ import java.util.ArrayList;
 public class Board {
 
     private Game game;
-    private IAFleet iaFleet;
     GridPane boardPlayer = new GridPane();
     GridPane boardEnemy = new GridPane();
 
@@ -21,13 +20,6 @@ public class Board {
 
     }
 
-    public void printEnemyFleetInfo() {
-        ArrayList<String> enemyFleetInfo = iaFleet.getEnemyFleetInfo();  // Obtener la información de la flota
-        System.out.println("Información de la flota del enemigo:");
-        for (String shipInfo : enemyFleetInfo) {
-            System.out.println(shipInfo);  // Imprimir cada barco en la flota
-        }
-    }
 
 
     public GridPane createBoard(String boardName) {
@@ -98,7 +90,7 @@ public class Board {
         if (boardName.equals("Enemy")) {
             ///
             newButton.setOnAction(event -> {
-                printEnemyFleetInfo();
+
                 System.out.println("Celda oprimida: Columna " + (currentCol + 1) + ", Fila " + (currentRow + 1));
                 game.modifyArraylist(currentRow, currentCol, 6, boardName);
                 updateBoardGraphics(boardEnemy, boardName);
