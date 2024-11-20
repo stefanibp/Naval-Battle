@@ -10,21 +10,24 @@ public abstract class GameAdapter implements IGame {
     }
 
     @Override
-    public void displayBoards(){
-
-    }
+    public void initializeBoardList(){}
 
     @Override
-    public void displayBoard(ArrayList<ArrayList<Integer>> board){
+    public void setPlayerBoard(ArrayList<ArrayList<Integer>> playerBoard){}
 
-    }
     @Override
-    public ArrayList<ArrayList<Integer>> getCurrentPlayerBoard() {
+    public void setEnemyBoard(ArrayList<ArrayList<Integer>> playerBoard){}
+
+    @Override
+    public void printBoard(){}
+
+    @Override
+    public ArrayList<ArrayList<Integer>> getPlayerBoard() {
         return new ArrayList<>();
     }
 
     @Override
-    public ArrayList<ArrayList<Integer>> getCurrentEnemyBoard() {
+    public ArrayList<ArrayList<Integer>> getEnemyBoard() {
         return new ArrayList<>();
     }
 }

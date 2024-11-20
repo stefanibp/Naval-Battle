@@ -1,10 +1,8 @@
 package com.example.navalbattle;
 
-import com.example.navalbattle.view.GameStage;
+import com.example.navalbattle.view.WelcomeStage;
 import javafx.application.Application;
 import javafx.stage.Stage;
-
-import java.io.IOException;
 
 public class Main extends Application {
 
@@ -13,8 +11,7 @@ public class Main extends Application {
     }
 
     @Override
-    public void start(Stage primaryStage) throws IOException {
-
-        new GameStage();
+    public void start(Stage primaryStage) {
+        WelcomeStage.getInstance();
     }
 }

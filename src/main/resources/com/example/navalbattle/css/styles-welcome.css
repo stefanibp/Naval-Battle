@@ -1,0 +1,6 @@
+.welcome-title{
+    -fx-text-fill: #ab68ff;
+    -fx-font-family: "Consolas";
+    -fx-font-weight: bold;
+    -fx-font-size: 36px;
+}
