@@ -6,9 +6,11 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 
+import java.util.ArrayList;
+
 public class Board {
 
-    public GridPane createBoard() {
+    public GridPane createBoard(ArrayList<ArrayList<Integer>> boards) {
         GridPane board = new GridPane();
         board.setPrefSize(440, 440);
         board.setLayoutX(0);
@@ -20,6 +22,7 @@ public class Board {
         for (int row = 0; row <= 10; row++) {
             for (int col = 0; col <= 10; col++) {
                 if (row == 0 && col == 0) {
+                    // Esquina superior izquierda
                     Label label = new Label();
                     label.setPrefSize(40, 40);
                     label.setStyle("-fx-border-color: grey; -fx-background-color: #c8c8c8;");
@@ -37,19 +40,24 @@ public class Board {
                     label.setStyle("-fx-border-color: grey; -fx-alignment: center; -fx-background-color: #c8c8c8; -fx-font-weight: bold;");
                     board.add(label, col, row);
                 } else if (row > 0 && col > 0) {
-                    // Resto de celdas (botones para el tablero)
-                    Button cell = new Button();
+                    // Celdas del tablero basadas en el valor de boards
+                    int value = boards.get(row - 1).get(col - 1); // Ajustar índices porque boards no tiene cabecera
+                    Button cell = new Button(String.valueOf(value));
                     cell.setPrefSize(40, 40);
-                    cell.setStyle("-fx-border-color: grey; -fx-background-color: #3e8ee8");
+
+                    // Estilo según el valor
+                    if (value == 0) {
+                        cell.setStyle("-fx-border-color: grey; -fx-background-color: #3e8ee8;");
+                    } else {
+                        cell.setStyle("-fx-border-color: white; -fx-background-color: red;");
+                    }
+
                     board.add(cell, col, row);
                 }
             }
         }
         return board;
     }
-
-
-
 
 
 }
