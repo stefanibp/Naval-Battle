@@ -25,9 +25,9 @@ public class Frigate implements IShip {
 
     @Override
 
-    public Pane render() {
+    public StackPane render() {
         // Creamos un pane con dimensiones de 40px de largo y 40px de ancho
-        Pane root = new Pane();
+        StackPane root = new StackPane();
         root.setPrefSize(40, 40); // Establecemos el tamaño del pane
 
         // Ajustamos las coordenadas para que el polígono ocupe todo el espacio

@@ -1,5 +1,8 @@
 package com.example.navalbattle.model;
 
+import com.example.navalbattle.controller.WelcomeController;
+import javafx.geometry.Point2D;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -12,7 +15,7 @@ public class IAFleet {
         enemyFleetCoordinates = new ArrayList<>();
     }
 
-    public void placeEnemyFleet(ArrayList<ArrayList<Integer>> enemyBoard) {
+    public void placeEnemyFleet(ArrayList<ArrayList<Integer>> enemyBoard, Board board) {
         // Barcos con sus tamaños respectivos
         int[][] fleet = {
                 {4, 1}, // 1 portaaviones de tamaño 4
@@ -57,13 +60,52 @@ public class IAFleet {
             }
         }
 
-        // Imprimir las coordenadas de los barcos
-        System.out.println("Coordenadas de la flota del enemigo:");
+        // Generador de números aleatorios
+        Random random = new Random();
+
+        // Imprimir coordenadas con el nuevo formato
         for (ArrayList<Integer> shipCoords : enemyFleetCoordinates) {
-            System.out.println("Barco de tamaño " + shipCoords.get(0) +
-                    " desde (" + shipCoords.get(1) + ", " + shipCoords.get(2) +
-                    ") hasta (" + shipCoords.get(3) + ", " + shipCoords.get(4) + ")");
+            int shipSize = shipCoords.get(0);
+            String shipName;
+
+            // Determinar el nombre del barco según el tamaño
+            switch (shipSize) {
+                case 4 -> shipName = "AircraftCarrier";
+                case 3 -> shipName = "Submarine";
+                case 2 -> shipName = "Destroyer";
+                case 1 -> shipName = "Frigate";
+                default -> {
+                    System.out.println("Barco desconocido: " + shipSize);
+                    continue;
+                }
+            }
+
+            // Crear las posiciones como Point2D
+            ArrayList<Point2D> positions = new ArrayList<>();
+            int startX = shipCoords.get(1);
+            int startY = shipCoords.get(2);
+            int endX = shipCoords.get(3);
+            int endY = shipCoords.get(4);
+
+            int shipRotation;
+
+            if (startX == endX) { // Barco horizontal
+                for (int y = startY; y <= endY; y++) {
+                    positions.add(new Point2D(startX, y));
+                }
+                // Rotación aleatoria entre 0 y 180 grados para horizontal
+                shipRotation = random.nextBoolean() ? 0 : 180;
+            } else { // Barco vertical
+                for (int x = startX; x <= endX; x++) {
+                    positions.add(new Point2D(x, startY));
+                }
+                // Rotación aleatoria entre 90 y 270 grados para vertical
+                shipRotation = random.nextBoolean() ? 90 : 270;
+            }
+
+            board.registerShipPosition(shipName, shipRotation ,positions, false);
         }
+
     }
 
     // Método auxiliar para verificar si un barco cabe en una posición y dirección

@@ -1,10 +1,7 @@
 package com.example.navalbattle.controller;
 
 
-import com.example.navalbattle.model.Board;
-import com.example.navalbattle.model.Game;
-import com.example.navalbattle.model.IAFleet;
-import com.example.navalbattle.model.SerializableFileHandlerPosition;
+import com.example.navalbattle.model.*;
 import com.example.navalbattle.view.FleetStage;
 import com.example.navalbattle.view.GameStage;
 
@@ -26,12 +23,14 @@ public class FleetController {
 
     @FXML
     private Game game;
-    private IAFleet enemyFleet;
+
     @FXML
     private AnchorPane playerAnchorPane;
     
     @FXML
     private Pane boardWater;
+
+    private IAFleet enemyFleet;
 
     private GridPane playerBoard;
   
@@ -51,10 +50,12 @@ public class FleetController {
 
     @FXML
     void buttonStartGame(ActionEvent event) {
-        if(frigateCount == MAX_FRIGATES && destroyerCount == MAX_DESTROYER && aircraftCarrierCount == MAX_AIRCRAFTCARRIER && submarineCount == MAX_SUBMARINE){
+        /*if(frigateCount == MAX_FRIGATES && destroyerCount == MAX_DESTROYER && aircraftCarrierCount == MAX_AIRCRAFTCARRIER && submarineCount == MAX_SUBMARINE){
             FleetStage.deleteInstance();
             GameStage.getInstance();
-        }
+        }*/
+        FleetStage.deleteInstance();
+        GameStage.getInstance();
     }
 
     @FXML
@@ -64,22 +65,12 @@ public class FleetController {
 
     @FXML
     public void initialize() {
-        game = WelcomeController.getInstance().getGame();
-        boardModel = new Board(game);
-        initializeBoard(playerAnchorPane, "PlayerF");
-        
-        // sbp
         playerBoard = new Board().createBoard(Game.getInstance().getPlayerBoard());
         playerAnchorPane.getChildren().add(playerBoard);
         fleetView();
-        // end
-    }
-    
-    private void initializeBoard(AnchorPane anchorPane, String boardName) {
-        if (boardModel != null) {
-            GridPane board = boardModel.createBoard(boardName); // Ajuste en `createBoard`
-            anchorPane.getChildren().add(board);
-        }
+
+        game = WelcomeController.getInstance().getGame();
+
     }
 
     @FXML
@@ -184,7 +175,7 @@ public class FleetController {
     private <T extends IShip> void enableDragWithClone(Pane shipPane, T ship) {
         shipPane.setOnMousePressed(event -> {
 
-            if (ship instanceof Frigate && frigateCount >= MAX_FRIGATES) {
+            /*if (ship instanceof Frigate && frigateCount >= MAX_FRIGATES) {
                 System.out.println("No se pueden colocar más de " + MAX_FRIGATES + " fragatas.");
                 return; // No permitir más fragatas
             }
@@ -202,7 +193,7 @@ public class FleetController {
             if (ship instanceof Submarine && submarineCount >= MAX_SUBMARINE) {
                 System.out.println("No se pueden colocar más de " + MAX_SUBMARINE + " submarinos.");
                 return; // No permitir más fragatas
-            }
+            }*/
 
             // Crear una copia del barco y agregarla al tablero de agua
             T clonedShip = (T) ship.clone(); // Clonación del barco usando el método clone
@@ -432,7 +423,7 @@ public class FleetController {
                         }
 
                         // Usar el Singleton para registrar posiciones
-                        Board.getInstance().registerShipPosition(clonedShip, occupiedPositions, true);
+                        Board.getInstance().registerShipPosition(clonedShip.getClass().getSimpleName(), clonedShip.getCurrentRotation(), occupiedPositions, true);
 
                         System.out.println("Barco colocado en posiciones: " + occupiedPositions);
                     }

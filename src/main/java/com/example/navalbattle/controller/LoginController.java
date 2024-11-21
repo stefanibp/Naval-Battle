@@ -25,7 +25,6 @@ public class LoginController {
             // Guardar el nombre de usuario en un archivo (opcional)
             PlainTextFileHandler fileHandler = new PlainTextFileHandler();
             fileHandler.writeToFile("usuario.txt", userInput);
-
             // Configurar el nombre de usuario en GameController
             game = WelcomeController.getInstance().getGame();
             saveGameBoards(game);
@@ -33,6 +32,8 @@ public class LoginController {
             // Proceder con la eliminación de la instancia de LoginStage y abrir GameStage
             LoginStage.deleteInstance();
             FleetStage.getInstance();
+
+
 
             // Crear la flota del enemigo y colocarla en el tablero
 

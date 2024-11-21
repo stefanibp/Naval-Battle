@@ -2,9 +2,7 @@ package com.example.navalbattle.controller;
 
 
 
-import com.example.navalbattle.model.Game;
-import com.example.navalbattle.model.IGame;
-import com.example.navalbattle.model.SerializableFileHandler;
+import com.example.navalbattle.model.*;
 
 import com.example.navalbattle.view.*;
 import com.example.navalbattle.view.GameStage;
@@ -43,14 +41,15 @@ public class GameController {
     GridPane board;
 
 
-
-    private void initializeBoard(AnchorPane anchorPane, String boardName) {
-        if (boardModel != null) {
-            GridPane board = boardModel.createBoard(boardName); // Ajuste en `createBoard`
-            anchorPane.getChildren().add(board);
-        }
+    private void initializeBoard(AnchorPane anchorPane, boolean isPlayer) {
+        board = boardModel.createBoard(isPlayer ? Game.getInstance().getPlayerBoard() : Game.getInstance().getEnemyBoard());
+        anchorPane.getChildren().add(board);
     }
 
+    public void updateBoard(boolean isPlayer) {
+        board = boardModel.createBoard(isPlayer ? Game.getInstance().getPlayerBoard() : Game.getInstance().getEnemyBoard());
+        enemyAnchorPane.getChildren().add(board);
+    }
 
     @FXML
     private Label idUser;
@@ -88,29 +87,26 @@ public class GameController {
         EnemyStage.deleteInstance();
     }
 
-   //git  private Game game;
 
     @FXML
     public void initialize() {
 //<<<<<<< sbp
-      /*
+
         boardModel = new Board();
         controller = this; // Almacena la instancia del controlador
-        initializeBoard(playerAnchorPane);
-        initializeBoard(enemyAnchorPane);
+        initializeBoard(playerAnchorPane, true);
+        initializeBoard(enemyAnchorPane, false);
         Board.getInstance().mapShipsToAnchorPane( playerAnchorPane, true);
+        //Board.getInstance().mapShipsToAnchorPane( enemyAnchorPane, false);
         displayUserName(userName);
-    }
-  
-    private static GameController controller;
-  */
+
+
+
 //=======
         game = WelcomeController.getInstance().getGame();
 
-        game.printBoard();  // Puedes llamar al método para verificar si se cargó correctamente
-        boardModel = new Board(game); // Ahora que 'game' está inicializado, pasamos 'game' a Board
-        initializeBoard(playerAnchorPane, "Player");
-        initializeBoard(enemyAnchorPane, "Enemy");
+        //boardModel = new Board(game); // Ahora que 'game' está inicializado, pasamos 'game' a Board
+
         loadFigures();
         loadUserNameFromFile();
     }

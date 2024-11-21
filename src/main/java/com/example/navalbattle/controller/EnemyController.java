@@ -27,13 +27,15 @@ public class EnemyController {
  //       enemyAnchorPane.getChildren().add(board.createBoard(Game.getInstance().getEnemyBoard()));
 //=======
         game = WelcomeController.getInstance().getGame();
-        boardModel = new Board(game);
-        initializeBoard(enemyAnchorPane, "EnemyF");
+        boardModel = Board.getInstance();
+        initializeBoard(enemyAnchorPane);
     }
-    private void initializeBoard(AnchorPane anchorPane, String boardName) {
+
+    private void initializeBoard(AnchorPane anchorPane) {
         if (boardModel != null) {
-            GridPane board = boardModel.createBoard(boardName); // Ajuste en `createBoard`
+            GridPane board = boardModel.createBoard(Game.getInstance().getEnemyBoard()); // Ajuste en `createBoard`
             anchorPane.getChildren().add(board);
+            Board.getInstance().mapShipsToAnchorPane(anchorPane, false);
         }
 
     }

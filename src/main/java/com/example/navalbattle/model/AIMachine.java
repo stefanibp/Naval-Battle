@@ -10,16 +10,18 @@ public class AIMachine {
     private Random random;
 
     public AIMachine() {
-       this.board = new Board(game);
+       //this.board = new Board(game);
         this.fleet = new ArrayList<>();
         this.random = new Random();
         initializeFleet();
     }
     private Game game;
+
     public void setGame(Game game) {
         this.game = game;
     }
     // Inicializa la flota de la IA
+
     private void initializeFleet() {
         fleet.add(new AircraftCarrier()); // 1 portaaviones
         fleet.add(new Submarine());

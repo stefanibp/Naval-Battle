@@ -1,9 +1,6 @@
 package com.example.navalbattle.controller;
 
-import com.example.navalbattle.model.Game;
-import com.example.navalbattle.model.IAFleet;
-import com.example.navalbattle.model.SerializableFileHandler;
-import com.example.navalbattle.model.SerializableFileHandlerPosition;
+import com.example.navalbattle.model.*;
 import com.example.navalbattle.view.GameStage;
 import com.example.navalbattle.view.LoginStage;
 import com.example.navalbattle.view.WelcomeStage;
@@ -17,6 +14,8 @@ public class WelcomeController {
     private Game game;
     private IAFleet enemyFleet;    private static String userName;  // Variable para almacenar el nombre de usuario extraído del archivo
     private static WelcomeController instance;
+
+    public Board board;
 
     private ArrayList<ArrayList<Integer>> fleetCoordinatesEnemy;
     private ArrayList<ArrayList<Integer>> fleetCoordinatesPlayer;
@@ -35,12 +34,10 @@ public class WelcomeController {
 
     @FXML
     void handleClickPlay(ActionEvent event) throws IOException {
-
         WelcomeStage.deleteInstance();
         enemyFleet = new IAFleet();
-        enemyFleet.placeEnemyFleet(game.getEnemyBoard());
-        fleetCoordinatesEnemy = enemyFleet.getEnemyFleetCoordinates();
-        fleetCoordinatesPlayer = enemyFleet.getEnemyFleetCoordinates();///////opcional
+        enemyFleet.placeEnemyFleet(Game.getInstance().getEnemyBoard(), board);
+
         game.printBoard();
 
 
@@ -54,6 +51,10 @@ public class WelcomeController {
 
     public ArrayList<ArrayList<Integer>> getFleetCoordinatesPlayer() {
         return fleetCoordinatesPlayer;
+    }
+
+    public Board getBoard(){
+        return board;
     }
 
     @FXML
@@ -86,6 +87,7 @@ public class WelcomeController {
     public void handleClickExit(ActionEvent event) {
         WelcomeStage.deleteInstance();
     }
+
     public void printBoard() {
         System.out.println("Tablero del Jugador:");
         for (ArrayList<Integer> row : fleetCoordinatesPlayer) {
@@ -100,19 +102,17 @@ public class WelcomeController {
 
     @FXML
     public void initialize() {
-//<<<<<<< sbp
-        // Inicializa la instancia de Game
-        //game = Game.getInstance(10);  // Se asume un tablero de tamaño 10x10
 
-//=======
         fleetCoordinatesEnemy = new ArrayList<>();
         fleetCoordinatesPlayer = new ArrayList<>();
         //loadUserNameFromFile();
-        game = new Game(10);
+        game = Game.getInstance(10);
+        board = Board.getInstance();
         // Deserializamos los tableros al inicio
 //>>>>>>> team
         // Si no se encontró ningún archivo guardado, inicializamos los tableros
-            game.initializeBoardList();
+        game.initializeBoardList();
         game.printBoard();
+
     }
 }
