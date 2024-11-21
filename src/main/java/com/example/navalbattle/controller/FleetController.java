@@ -40,22 +40,7 @@ public class FleetController {
 
     @FXML
     void buttonStartGame(ActionEvent event) {
-        if(frigateCount == MAX_FRIGATES){
-            FleetStage.deleteInstance();
-            GameStage.getInstance();
-        }
-
-        if(destroyerCount == MAX_DESTROYER){
-            FleetStage.deleteInstance();
-            GameStage.getInstance();
-        }
-
-        if(aircraftCarrierCount == MAX_AIRCRAFTCARRIER){
-            FleetStage.deleteInstance();
-            GameStage.getInstance();
-        }
-
-        if(submarineCount == MAX_SUBMARINE){
+        if(frigateCount == MAX_FRIGATES && destroyerCount == MAX_DESTROYER && aircraftCarrierCount == MAX_AIRCRAFTCARRIER && submarineCount == MAX_SUBMARINE){
             FleetStage.deleteInstance();
             GameStage.getInstance();
         }
