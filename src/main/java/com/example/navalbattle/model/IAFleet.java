@@ -5,11 +5,11 @@ import java.util.Random;
 
 public class IAFleet {
 
-    private static final int boardSize = 10; // Tamaño del tablero (ajústalo según sea necesario)
-    private ArrayList<String> enemyFleetInfo;
+    private static final int boardSize = 10; // Tamaño del tablero
+    private ArrayList<ArrayList<Integer>> enemyFleetCoordinates; // Lista anidada para las coordenadas de la flota
 
     public IAFleet() {
-        enemyFleetInfo = new ArrayList<>();
+        enemyFleetCoordinates = new ArrayList<>();
     }
 
     public void placeEnemyFleet(ArrayList<ArrayList<Integer>> enemyBoard) {
@@ -17,7 +17,7 @@ public class IAFleet {
         int[][] fleet = {
                 {4, 1}, // 1 portaaviones de tamaño 4
                 {3, 2}, // 2 submarinos de tamaño 3
-                {2, 3}, // 3 destructors de tamaño 2
+                {2, 3}, // 3 destructores de tamaño 2
                 {1, 4}  // 4 fragatas de tamaño 1
         };
 
@@ -31,25 +31,25 @@ public class IAFleet {
                 boolean placed = false;
 
                 while (!placed) {
-                    int row = rand.nextInt(boardSize);
-                    int col = rand.nextInt(boardSize);
+                    int rowStart = rand.nextInt(boardSize);
+                    int colStart = rand.nextInt(boardSize);
                     boolean horizontal = rand.nextBoolean();
 
-                    if (canPlaceShip(row, col, size, horizontal, enemyBoard)) {
-                        placeShip(row, col, size, horizontal, size, enemyBoard);
+                    if (canPlaceShip(rowStart, colStart, size, horizontal, enemyBoard)) {
+                        int rowEnd = horizontal ? rowStart : rowStart + size - 1;
+                        int colEnd = horizontal ? colStart + size - 1 : colStart;
 
-                        // Determinar la dirección del barco (sentido)
-                        String direction = "";
-                        if (horizontal) {
-                            direction = col > 0 ? "derecha" : "izquierda";  // Determinar la dirección horizontal
-                        } else {
-                            direction = row > 0 ? "abajo" : "arriba";  // Determinar la dirección vertical
-                        }
+                        placeShip(rowStart, colStart, size, horizontal, size, enemyBoard);
 
-                        // Guardar información del barco como un string con dirección
-                        String shipInfo = "Barco de tamaño " + size + " colocado en (" + row + "," + col + ") "
-                                + (horizontal ? "horizontalmente hacia " + direction : "verticalmente hacia " + direction);
-                        enemyFleetInfo.add(shipInfo);
+                        // Almacenar el tamaño y las coordenadas en la lista anidada
+                        ArrayList<Integer> shipCoordinates = new ArrayList<>();
+                        shipCoordinates.add(size);
+                        shipCoordinates.add(rowStart);
+                        shipCoordinates.add(colStart);
+                        shipCoordinates.add(rowEnd);
+                        shipCoordinates.add(colEnd);
+
+                        enemyFleetCoordinates.add(shipCoordinates);
 
                         placed = true;
                     }
@@ -57,10 +57,12 @@ public class IAFleet {
             }
         }
 
-        // Imprimir la información de la flota
-        System.out.println("Información de la flota del enemigo:");
-        for (String shipInfo : enemyFleetInfo) {
-            System.out.println(shipInfo);
+        // Imprimir las coordenadas de los barcos
+        System.out.println("Coordenadas de la flota del enemigo:");
+        for (ArrayList<Integer> shipCoords : enemyFleetCoordinates) {
+            System.out.println("Barco de tamaño " + shipCoords.get(0) +
+                    " desde (" + shipCoords.get(1) + ", " + shipCoords.get(2) +
+                    ") hasta (" + shipCoords.get(3) + ", " + shipCoords.get(4) + ")");
         }
     }
 
@@ -110,8 +112,8 @@ public class IAFleet {
         return true;
     }
 
-    // Nuevo método para obtener la información de la flota del enemigo
-    public ArrayList<String> getEnemyFleetInfo() {
-        return enemyFleetInfo;
+    // Método público para obtener las coordenadas de la flota del enemigo
+    public ArrayList<ArrayList<Integer>> getEnemyFleetCoordinates() {
+        return enemyFleetCoordinates;
     }
 }

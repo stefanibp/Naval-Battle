@@ -29,7 +29,7 @@ public class GameStage extends Stage {
         setTitle("BATALLA NAVAL");
         getIcons().add(new Image(String.valueOf(getClass().getResource("/com/example/navalbattle/favicon.png"))));
         setResizable(false);
-       // initStyle(StageStyle.UNDECORATED);
+       initStyle(StageStyle.UNDECORATED);
         show();
     }
 

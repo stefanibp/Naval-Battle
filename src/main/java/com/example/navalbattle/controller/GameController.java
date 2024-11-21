@@ -70,6 +70,7 @@ public class GameController {
         saveGameBoards(game);
         GameStage.deleteInstance();
         WelcomeStage.getInstance();
+        EnemyStage.deleteInstance();
     }
 
     @FXML
@@ -141,8 +142,8 @@ displayUserName(userName);
         idwater.getChildren().clear();
 
         // Renderizar y agregar las figuras a los panes
-        idSunken.getChildren().add(sink.renderEffect());
-        idTouched.getChildren().add(hit.renderEffect());
+        idSunken.getChildren().add(hit.renderEffect());
+        idTouched.getChildren().add(sink.renderEffect());
         idwater.getChildren().add(miss.renderEffect());
     }
 

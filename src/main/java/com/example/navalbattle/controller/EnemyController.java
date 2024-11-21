@@ -19,9 +19,6 @@ public class EnemyController {
         EnemyStage.deleteInstance();
     }
     private Game game;
-    /*public void setGame(Game game) {
-        this.game = game;
-    }*/
 
     @FXML
     public void initialize() {

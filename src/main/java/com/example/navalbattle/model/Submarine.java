@@ -22,38 +22,45 @@ public class Submarine implements IShip {
 
     @Override
     public Pane render() {
+        // Creamos un pane con dimensiones de 120px de largo y 40px de ancho
         Pane root = new Pane();
+        root.setPrefSize(120, 40); // Establecemos el tamaño del pane
 
-        Rectangle body = Shape.square(50, 100, 90, 20, Color.DARKGRAY);
+        // Ajustamos las coordenadas de inicio para ocupar todo el espacio
+        double startX = 0;  // Coordenada X de inicio
+        double startY = 0;  // Coordenada Y de inicio
+
+        // Dibujamos el cuerpo del submarino con las coordenadas ajustadas
+        Rectangle body = Shape.square(startX + 15, startY + 10, 90, 20, Color.DARKGRAY);
         body.setArcWidth(40);
         body.setArcHeight(40);
         root.getChildren().add(body);
 
+        // Dibujamos el triángulo frontal del submarino
         Polygon triangle1 = new Polygon();
         triangle1.getPoints().addAll(
-                55.0, 105.0,
-                40.0, 110.0,
-                55.0, 115.0);
-
+                startX + 20.0, startY + 15.0,
+                startX + 5.0, startY + 20.0,
+                startX + 20.0, startY + 25.0);
         triangle1.setFill(Color.DARKGRAY);
         root.getChildren().addAll(triangle1);
 
-
-        Ellipse propeller1 = new Ellipse(43, 110, 3, 8);
+        // Dibujamos la hélice trasera
+        Ellipse propeller1 = new Ellipse(startX + 13, startY + 20, 3, 8);
         propeller1.setFill(Color.DARKGRAY);
         root.getChildren().addAll(propeller1);
 
-        Ellipse hatch1 = Shape.ellipseStyle(60, 110, 3, 3, Color.WHITE);
-        Ellipse hatch2 = Shape.ellipseStyle(80, 110, 3, 3, Color.WHITE);
-        Ellipse hatch3 = Shape.ellipseStyle(115, 110, 3, 3, Color.WHITE);
+        // Dibujamos las escotillas
+        Ellipse hatch1 = Shape.ellipseStyle(startX + 30, startY + 20, 3, 3, Color.WHITE);
+        Ellipse hatch2 = Shape.ellipseStyle(startX + 50, startY + 20, 3, 3, Color.WHITE);
+        Ellipse hatch3 = Shape.ellipseStyle(startX + 85, startY + 20, 3, 3, Color.WHITE);
         root.getChildren().addAll(hatch1, hatch2, hatch3);
 
-
-        Line fins1 = Shape.lineStyle(115, 98, 115, 100, Color.DARKGRAY, 4.0);
-        Line fins2 = Shape.lineStyle(115, 122, 115, 120, Color.DARKGRAY, 4.0);
+        // Dibujamos las aletas traseras
+        Line fins1 = Shape.lineStyle(startX + 85, startY + 8, startX + 85, startY + 10, Color.DARKGRAY, 4.0);
+        Line fins2 = Shape.lineStyle(startX + 85, startY + 32, startX + 85, startY + 30, Color.DARKGRAY, 4.0);
         root.getChildren().addAll(fins1, fins2);
+
         return root;
     }
-
 }
-

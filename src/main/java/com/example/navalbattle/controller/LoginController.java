@@ -1,9 +1,6 @@
 package com.example.navalbattle.controller;
 
-import com.example.navalbattle.model.IAFleet;
-import com.example.navalbattle.model.Game;
-import com.example.navalbattle.model.PlainTextFileHandler;
-import com.example.navalbattle.model.SerializableFileHandler;
+import com.example.navalbattle.model.*;
 import com.example.navalbattle.view.FleetStage;
 import com.example.navalbattle.view.LoginStage;
 import com.example.navalbattle.view.WelcomeStage;
@@ -17,7 +14,7 @@ public class LoginController {
     private TextField userTxt;
 
     private Game game;
-    private IAFleet enemyFleet;
+    WelcomeController welcomeController = WelcomeController.getInstance();
 
     @FXML
     void buttonPlayGame(ActionEvent event) {
@@ -38,11 +35,14 @@ public class LoginController {
             FleetStage.getInstance();
 
             // Crear la flota del enemigo y colocarla en el tablero
-            enemyFleet = new IAFleet();
-            enemyFleet.placeEnemyFleet(game.getEnemyBoard());
+
         } else {
             System.out.println("No se ingresó ningún nombre de usuario.");
         }
+        String FILE_NAME = "game_boardsPositions.dat";
+        SerializableFileHandlerPosition fileHandler = new SerializableFileHandlerPosition();
+        fileHandler.serialize(FILE_NAME, welcomeController.getFleetCoordinatesEnemy(), welcomeController.getFleetCoordinatesPlayer());
+        System.out.println("Juego guardado en " + FILE_NAME);
     }
 
     private void saveGameBoards(Game game) {
