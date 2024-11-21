@@ -1,7 +1,6 @@
 package com.example.navalbattle.view;
 
 import com.example.navalbattle.controller.EnemyController;
-import com.example.navalbattle.controller.GameController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -27,9 +26,10 @@ public class EnemyStage extends Stage {
         }
         Scene scene = new Scene(root);
         setScene(scene);
-        setTitle("Sopa de letras");
+        setTitle("BATALLA NAVAL");
+        getIcons().add(new Image(String.valueOf(getClass().getResource("/com/example/navalbattle/favicon.png"))));
         setResizable(false);
-        // initStyle(StageStyle.UNDECORATED);
+         initStyle(StageStyle.UNDECORATED);
         show();
     }
 

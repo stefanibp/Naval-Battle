@@ -1,8 +1,13 @@
 package com.example.navalbattle.controller;
 
-import com.example.navalbattle.model.*;
+
+import com.example.navalbattle.model.Board;
+import com.example.navalbattle.model.Game;
+import com.example.navalbattle.model.IAFleet;
+import com.example.navalbattle.model.SerializableFileHandlerPosition;
 import com.example.navalbattle.view.FleetStage;
 import com.example.navalbattle.view.GameStage;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
@@ -16,15 +21,21 @@ import javafx.scene.layout.StackPane;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class FleetController {
 
     @FXML
+    private Game game;
+    private IAFleet enemyFleet;
+    @FXML
     private AnchorPane playerAnchorPane;
-
+    
     @FXML
     private Pane boardWater;
 
     private GridPane playerBoard;
+  
+    private Board boardModel;
 
     private int frigateCount = 0; // Contador para las fragatas colocadas
     private static final int MAX_FRIGATES = 4; // Límite máximo
@@ -53,9 +64,22 @@ public class FleetController {
 
     @FXML
     public void initialize() {
+        game = WelcomeController.getInstance().getGame();
+        boardModel = new Board(game);
+        initializeBoard(playerAnchorPane, "PlayerF");
+        
+        // sbp
         playerBoard = new Board().createBoard(Game.getInstance().getPlayerBoard());
         playerAnchorPane.getChildren().add(playerBoard);
         fleetView();
+        // end
+    }
+    
+    private void initializeBoard(AnchorPane anchorPane, String boardName) {
+        if (boardModel != null) {
+            GridPane board = boardModel.createBoard(boardName); // Ajuste en `createBoard`
+            anchorPane.getChildren().add(board);
+        }
     }
 
     @FXML
@@ -418,6 +442,5 @@ public class FleetController {
                 }
             });
         });
-
     }
 }

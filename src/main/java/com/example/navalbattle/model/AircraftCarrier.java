@@ -8,9 +8,12 @@ import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Polygon;
+import javafx.scene.transform.Rotate;
 
 public class AircraftCarrier implements IShip {
     private int currentRotation = 0;
+
+    private int rotationAngle = 0;  // Ángulo de rotación (0, 90, 180, 270)
 
     @Override
     public String getName() {
@@ -23,54 +26,61 @@ public class AircraftCarrier implements IShip {
     }
 
     @Override
-    public StackPane render() {
-        StackPane root = new StackPane();
-        root.setStyle("-fx-background-color: lightgray;");
+    public Pane render() {
+        // Creamos un pane con dimensiones de 160px de largo y 40px de ancho
+        Pane root = new Pane();
+        root.setPrefSize(160, 40); // Establecemos el tamaño del pane
 
-        Ellipse back = new Ellipse(180, 150, 25, 15);
-        back.setFill(Color.BLACK);
+        // Ajustamos las coordenadas para centrar el portaaviones sin dejar espacio
+        double startX = 0;  // Coordenada X de inicio
+        double startY = 0;  // Coordenada Y de inicio
+
+        // Dibujamos las partes del portaaviones, ahora ajustados para no dejar espacios vacíos
+        Ellipse back = new Ellipse(startX + 10, startY + 20, 10, 15);  // Ajustamos la posición
+        back.setFill(Color.DARKGRAY);
+      
         root.getChildren().add(back);
         back.setTranslateX(-55);
         back.setTranslateY(0);
 
-        Rectangle body = Shape.square(60, 135, 120, 30, Color.BLACK);
+
+        Rectangle body = Shape.square(startX + 0, startY + 5, 120, 30, Color.DARKGRAY);  // Ajustamos la posición
         root.getChildren().add(body);
 
-        Ellipse front = Shape.ellipseStyle(180, 150, 25, 15, Color.BLACK);
+        Ellipse front = Shape.ellipseStyle(startX + 120, startY + 20, 25, 15, Color.DARKGRAY);  // Ajustamos la posición
         root.getChildren().add(front);
 
-        front.setTranslateX(55);
-        front.setTranslateY(0);
+        Line runway = new Line(startX + 15, startY + 30, startX + 135, startY + 5);  // Ajustamos la posición
 
-        Line runway = new Line(70, 160, 150, 140);
         runway.setStroke(Color.WHITE);
         runway.setStrokeWidth(2);
         runway.getStrokeDashArray().addAll(6.0, 10.0);
         root.getChildren().add(runway);
 
-        Rectangle tower = Shape.square(160, 145, 30, 10, Color.WHITE);
+
+        Rectangle tower = Shape.square(startX + 120, startY + 10, 30, 10, Color.GRAY);  // Ajustamos la posición
         root.getChildren().add(tower);
 
-        tower.setTranslateX(50);
-        tower.setTranslateY(5);
+        Rectangle window1 = Shape.square(startX + 135, startY + 2, 3, 3, Color.LIGHTGRAY);
+        Rectangle window2 = Shape.square(startX + 142, startY + 2, 3, 3, Color.LIGHTGRAY);
 
-        Rectangle window1 = Shape.square(175, 137, 3, 3, Color.WHITE);
-        Rectangle window2 = Shape.square(182, 137, 3, 3, Color.WHITE);
         root.getChildren().addAll(window1, window2);
         window1.setTranslateX(65);
         window1.setTranslateY(-10);
         window2.setTranslateX(55);
         window2.setTranslateY(-10);
 
-        Polygon airplane1 = createAirplane(0, 0);
-        Polygon airplane2 = createAirplane(0, 0);
+        Polygon airplane1 = createAirplane(startX + 25, startY + 10);  // Ajustamos la posición
+        Polygon airplane2 = createAirplane(startX + 90, startY + 20);  // Ajustamos la posición
         root.getChildren().addAll(airplane1, airplane2);
 
-        airplane1.setTranslateX(-15);
-        airplane1.setTranslateY(-10);
+        // Aplicar la rotación al Pane
+        Rotate rotate = new Rotate();
+        rotate.setAngle(rotationAngle);  // Establecemos el ángulo de rotación
+        rotate.setPivotX(startX + 80);   // Ajustamos el pivote de rotación
+        rotate.setPivotY(startY + 20);   // Ajustamos el pivote de rotación
+        root.getTransforms().add(rotate);
 
-        airplane2.setTranslateX(-35);
-        airplane2.setTranslateY(-10);
         return root;
     }
 
@@ -97,5 +107,9 @@ public class AircraftCarrier implements IShip {
     @Override
     public void setCurrentRotation(int currentRotation) {
         this.currentRotation = currentRotation;
+    }
+    // Método para cambiar la dirección del barco
+    public void rotate(int angle) { // eliminar metodo ________________________________________________________
+        this.rotationAngle = angle;  // Establece el ángulo de rotación (0, 90, 180, 270)
     }
 }

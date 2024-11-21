@@ -4,9 +4,7 @@ import com.example.navalbattle.view.Shape;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
-import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Polygon;
 
 import javafx.geometry.Insets;
@@ -26,32 +24,37 @@ public class Frigate implements IShip {
     }
 
     @Override
-    public StackPane render() {
 
-        StackPane root = new StackPane();
+    public Pane render() {
+        // Creamos un pane con dimensiones de 40px de largo y 40px de ancho
+        Pane root = new Pane();
+        root.setPrefSize(40, 40); // Establecemos el tamaño del pane
+
+        // Ajustamos las coordenadas para que el polígono ocupe todo el espacio
 
         Polygon polygon = new Polygon();
         polygon.getPoints().addAll(
-                50.0, 50.0,
-                75.0, 50.0,
-                85.0, 37.5,
-                75.0, 25.0,
-                50.0, 25.0
+                10.0, 10.0,   // Punto 1
+                30.0, 10.0,   // Punto 2
+                35.0, 20.0,   // Punto 3
+                30.0, 30.0,   // Punto 4
+                10.0, 30.0    // Punto 5
         );
 
         polygon.setFill(Color.BLACK);
         polygon.setStroke(Color.BLACK);
         root.getChildren().addAll(polygon);
 
-
-        Line line1 = Shape.lineStyle(50, 50, 50, 25, Color.BLACK, 2.0);
-        Line line2 =  Shape.lineStyle(60, 42, 74, 42, Color.WHITE, 4.0);
-        Line line3 =  Shape.lineStyle(54, 45, 54, 30, Color.WHITE, 2.0);
-        Line line4 =  Shape.lineStyle(60, 33, 74, 33, Color.WHITE, 4.0);
-        Line line5 =  Shape.lineStyle(49, 41, 48, 41, Color.BLACK, 4.0);
-        Line line6 =  Shape.lineStyle(49, 34, 48, 34, Color.BLACK, 4.0);
+        // Dibujamos las líneas ajustadas dentro del espacio de 40px x 40px
+        Line line1 = Shape.lineStyle(10, 10, 10, 30, Color.DARKGRAY, 2.0);
+        Line line2 = Shape.lineStyle(12, 17, 28, 17, Color.GREY, 4.0);
+        Line line3 = Shape.lineStyle(13, 20, 13, 28, Color.GREY, 2.0);
+        Line line4 = Shape.lineStyle(12, 25, 28, 25, Color.GREY, 4.0);
+        Line line5 = Shape.lineStyle(9, 22, 8, 22, Color.DARKGRAY, 4.0);
+        Line line6 = Shape.lineStyle(9, 19, 8, 19, Color.DARKGRAY, 4.0);
 
         root.getChildren().addAll(line1, line2, line3, line4, line5, line6);
+
         return root;
     }
 
