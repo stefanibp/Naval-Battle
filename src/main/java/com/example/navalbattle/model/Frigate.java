@@ -7,7 +7,7 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 
 public class Frigate implements IShip {
-
+    private int currentRotation = 0;
     @Override
     public String getName() {
         return "Frigate";
@@ -49,5 +49,19 @@ public class Frigate implements IShip {
         root.getChildren().addAll(line1, line2, line3, line4, line5, line6);
 
         return root;
+    }
+    @Override
+    public IShip clone(){
+        return new Frigate();
+    }
+
+    @Override
+    public int getCurrentRotation() {
+        return currentRotation;
+    }
+
+    @Override
+    public void setCurrentRotation(int currentRotation) {
+        this.currentRotation = currentRotation;
     }
 }

@@ -10,7 +10,7 @@ public class AIMachine {
     private Random random;
 
     public AIMachine() {
-       this.board = new Board(game);
+       this.board = new Board();
         this.fleet = new ArrayList<>();
         this.random = new Random();
         initializeFleet();

@@ -10,7 +10,7 @@ import javafx.scene.shape.Polygon;
 import javafx.scene.transform.Rotate;
 
 public class AircraftCarrier implements IShip {
-
+    private int currentRotation = 0;
     private int rotationAngle = 0;  // Ángulo de rotación (0, 90, 180, 270)
 
     @Override
@@ -81,8 +81,20 @@ public class AircraftCarrier implements IShip {
         return airplane;
     }
 
-    // Método para cambiar la dirección del barco
-    public void rotate(int angle) {
-        this.rotationAngle = angle;  // Establece el ángulo de rotación (0, 90, 180, 270)
+    @Override
+    public IShip clone(){
+        return new AircraftCarrier();
     }
+
+    @Override
+    public int getCurrentRotation() {
+        return currentRotation;
+    }
+
+    @Override
+    public void setCurrentRotation(int currentRotation) {
+        this.currentRotation = currentRotation;
+    }
+    
+
 }

@@ -70,6 +70,7 @@ public class GameController {
         saveGameBoards(game);
         GameStage.deleteInstance();
         WelcomeStage.getInstance();
+        EnemyStage.getInstance();
         EnemyStage.deleteInstance();
     }
 
@@ -78,7 +79,7 @@ public class GameController {
         game = WelcomeController.getInstance().getGame();
 
         game.printBoard();  // Puedes llamar al método para verificar si se cargó correctamente
-        boardModel = new Board(game); // Ahora que 'game' está inicializado, pasamos 'game' a Board
+        boardModel = new Board(); // Ahora que 'game' está inicializado, pasamos 'game' a Board
         initializeBoard(playerAnchorPane, "Player");
         initializeBoard(enemyAnchorPane, "Enemy");
         loadFigures();

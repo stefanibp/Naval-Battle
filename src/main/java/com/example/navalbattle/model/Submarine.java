@@ -9,7 +9,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Polygon;
 
 public class Submarine implements IShip {
-
+    private int currentRotation = 0;
     @Override
     public String getName() {
         return "Submarine";
@@ -62,5 +62,19 @@ public class Submarine implements IShip {
         root.getChildren().addAll(fins1, fins2);
 
         return root;
+    }
+    @Override
+    public IShip clone(){
+        return new Submarine();
+    }
+
+    @Override
+    public int getCurrentRotation() {
+        return currentRotation;
+    }
+
+    @Override
+    public void setCurrentRotation(int currentRotation) {
+        this.currentRotation = currentRotation;
     }
 }

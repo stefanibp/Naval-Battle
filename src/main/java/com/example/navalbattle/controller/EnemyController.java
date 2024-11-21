@@ -23,7 +23,7 @@ public class EnemyController {
     @FXML
     public void initialize() {
         game = WelcomeController.getInstance().getGame();
-        boardModel = new Board(game);
+        boardModel = new Board();
         initializeBoard(enemyAnchorPane, "EnemyF");
     }
     private void initializeBoard(AnchorPane anchorPane, String boardName) {

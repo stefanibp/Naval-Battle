@@ -39,7 +39,7 @@ public class FleetController {
     @FXML
     public void initialize() {
         game = WelcomeController.getInstance().getGame();
-        boardModel = new Board(game);
+        boardModel = new Board();
         initializeBoard(playerAnchorPane, "PlayerF");
     }
     private void initializeBoard(AnchorPane anchorPane, String boardName) {

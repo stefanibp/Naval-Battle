@@ -21,8 +21,8 @@ public class Board {
     private ArrayList<ArrayList<Integer>> fleetCoordinatesEnemy;
     private ArrayList<ArrayList<Integer>> fleetCoordinatesPlayer;
     private Button newButton;
-    public Board(Game game) {
-        this.game = game;
+    public Board() {
+        game = WelcomeController.getInstance().getGame();
         fleetCoordinatesEnemy = new ArrayList<>();
         fleetCoordinatesPlayer = new ArrayList<>();
         fleetCoordinatesPlayer=welcomeController.getFleetCoordinatesPlayer();
@@ -151,7 +151,7 @@ public class Board {
             board.getChildren().add(effectPane);
         }
         else if (cellValue == 6) {  // Hit (tocado)
-            System.out.println("HOLAAAAAAAAAAAAAAAAAAA");
+           //System.out.println("HOLAAAAAAAAAAAAAAAAAAA");
             Hit hitEffect = new Hit();
             Pane effectPane = hitEffect.renderEffect();
             effectPane.setPrefSize(40, 40);
