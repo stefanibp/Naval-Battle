@@ -5,7 +5,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
+/**
+ * Represents the game logic for a "Naval Battle" game, handling the board setup, ship placement,
+ * and checking for hits, misses, and sunk ships.
+ * Implements the {@link IGame} interface and is serializable.
+ *
+ * @author Jerson Alexis Ortiz Velasco
+ * @author Jhon Antony Murillo Olave
+ * @author Stefania Bolaños Perdomo
+ * @version 1.0
+ * @since 1.0
+ */
 public class Game implements IGame, Serializable {
 
 
@@ -17,19 +27,31 @@ public class Game implements IGame, Serializable {
     private static Game instance;
 
     // Constructor
-
+    /**
+     * Initializes a new game with the specified board size.
+     *
+     * @param boardSize the size of the game board
+     */
     public Game(int boardSize) {
         this.boardSize = boardSize;
         this.playerBoard = new ArrayList<>();
         this.enemyBoard = new ArrayList<>();
     }
 
+    /**
+     * Returns the singleton instance of the Game class.
+     *
+     * @return the singleton Game instance
+     */
     public static Game getInstance() {
       
         return instance;
     }
 
-    // Métodos de la interfaz IGame
+    // Methods from IGame interface
+    /**
+     * Initializes both the player and enemy boards by creating a grid of water (0).
+     */
     @Override
     public void initializeBoardList() {
         for (int i = 0; i < boardSize; i++) {
@@ -45,6 +67,10 @@ public class Game implements IGame, Serializable {
 
     }
 
+    /**
+     * Modifies a random cell on the player's board, simulating a shot.
+     * The cell will either be marked as a miss (5), hit (6), or part of a sunk ship (7).
+     */
     public void modifyRandomCell() {
         Random rand = new Random();
 
@@ -82,7 +108,14 @@ public class Game implements IGame, Serializable {
         }
     }
 
-
+    /**
+     * Returns the value at a specific cell of the board, either the player's or the enemy's.
+     *
+     * @param row the row index of the cell
+     * @param col the column index of the cell
+     * @param isPlayerBoard whether to fetch the value from the player's board or the enemy's
+     * @return the value at the specified cell
+     */
     @Override
     public int getBoardValue(int row, int col, boolean isPlayerBoard) {
         if (isPlayerBoard) {
@@ -109,7 +142,9 @@ public class Game implements IGame, Serializable {
         this.enemyBoard = enemyBoard;
     }
 
-    // Método para imprimir los tableros (con fines de prueba)
+    /**
+     * Prints the current state of both the player's and enemy's boards for testing purposes.
+     */
     public void printBoard() {
         System.out.println("Tablero del Jugador:");
         for (ArrayList<Integer> row : playerBoard) {
@@ -122,6 +157,14 @@ public class Game implements IGame, Serializable {
         }
     }
 
+    /**
+     * Modifies a specific cell on the board by setting its value to the specified value (e.g., miss, hit).
+     *
+     * @param row the row index of the cell
+     * @param col the column index of the cell
+     * @param value the new value to set the cell to (e.g., 5 for miss, 6 for hit)
+     * @param boardType either "Player" or "Enemy" to specify which board to modify
+     */
     public void modifyArraylist(int row, int col, int value, String boardType) {
         // Variable para almacenar el valor actual de la celda antes de modificarla
         int currentCellValue = 0;
@@ -161,8 +204,15 @@ public class Game implements IGame, Serializable {
         System.out.println("Tablero actualizado: ");
         printBoard();
     }
-    // Tableros globales
 
+    /**
+     * Checks if a ship is sunk by checking all its cells.
+     *
+     * @param row the row index of the hit cell
+     * @param col the column index of the hit cell
+     * @param currentCellValue the value of the cell (representing the ship part)
+     * @param boardType the board type, either "Player" or "Enemy"
+     */
     public void checkAndSinkShip(int row, int col, int currentCellValue, String boardType) {
         List<int[]> shipCells = new ArrayList<>();
         boolean isHorizontal = false;
@@ -258,7 +308,12 @@ public class Game implements IGame, Serializable {
         updateShipCellsIfAllAreSix(shipCells, board);
     }
 
-    // Método auxiliar para cambiar las celdas a 7 si todas contienen el número 6
+    /**
+     * Método auxiliar para cambiar las celdas a 7 si todas contienen el número 6.
+     *
+     * @param shipCells la lista de celdas que forman un barco
+     * @param board la matriz del tablero en el que se encuentran las celdas
+     */
     public void updateShipCellsIfAllAreSix(List<int[]> shipCells, ArrayList<ArrayList<Integer>> board) {
         // Verificar si todas las celdas contienen el número 6
         boolean allAreSix = true;

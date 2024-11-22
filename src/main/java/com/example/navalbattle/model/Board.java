@@ -32,30 +32,47 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Represents the board used in the Naval Battle game. This class handles the initialization
+ * and management of the player's and enemy's boards, as well as the registration of ships.
+ * Implements the Singleton pattern to ensure only one instance exists.
+ *
+ * @author Jerson Alexis Ortiz Velasco
+ * @author Jhon Antony Murillo Olave
+ * @author Stefania Bolaños Perdomo
+ * @version 1.0
+ * @since 1.0
+ */
 public class Board {
+
     private static Board instance;
     private Map<String, List<List<Object>>> shipsPositionsPlayer = new HashMap<>();
-
-
     private Game game;
     int counter;
     GridPane boardPlayer = new GridPane();
     GridPane boardEnemy = new GridPane();
-    //private Board WelcomeController;
     WelcomeController welcomeController = WelcomeController.getInstance();
     private ArrayList<ArrayList<Integer>> fleetCoordinatesEnemy;
     private ArrayList<ArrayList<Integer>> fleetCoordinatesPlayer;
     private Button newButton;
 
+    /**
+     * Constructs a new Board instance, initializing necessary game components
+     * and fetching fleet coordinates from the WelcomeController.
+     */
     public Board() {
         game = WelcomeController.getInstance().getGame();
         fleetCoordinatesEnemy = new ArrayList<>();
         fleetCoordinatesPlayer = new ArrayList<>();
-        fleetCoordinatesPlayer=welcomeController.getFleetCoordinatesPlayer();
-        fleetCoordinatesEnemy=welcomeController.getFleetCoordinatesEnemy();
-
+        fleetCoordinatesPlayer = welcomeController.getFleetCoordinatesPlayer();
+        fleetCoordinatesEnemy = welcomeController.getFleetCoordinatesEnemy();
     }
 
+    /**
+     * Retrieves the singleton instance of the Board class.
+     *
+     * @return the singleton instance of the Board.
+     */
     public static Board getInstance() {
         if (instance == null) {
             instance = new Board();
@@ -63,14 +80,18 @@ public class Board {
         return instance;
     }
 
+    /**
+     * Creates the player's board grid with predefined labels and styles.
+     *
+     * @param boards a 2D ArrayList containing the board's cell values.
+     * @return a GridPane representing the player's board.
+     */
     public GridPane createBoardPlayer(ArrayList<ArrayList<Integer>> boards) {
-
         GridPane board = new GridPane();
         board.setPrefSize(440, 440);
         board.setLayoutX(0);
         board.setLayoutY(0);
 
-        // Letras para la primera fila
         String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 
         for (int row = 0; row <= 10; row++) {
@@ -83,24 +104,19 @@ public class Board {
                 } else if (row == 0 && col > 0) {
                     Label label = new Label(letters[col - 1]);
                     label.setPrefSize(40, 40);
-                    label.setStyle("-fx-border-color: grey; -fx-alignment: center; -fx-background-color: #c8c8c8; -fx-font-weight: bold;");
+                    label.setStyle("-fx-border-color: grey; -fx-alignment: center; "
+                            + "-fx-background-color: #c8c8c8; -fx-font-weight: bold;");
                     board.add(label, col, row);
                 } else if (col == 0 && row > 0) {
                     Label label = new Label(String.valueOf(row));
                     label.setPrefSize(40, 40);
-                    label.setStyle("-fx-border-color: grey; -fx-alignment: center; -fx-background-color: #c8c8c8; -fx-font-weight: bold;");
+                    label.setStyle("-fx-border-color: grey; -fx-alignment: center; "
+                            + "-fx-background-color: #c8c8c8; -fx-font-weight: bold;");
                     board.add(label, col, row);
                 } else if (row > 0 && col > 0) {
-
                     int value = boards.get(row - 1).get(col - 1);
                     Button cell = new Button(String.valueOf(value));
                     cell.setPrefSize(40, 40);
-
-                   /* if (value == 0) {
-                        cell.setStyle("-fx-border-color: grey; -fx-background-color: #3e8ee8;");
-                    } else {
-                        cell.setStyle("-fx-border-color: white; -fx-background-color: red;");
-                    }      */
                     cell.setStyle("-fx-border-color: grey; -fx-background-color: transparent;");
                     board.add(cell, col, row);
                 }
@@ -109,26 +125,23 @@ public class Board {
         return board;
     }
 
+    /**
+     * Registers a ship's position and visual representation on the board.
+     *
+     * @param ship      the ship to be registered.
+     * @param positions a list of Point2D objects representing the ship's coordinates.
+     * @param isPlayer  a boolean indicating whether the player is registering the ship.
+     */
     public void registerShipPosition(IShip ship, List<Point2D> positions, boolean isPlayer) {
         String shipType = ship.getClass().getSimpleName();
         int rotation = ship.getCurrentRotation();
-
-        // Crear un mapa para almacenar las posiciones ajustadas y la representación visual del barco
         List<Point2D> adjustedPositions = new ArrayList<>();
 
         for (Point2D position : positions) {
-            double newX = position.getX();
-            double newY = position.getY();
-
-            // Agregar la posición ajustada a la lista
-            adjustedPositions.add(new Point2D(newX, newY));
+            adjustedPositions.add(new Point2D(position.getX(), position.getY()));
         }
 
-        // Crear un objeto ShipPlacement que contiene las posiciones ajustadas y la rotación
         ShipPlacement placement = new ShipPlacement(adjustedPositions, rotation);
-
-        // Crear la representación visual del barco
-
         Pane shipRepresentation = null;
 
         switch (shipType) {
@@ -141,34 +154,34 @@ public class Board {
             case "Destroyer":
                 shipRepresentation = new Destroyer().render();
                 break;
-            // Agregar más casos según otros tipos de barcos
             case "Frigate":
                 shipRepresentation = new Frigate().render();
                 break;
             default:
-                System.out.println("Barco desconocido: " + shipType);
+                System.out.println("Unknown ship type: " + shipType);
                 break;
         }
 
-        // Si el jugador es el que está registrando el barco, agregamos la información
         if (isPlayer) {
-            // Verifica si ya existe una lista para este tipo de barco
             shipsPositionsPlayer.putIfAbsent(shipType, new ArrayList<>());
-
-            // Usamos un Pair o una estructura similar para almacenar tanto las posiciones como la representación visual
             List<Object> shipData = new ArrayList<>();
-            shipData.add(placement); // Agregamos el ShipPlacement
-            shipData.add(shipRepresentation); // Agregamos la representación visual
-
-            // Agregar las posiciones y la representación visual del barco
+            shipData.add(placement);
+            shipData.add(shipRepresentation);
             shipsPositionsPlayer.get(shipType).add(shipData);
-
-            System.out.println("Barco registrado para " + shipType + " con posiciones: " + adjustedPositions);
+            System.out.println("Ship registered for " + shipType + " with positions: " + adjustedPositions);
         }
 
-        System.out.println("Posiciones ajustadas registradas para " + shipType + ": " + adjustedPositions);
+        System.out.println("Adjusted positions registered for " + shipType + ": " + adjustedPositions);
     }
 
+
+    /**
+     * Maps the ships to a specific {@link AnchorPane} on the game board.
+     * It clears the current ship layer (if it exists) and adds visual representations of the ships.
+     *
+     * @param pane     the {@link AnchorPane} where the ships will be placed.
+     * @param isPlayer {@code true} if the ships belong to the player, {@code false} otherwise.
+     */
     public void mapShipsToAnchorPane(AnchorPane pane, boolean isPlayer) {
         // Buscar o crear un contenedor para los barcos
         Group shipLayer = (Group) pane.lookup("#shipLayer");
@@ -216,7 +229,6 @@ public class Board {
                     setShipPosition(shipRepresentation, x, y, rotation, shipSize);
 
 
-
                     // Añadir la representación visual completa del barco al contenedor de barcos
                     shipLayer.getChildren().add(shipRepresentation);
                 } else {
@@ -226,6 +238,15 @@ public class Board {
         }
     }
 
+    /**
+     * Sets the position and layout of a ship's visual representation on the game board.
+     *
+     * @param shipRepresentation the visual {@link Node} representing the ship.
+     * @param x                  the X-coordinate where the ship is positioned.
+     * @param y                  the Y-coordinate where the ship is positioned.
+     * @param rotation           the rotation angle of the ship (0, 90, 180, or 270 degrees).
+     * @param size               the size of the ship (number of grid cells it occupies).
+     */
     public void setShipPosition(Node shipRepresentation, double x, double y, int rotation, int size) {
         switch (size) {
             case 4 -> {
@@ -310,8 +331,13 @@ public class Board {
             }
         }
     }
-    
-    // Método auxiliar para aplicar rotación a las partes del barco
+
+    /**
+     * Applies a rotation to a specific part of a ship's visual representation.
+     *
+     * @param shipPart the {@link Node} representing a part of the ship.
+     * @param rotation the rotation angle to be applied (0, 90, 180, or 270 degrees).
+     */
     private void applyRotationToShipPart(Node shipPart, int rotation) {
         // Rotación de 0, 90, 180, 270 grados
         switch (rotation) {
@@ -331,8 +357,13 @@ public class Board {
     }
 
 
-
-  ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    /**
+     * Creates a game board represented by a {@link GridPane}.
+     * The board includes headers (letters for columns and numbers for rows) and interactive cells.
+     *
+     * @param boardName the name of the board, used to differentiate between "Player" and "Enemy" boards.
+     * @return the constructed {@link GridPane} representing the game board.
+     */
     public GridPane createBoard(String boardName) {
         GridPane board = new GridPane();
         board.setPrefSize(440, 440);
@@ -365,9 +396,8 @@ public class Board {
                         boardEnemy = board;
 
 
-
                     } else {
-                        boardPlayer=board;
+                        boardPlayer = board;
 
                     }
 
@@ -376,14 +406,21 @@ public class Board {
             }
         }
 
-    updateBoardGraphics(board, boardName);
-
+        updateBoardGraphics(board, boardName);
 
 
         return board;
     }
 
-    // Método para purgar una celda y restablecer el botón
+    /**
+     * Resets a specific cell in the game board by purging its current content and replacing it with a new button.
+     * If the board is the "Enemy" board, the cell is assigned a click event to handle game logic.
+     *
+     * @param board     the {@link GridPane} representing the game board.
+     * @param row       the row index of the cell to be purged (0-based).
+     * @param col       the column index of the cell to be purged (0-based).
+     * @param boardName the name of the board ("Player" or "Enemy").
+     */
     public void purgeCell(GridPane board, int row, int col, String boardName) {
         // Buscamos la celda en el tablero y la eliminamos si es un efecto visual
         Node existingNode = getNodeByRowColumnIndex(row + 1, col + 1, board);
@@ -436,6 +473,15 @@ public class Board {
         board.add(newButton, col + 1, row + 1); // Aseguramos de colocar el botón en la celda correcta
     }
 
+    /**
+     * Updates the visual effect of a specific cell in the game board based on its state.
+     * The visual effect corresponds to the cell's value, such as "Miss", "Hit", or "Sink".
+     *
+     * @param board     the {@link GridPane} representing the game board.
+     * @param row       the row index of the cell to update (0-based).
+     * @param col       the column index of the cell to update (0-based).
+     * @param boardName the name of the board ("Player" or "Enemy").
+     */
     public void updateCellEffect(GridPane board, int row, int col, String boardName) {
         // Usamos el tablero correspondiente (Player o Enemy)
         var currentBoard = boardName.equals("Player") ? game.getPlayerBoard() : game.getEnemyBoard();
@@ -459,9 +505,8 @@ public class Board {
             GridPane.setRowIndex(effectPane, row + 1);
             GridPane.setColumnIndex(effectPane, col + 1);
             board.getChildren().add(effectPane);
-        }
-        else if (cellValue == 6) {  // Hit (tocado)
-           //System.out.println("HOLAAAAAAAAAAAAAAAAAAA");
+        } else if (cellValue == 6) {  // Hit (tocado)
+            //System.out.println("HOLAAAAAAAAAAAAAAAAAAA");
             Hit hitEffect = new Hit();
             Pane effectPane = hitEffect.renderEffect();
             effectPane.setPrefSize(40, 40);
@@ -474,6 +519,13 @@ public class Board {
 
     }
 
+    /**
+     * Updates the graphical representation of the entire game board, including cells and visual effects.
+     * Depending on the board type, it applies specific logic, such as placing ships or updating interactivity.
+     *
+     * @param board     the {@link GridPane} representing the game board.
+     * @param boardName the name of the board ("Player", "Enemy", or "EnemyF").
+     */
     public void updateBoardGraphics(GridPane board, String boardName) {
         // Usamos el tablero correspondiente (Player o Enemy)
         System.out.println(boardName);
@@ -484,11 +536,11 @@ public class Board {
 
         // Si el tablero es para el jugador, colocamos el AircraftCarrier
         if (boardName.equals("EnemyF")) {
-            placeAircraftCarrier(board,fleetCoordinatesEnemy);
+            placeAircraftCarrier(board, fleetCoordinatesEnemy);
             // Coloca el AircraftCarrier en el tablero del jugador
-        }else if(boardName.equals("Player")){
-            placeAircraftCarrier(board,fleetCoordinatesPlayer);
-         // board.getChildren().clear();
+        } else if (boardName.equals("Player")) {
+            placeAircraftCarrier(board, fleetCoordinatesPlayer);
+            // board.getChildren().clear();
         }
 
         // Recorremos todas las celdas del tablero actual
@@ -500,7 +552,7 @@ public class Board {
         }
 
         // Lógica para actualizar el borde y la interactividad del tablero
-        if(boardName.equals("Player")) {
+        if (boardName.equals("Player")) {
             boardPlayer.setStyle("-fx-border-color: blue; -fx-border-width: 6px;"); // Borde azul para el turno del jugador
             boardEnemy.setStyle("-fx-border-color: null; -fx-border-width: null;");
             PauseTransition pause = new PauseTransition(Duration.seconds(0.5)); // 0.5 segundos de pausa
@@ -520,7 +572,13 @@ public class Board {
         }
     }
 
-    // Método para colocar el AircraftCarrier en la celda correcta
+    /**
+     * Places the AircraftCarrier or other ships on the game board according to the provided coordinates.
+     * The method determines the ship type, position, and orientation based on the input data.
+     *
+     * @param board     the {@link GridPane} representing the game board.
+     * @param ArrayList a list containing the coordinates and types of ships to be placed.
+     */
     public void placeAircraftCarrier(GridPane board, ArrayList<ArrayList<Integer>> ArrayList) {
         // Recorre las coordenadas de la flota del jugador
 
@@ -578,7 +636,15 @@ public class Board {
         }
     }
 
-    // Método para obtener el nodo de una celda en base a su fila y columna
+    /**
+     * Retrieves the node in the {@link GridPane} at the specified row and column index.
+     * This method searches through all the children of the grid to find the node matching the given coordinates.
+     *
+     * @param row      the row index of the desired node (0-based).
+     * @param col      the column index of the desired node (0-based).
+     * @param gridPane the {@link GridPane} containing the nodes.
+     * @return the {@link Node} at the specified position, or {@code null} if no node is found.
+     */
     private Node getNodeByRowColumnIndex(int row, int col, GridPane gridPane) {
         for (Node node : gridPane.getChildren()) {
             if (GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col) {
