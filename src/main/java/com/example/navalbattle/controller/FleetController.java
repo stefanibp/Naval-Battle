@@ -10,27 +10,13 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-
 import java.util.ArrayList;
-
 import com.example.navalbattle.model.*;
-import com.example.navalbattle.view.FleetStage;
-import com.example.navalbattle.view.GameStage;
-import javafx.event.ActionEvent;
-import javafx.fxml.FXML;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-
-import java.util.ArrayList;
 import java.util.List;
-
-import static java.lang.Math.max;
-import static java.lang.Math.min;
 
 public class FleetController {
 
@@ -80,14 +66,6 @@ public class FleetController {
 
         FleetStage.deleteInstance();
         GameStage.getInstance();
-
-    }
-
-    public void printBoard() {
-        System.out.println("Tablero del Jugador:");
-        for (ArrayList<Integer> row : fleetCoordinatesPlayer) {
-            System.out.println(row);
-        }
 
     }
 
@@ -205,7 +183,7 @@ public class FleetController {
                 clonedPane.setLayoutY(e.getSceneY() - offset[1]);
             });
 
-            clonedPane.setOnMouseReleased(e -> {
+            clonedPane.setOnMouseReleased(e -> {   //////////////////
                 double cellSize = 40; // Tamaño de la celda
                 Bounds clonedBounds = clonedPane.localToScene(clonedPane.getBoundsInLocal());
                 Point2D topLeftInPlayer = playerAnchorPane.sceneToLocal(clonedBounds.getMinX(), clonedBounds.getMinY());

@@ -148,6 +148,7 @@ displayUserName(userName);
         idSunken.getChildren().add(hit.renderEffect());
         idTouched.getChildren().add(sink.renderEffect());
         idwater.getChildren().add(miss.renderEffect());
+
     }
 
 
