@@ -47,10 +47,13 @@ public class Board {
 
     private static Board instance;
     private Map<String, List<List<Object>>> shipsPositionsPlayer = new HashMap<>();
+
+
     private Game game;
     int counter;
     GridPane boardPlayer = new GridPane();
     GridPane boardEnemy = new GridPane();
+    //private Board WelcomeController;
     WelcomeController welcomeController = WelcomeController.getInstance();
     private ArrayList<ArrayList<Integer>> fleetCoordinatesEnemy;
     private ArrayList<ArrayList<Integer>> fleetCoordinatesPlayer;
@@ -87,10 +90,12 @@ public class Board {
      * @return a GridPane representing the player's board.
      */
     public GridPane createBoardPlayer(ArrayList<ArrayList<Integer>> boards) {
+
         GridPane board = new GridPane();
         board.setPrefSize(440, 440);
         board.setLayoutX(0);
         board.setLayoutY(0);
+
 
         String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 
@@ -114,9 +119,12 @@ public class Board {
                             + "-fx-background-color: #c8c8c8; -fx-font-weight: bold;");
                     board.add(label, col, row);
                 } else if (row > 0 && col > 0) {
+
                     int value = boards.get(row - 1).get(col - 1);
                     Button cell = new Button(String.valueOf(value));
                     cell.setPrefSize(40, 40);
+
+
                     cell.setStyle("-fx-border-color: grey; -fx-background-color: transparent;");
                     board.add(cell, col, row);
                 }
@@ -162,8 +170,12 @@ public class Board {
                 break;
         }
 
+        // Si el jugador es el que está registrando el barco, agregamos la información
         if (isPlayer) {
+            // Verifica si ya existe una lista para este tipo de barco
             shipsPositionsPlayer.putIfAbsent(shipType, new ArrayList<>());
+
+            // Usamos un Pair o una estructura similar para almacenar tanto las posiciones como la representación visual
             List<Object> shipData = new ArrayList<>();
             shipData.add(placement);
             shipData.add(shipRepresentation);
@@ -174,195 +186,16 @@ public class Board {
         System.out.println("Adjusted positions registered for " + shipType + ": " + adjustedPositions);
     }
 
-
     /**
-     * Maps the ships to a specific {@link AnchorPane} on the game board.
-     * It clears the current ship layer (if it exists) and adds visual representations of the ships.
+     * Creates a GridPane representing a game board for "Battleship". The board can be either the player's
+     * or the enemy's board, as determined by the given board name. The method initializes the grid layout,
+     * adds labels for rows and columns, and sets up clickable cells for interaction.
      *
-     * @param pane     the {@link AnchorPane} where the ships will be placed.
-     * @param isPlayer {@code true} if the ships belong to the player, {@code false} otherwise.
-     */
-    public void mapShipsToAnchorPane(AnchorPane pane, boolean isPlayer) {
-        // Buscar o crear un contenedor para los barcos
-        Group shipLayer = (Group) pane.lookup("#shipLayer");
-        if (shipLayer == null) {
-            shipLayer = new Group();
-            shipLayer.setId("shipLayer");
-            pane.getChildren().add(shipLayer);
-        }
-
-        // Limpiar solo los barcos, no el tablero
-        shipLayer.getChildren().clear();
-
-        double cellSize = 40; // Tamaño de cada celda
-
-        // Obtener el mapa de posiciones
-        Map<String, List<List<Object>>> shipPositions = isPlayer ? shipsPositionsPlayer : new HashMap<>();
-
-        // Iterar por cada tipo de barco
-        for (Map.Entry<String, List<List<Object>>> entry : shipPositions.entrySet()) {
-            String shipType = entry.getKey(); // El nombre del barco es la clave
-            List<List<Object>> shipDataList = entry.getValue();
-
-            // Iterar sobre los datos de cada barco (posición y representación visual)
-            for (List<Object> shipData : shipDataList) {
-                ShipPlacement placement = (ShipPlacement) shipData.get(0); // El primer objeto es el ShipPlacement
-                StackPane shipRepresentation = (StackPane) shipData.get(1); // El segundo objeto es la representación visual del barco
-
-
-                List<Point2D> positions = placement.getPositions();
-                int rotation = placement.getRotation();
-
-                int shipSize = positions.size();
-
-                if (!positions.isEmpty()) {
-                    // Usar solo la primera posición del barco
-                    Point2D firstPosition = positions.get(0);
-
-                    // Calcular la posición en la cuadrícula
-                    double x = firstPosition.getY() * cellSize;
-                    double y = firstPosition.getX() * cellSize;
-
-                    // Rotar y posicionar la representación del barco
-                    applyRotationToShipPart(shipRepresentation, rotation);
-
-                    setShipPosition(shipRepresentation, x, y, rotation, shipSize);
-
-
-                    // Añadir la representación visual completa del barco al contenedor de barcos
-                    shipLayer.getChildren().add(shipRepresentation);
-                } else {
-                    System.out.println("El barco " + shipType + " no tiene posiciones asignadas.");
-                }
-            }
-        }
-    }
-
-    /**
-     * Sets the position and layout of a ship's visual representation on the game board.
-     *
-     * @param shipRepresentation the visual {@link Node} representing the ship.
-     * @param x                  the X-coordinate where the ship is positioned.
-     * @param y                  the Y-coordinate where the ship is positioned.
-     * @param rotation           the rotation angle of the ship (0, 90, 180, or 270 degrees).
-     * @param size               the size of the ship (number of grid cells it occupies).
-     */
-    public void setShipPosition(Node shipRepresentation, double x, double y, int rotation, int size) {
-        switch (size) {
-            case 4 -> {
-                switch (rotation) {
-                    case 90:  // vertical -- cara apuntando hacia abajo
-                        shipRepresentation.setLayoutX(x - 40);
-                        shipRepresentation.setLayoutY(y + 65);
-                        break;
-                    case 180: // horizontal -- cara apuntando hacia izquierda
-                        shipRepresentation.setLayoutX(x + 20);
-                        shipRepresentation.setLayoutY(y + 5.5);
-                        break;
-                    case 270: // vertical -- cara apuntando hacia arriba
-                        shipRepresentation.setLayoutX(x - 40);
-                        shipRepresentation.setLayoutY(y + 65);
-                        break;
-                    default:   // horizontal -- cara apuntando hacia derecha
-                        shipRepresentation.setLayoutX(x + 20);
-                        shipRepresentation.setLayoutY(y + 5.5);
-                }
-            }
-            case 3 -> {
-                switch (rotation) {
-                    case 90:  // vertical -- cara apuntando hacia abajo
-                        shipRepresentation.setLayoutX(x - 25);
-                        shipRepresentation.setLayoutY(y + 50);
-                        break;
-                    case 180: // horizontal -- cara apuntando hacia izquierda
-                        shipRepresentation.setLayoutX(x + 15);
-                        shipRepresentation.setLayoutY(y + 9);
-                        break;
-                    case 270: // vertical -- cara apuntando hacia arriba
-                        shipRepresentation.setLayoutX(x - 25);
-                        shipRepresentation.setLayoutY(y + 40);
-                        break;
-                    default:   // horizontal -- cara apuntando hacia derecha
-                        shipRepresentation.setLayoutX(x + 20);
-                        shipRepresentation.setLayoutY(y + 9);
-                }
-            }
-            case 2 -> {
-                switch (rotation) {
-                    case 90:  // vertical -- cara apuntando hacia abajo
-                        shipRepresentation.setLayoutX(x - 15);
-                        shipRepresentation.setLayoutY(y + 20);
-                        break;
-                    case 180: // horizontal -- cara apuntando hacia izquierda
-                        shipRepresentation.setLayoutX(x + 10);
-                        shipRepresentation.setLayoutY(y + 5.5);
-                        break;
-                    case 270: // vertical -- cara apuntando hacia arriba
-                        shipRepresentation.setLayoutX(x - 15);
-                        shipRepresentation.setLayoutY(y + 30);
-                        break;
-                    default:   // horizontal -- cara apuntando hacia derecha
-                        shipRepresentation.setLayoutX(x + 2);
-                        shipRepresentation.setLayoutY(y + 5.5);
-                }
-            }
-            case 1 -> {
-                switch (rotation) {
-                    case 90:  // vertical -- cara apuntando hacia abajo
-                        shipRepresentation.setLayoutX(x + 1);
-                        shipRepresentation.setLayoutY(y + 5);
-                        break;
-                    case 180: // horizontal -- cara apuntando hacia izquierda
-                        shipRepresentation.setLayoutX(x + 1);
-                        shipRepresentation.setLayoutY(y + 5.8);
-                        break;
-                    case 270: // vertical -- cara apuntando hacia arriba
-                        shipRepresentation.setLayoutX(x + 1);
-                        shipRepresentation.setLayoutY(y + 5);
-                        break;
-                    default:   // horizontal -- cara apuntando hacia derecha
-                        shipRepresentation.setLayoutX(x + 1);
-                        shipRepresentation.setLayoutY(y + 5.8);
-                }
-            }
-            default -> {
-                shipRepresentation.setLayoutX(x);
-                shipRepresentation.setLayoutY(y);
-            }
-        }
-    }
-
-    /**
-     * Applies a rotation to a specific part of a ship's visual representation.
-     *
-     * @param shipPart the {@link Node} representing a part of the ship.
-     * @param rotation the rotation angle to be applied (0, 90, 180, or 270 degrees).
-     */
-    private void applyRotationToShipPart(Node shipPart, int rotation) {
-        // Rotación de 0, 90, 180, 270 grados
-        switch (rotation) {
-            case 90:
-                shipPart.setRotate(90);
-                break;
-            case 180:
-                shipPart.setRotate(180);
-                break;
-            case 270:
-                shipPart.setRotate(270);
-                break;
-            default:
-                shipPart.setRotate(0);
-                break;
-        }
-    }
-
-
-    /**
-     * Creates a game board represented by a {@link GridPane}.
-     * The board includes headers (letters for columns and numbers for rows) and interactive cells.
-     *
-     * @param boardName the name of the board, used to differentiate between "Player" and "Enemy" boards.
-     * @return the constructed {@link GridPane} representing the game board.
+     * @param boardName The name of the board being created. Use "Player" for the player's board and "Enemy"
+     *                  for the opponent's board. Determines specific configurations such as event handling.
+     * @return A GridPane object representing the game board with rows and columns labeled, and cells initialized.
+     * @throws IllegalArgumentException if boardName is null or invalid.
+     * @see LabelCell
      */
     public GridPane createBoard(String boardName) {
         GridPane board = new GridPane();
@@ -466,6 +299,7 @@ public class Board {
                     }
                 }
             });
+
 
         }
 
@@ -573,16 +407,29 @@ public class Board {
     }
 
     /**
-     * Places the AircraftCarrier or other ships on the game board according to the provided coordinates.
-     * The method determines the ship type, position, and orientation based on the input data.
+     * Places an AircraftCarrier or other ship types on the specified GridPane at the correct cell position.
+     * This method ensures that ships are within the bounds of the GridPane and adjusts their positions
+     * and orientations accordingly. It uses the provided fleet coordinates to determine the placement
+     * and rotation of the ships.
      *
-     * @param board     the {@link GridPane} representing the game board.
-     * @param ArrayList a list containing the coordinates and types of ships to be placed.
+     * @param board            The GridPane representing the player's game board.
+     * @param fleetCoordinates A list of coordinates for the player's fleet. Each list entry contains:
+     *                         - [0]: The type of the ship (1 = Frigate, 2 = Destroyer, 3 = Submarine, 4 = AircraftCarrier).
+     *                         - [1]: The starting row of the ship.
+     *                         - [2]: The starting column of the ship.
+     *                         - [3]: The ending row of the ship.
+     *                         - [4]: The ending column of the ship.
+     *                         If the ship is out of bounds, its position will be adjusted.
+     * @throws IllegalArgumentException  if an invalid ship type is provided.
+     * @throws IndexOutOfBoundsException if fleetCoordinates contain invalid indices for rows or columns.
      */
-    public void placeAircraftCarrier(GridPane board, ArrayList<ArrayList<Integer>> ArrayList) {
-        // Recorre las coordenadas de la flota del jugador
+    public void placeAircraftCarrier(GridPane board, ArrayList<ArrayList<Integer>> fleetCoordinates) {
+        // Dimensiones del GridPane (número de filas y columnas)
+        int maxRows = board.getRowCount();
+        int maxCols = board.getColumnCount();
 
-        for (ArrayList<Integer> shipCoordinates : ArrayList) {
+        // Recorre las coordenadas de la flota del jugador
+        for (ArrayList<Integer> shipCoordinates : fleetCoordinates) {
             int shipType = shipCoordinates.get(0); // El primer valor es el tipo de barco
             int startRow = shipCoordinates.get(1); // Fila inicio
             int startCol = shipCoordinates.get(2); // Columna inicio
@@ -591,6 +438,26 @@ public class Board {
 
             Pane shipPane = null;
             double rotationAngle = 0;
+
+            // Verificar si el barco está fuera de los límites y ajustarlo
+            if (endRow >= maxRows) {
+                int offset = endRow - maxRows + 1;
+                startRow -= offset;
+                endRow -= offset;
+            }
+            if (endCol >= maxCols) {
+                int offset = endCol - maxCols + 1;
+                startCol -= offset;
+                endCol -= offset;
+            }
+            if (startRow < 0) {
+                endRow -= startRow; // Ajustar para mantener el tamaño
+                startRow = 0;
+            }
+            if (startCol < 0) {
+                endCol -= startCol; // Ajustar para mantener el tamaño
+                startCol = 0;
+            }
 
             // Crear el barco según el tipo
             switch (shipType) {
@@ -631,10 +498,11 @@ public class Board {
 
             // Colocar el barco en la celda de inicio
             if (shipPane != null) {
-                board.add(shipPane, startCol + 1, startRow + 1); // Ajuste de índices para GridPane
+                board.add(shipPane, startCol, startRow); // Agregar el barco al GridPane
             }
         }
     }
+
 
     /**
      * Retrieves the node in the {@link GridPane} at the specified row and column index.
