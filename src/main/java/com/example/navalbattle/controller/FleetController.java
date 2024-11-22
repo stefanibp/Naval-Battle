@@ -1,6 +1,10 @@
 package com.example.navalbattle.controller;
 
-import com.example.navalbattle.model.*;
+
+import com.example.navalbattle.model.Board;
+import com.example.navalbattle.model.Game;
+import com.example.navalbattle.model.IAFleet;
+import com.example.navalbattle.model.SerializableFileHandlerPosition;
 import com.example.navalbattle.view.FleetStage;
 import com.example.navalbattle.view.GameStage;
 import javafx.event.ActionEvent;
@@ -10,17 +14,59 @@ import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
-
 import java.util.ArrayList;
+import com.example.navalbattle.model.*;
+import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
+import javafx.scene.Node;
+import javafx.scene.layout.Pane;
 import java.util.List;
 
+/**
+ * Controller class responsible for managing the fleet in the game, including initializing the board,
+ * handling game start, and managing the placement of ships.
+ *
+ * @author Jerson Alexis Ortiz Velasco
+ * @author Jhon Antony Murillo Olave
+ * @author Stefania Bolaños Perdomo
+ * @version 1.0
+ * @since 1.0
+ */
 public class FleetController {
 
     @FXML
+    private Game game;
+    @FXML
+    private IAFleet enemyFleet;
+    @FXML
     private AnchorPane playerAnchorPane;
+    @FXML
+    private Board boardModel;
+    @FXML
+    private Pane boardWater;
+    WelcomeController welcomeController = WelcomeController.getInstance();
+    private GridPane playerBoard;
 
+    private int frigateCount = 0; // Contador para las fragatas colocadas
+    private static final int MAX_FRIGATES = 4; // Límite máximo
+
+    private int destroyerCount = 0;
+    private static final int MAX_DESTROYER = 3;
+
+    private int aircraftCarrierCount = 0;
+    private static final int MAX_AIRCRAFTCARRIER = 1;
+
+    private int submarineCount = 0;
+    private static final int MAX_SUBMARINE = 2;
+    private ArrayList<ArrayList<Integer>> fleetCoordinatesPlayer;
+
+    private int totalShip = 0, address = 0,  rowI = 0, rowE = 0, colI = 0, colE = 0;
+
+    /**
+     * Handles the start of the game by saving the player's fleet coordinates and switching to the game stage.
+     *
+     * @param event the action event triggered by the user to start the game
+     */
     @FXML
     private Pane boardWater;
 
@@ -40,104 +86,67 @@ public class FleetController {
 
     @FXML
     void buttonStartGame(ActionEvent event) {
-        if(frigateCount == MAX_FRIGATES){
-            FleetStage.deleteInstance();
-            GameStage.getInstance();
-        }
+              /*  if(frigateCount == MAX_FRIGATES && destroyerCount == MAX_DESTROYER && aircraftCarrierCount == MAX_AIRCRAFTCARRIER && submarineCount == MAX_SUBMARINE){
+                    FleetStage.deleteInstance();
+                    GameStage.getInstance();
+                }   */
+        String FILE_NAME = "game_boardsPositions.dat";
+        SerializableFileHandlerPosition fileHandler = new SerializableFileHandlerPosition();
 
-        if(destroyerCount == MAX_DESTROYER){
-            FleetStage.deleteInstance();
-            GameStage.getInstance();
-        }
+        WelcomeController.getInstance().setfleetCoordinatesPlayer(fleetCoordinatesPlayer);
 
-        if(aircraftCarrierCount == MAX_AIRCRAFTCARRIER){
-            FleetStage.deleteInstance();
-            GameStage.getInstance();
-        }
+        fileHandler.serialize(FILE_NAME, welcomeController.getFleetCoordinatesEnemy(), welcomeController.getFleetCoordinatesPlayer());
+        System.out.println("Juego guardado en " + FILE_NAME);
 
-        if(submarineCount == MAX_SUBMARINE){
-            FleetStage.deleteInstance();
-            GameStage.getInstance();
-        }
+
+        FleetStage.deleteInstance();
+        GameStage.getInstance();
     }
 
+    /**
+     * Handles the exit action by closing the Fleet stage.
+     *
+     * @param event the action event triggered by the user to exit
+     */
     @FXML
     void handleClickExit(ActionEvent event) {
         FleetStage.deleteInstance();
     }
 
+    /**
+     * Initializes the fleet controller by setting up the player's board and displaying the ships.
+     */
     @FXML
     public void initialize() {
-        playerBoard = new Board().createBoard(Game.getInstance().getPlayerBoard());
+        fleetCoordinatesPlayer = new ArrayList<>();
+        initializeBoardList();
+        game = WelcomeController.getInstance().getGame();
+                game.printBoard();
+    playerBoard = new Board().createBoardPlayer(game.getPlayerBoard());
         playerAnchorPane.getChildren().add(playerBoard);
         fleetView();
     }
 
-    @FXML
-    void rotateShipsLeft(ActionEvent event) {
-        //System.out.println("Método rotateShipsLeft llamado.");
-        //System.out.println("Nodos en boardWater: " + boardWater.getChildren().size());
 
-        for (Node node : boardWater.getChildren()) {
-            //System.out.println("Iterando sobre nodo...");
-            if (node instanceof StackPane) {
-                //System.out.println("Nodo es StackPane.");
-                StackPane shipPane = (StackPane) node;
-
-                if (shipPane.getUserData() == null) {
-                    //System.out.println("El StackPane no tiene userData.");
-                    continue;
-                }
-
-                if (shipPane.getUserData() instanceof IShip) {
-                    //System.out.println("Nodo asociado con IShip.");
-                    IShip ship = (IShip) shipPane.getUserData();
-
-                    int newRotation = (ship.getCurrentRotation() - 90) % 360;
-                    if (newRotation < 0) {
-                        newRotation += 360;
-                    }
-                    //System.out.println("Rotación anterior: " + ship.getCurrentRotation());
-                    //System.out.println("Nueva rotación: " + newRotation);
-
-                    ship.setCurrentRotation(newRotation);
-                    shipPane.setRotate(newRotation);
-                } else {
-                    System.out.println("El userData no es una instancia de IShip.");
-                }
-            } else {
-                System.out.println("Nodo no es StackPane.");
+    /**
+     * Initializes the list of fleet coordinates with default values.
+     */
+    public void initializeBoardList() {
+        for (int i = 0; i < 10; i++) {
+            ArrayList<Integer> row = new ArrayList<>();
+            for (int j = 0; j < 5; j++) {
+                row.add(0); // Rellenar con valores por defecto, como 0
             }
+            fleetCoordinatesPlayer.add(row);
         }
+
     }
 
-    @FXML
-    void rotateShipsRight(ActionEvent event) {
-        for (Node node : boardWater.getChildren()) {
-            if (node instanceof StackPane) {
-                StackPane shipPane = (StackPane) node;
-
-                if (shipPane.getUserData() == null) {
-                    continue;
-                }
-
-                if (shipPane.getUserData() instanceof IShip) {
-                    IShip ship = (IShip) shipPane.getUserData();
-
-                    int newRotation = (ship.getCurrentRotation() + 90) % 360;
-
-                    ship.setCurrentRotation(newRotation);
-                    shipPane.setRotate(newRotation);
-                } else {
-                    System.out.println("El userData no es una instancia de IShip.");
-                }
-            } else {
-                System.out.println("Nodo no es StackPane.");
-            }
-        }
-    }
-
-
+    /**
+     * Renders the ships and allows the player to drag and place them on the board.
+     * Creates instances of Frigate, Destroyer, Aircraft Carrier, and Submarine ships,
+     * and enables drag functionality with visual feedback.
+     */
     private void fleetView() {
         // Crear instancias de los barcos
         Frigate frigate1 = new Frigate();
@@ -172,6 +181,11 @@ public class FleetController {
         boardWater.getChildren().addAll(frigate1Pane, destroyerPane, aircraftCarrierPane, submarinePane);
     }
 
+    /**
+     * Manages the drag-and-drop functionality for ships, including cloning and validating ship placement
+     * within the game board.
+     * @param <T> The type of ship, extending the IShip interface.
+     */
     private <T extends IShip> void enableDragWithClone(Pane shipPane, T ship) {
         shipPane.setOnMousePressed(event -> {
 
@@ -197,11 +211,13 @@ public class FleetController {
 
             // Crear una copia del barco y agregarla al tablero de agua
             T clonedShip = (T) ship.clone(); // Clonación del barco usando el método clone
-            StackPane clonedPane = clonedShip.render();
+            Pane clonedPane = clonedShip.render();
 
             // Copiar posición y rotación del barco original
             clonedPane.setLayoutX(shipPane.getLayoutX());
+            System.out.println("XXXXXXXXXX"+shipPane.getLayoutX()); ////
             clonedPane.setLayoutY(shipPane.getLayoutY());
+            System.out.println("yyyyyyyyy"+shipPane.getLayoutX()); ////
             clonedPane.setRotate(shipPane.getRotate()); // Copiar la rotación actual
             clonedShip.setCurrentRotation(ship.getCurrentRotation()); // Sincronizar modelo con vista
 
@@ -224,7 +240,7 @@ public class FleetController {
                 clonedPane.setLayoutY(e.getSceneY() - offset[1]);
             });
 
-            clonedPane.setOnMouseReleased(e -> {
+            clonedPane.setOnMouseReleased(e -> {   //////////////////
                 double cellSize = 40; // Tamaño de la celda
                 Bounds clonedBounds = clonedPane.localToScene(clonedPane.getBoundsInLocal());
                 Point2D topLeftInPlayer = playerAnchorPane.sceneToLocal(clonedBounds.getMinX(), clonedBounds.getMinY());
@@ -251,7 +267,7 @@ public class FleetController {
                     }
 
                     // Validar que la celda no esté ocupada
-                    if (Game.getInstance().getPlayerBoard().get(row - 1).get(col - 1) != 0) {
+                    if (game.getPlayerBoard().get(row - 1).get(col - 1) != 0) {       //////////
                         isValidPlacement = false;
                         break;
                     }
@@ -259,16 +275,26 @@ public class FleetController {
                     occupiedPositions.add(new Point2D(row, col));
                 }
 
+                  int counter=0;
+
                 if (isValidPlacement) {
                     // Ajustar el barco al inicio de las posiciones ocupadas
+                    double moveX = -10;  // Ajuste en X para mover hacia la izquierda (puedes cambiar este valor)
+                    double moveY = -5;  // Ajuste en Y para mover hacia arriba (puedes cambiar este valor)
+
+// Ajustar el barco al inicio de las posiciones ocupadas
                     Point2D startPosition = occupiedPositions.get(0);
-                    double newLayoutX = startPosition.getY() * cellSize; // Columna determina X
-                    double newLayoutY = startPosition.getX() * cellSize; // Fila determina Y
+                    double newLayoutX = startPosition.getY() * cellSize + moveX; // Columna determina X
+                    double newLayoutY = startPosition.getX() * cellSize + moveY; // Fila determina Y
 
-
-                    // < posicionando los barcos en el playerAnchordPane >
+// < posicionando los barcos en el playerAnchorPane >
                     @SuppressWarnings("unchecked")
                     T associatedShip = (T) clonedPane.getUserData();
+
+// Ajustar la posición del barco
+                    clonedPane.setLayoutX(newLayoutX);
+                    clonedPane.setLayoutY(newLayoutY);
+
 
                     switch (associatedShip.getSize()) {
                         case 4 -> {
@@ -280,14 +306,17 @@ public class FleetController {
                                 case 90: // vertical -- cara apuntando hacia abajo
                                     clonedPane.setLayoutX(newLayoutX - 40);
                                     clonedPane.setLayoutY(newLayoutY + 65);
+                                    address=1;
                                     break;
                                 case 180: // horizontal -- cara apuntando hacia izquierda
                                     clonedPane.setLayoutX(newLayoutX + 20);
                                     clonedPane.setLayoutY(newLayoutY + 5.5);
+                                    address=2;
                                     break;
                                 case 270: // vertical -- cara apuntando hacia arriba
                                     clonedPane.setLayoutX(newLayoutX - 40);
                                     clonedPane.setLayoutY(newLayoutY + 65);
+                                    address=3;
                                     break;
                                 default:
                                     clonedPane.setLayoutX(newLayoutX);
@@ -303,14 +332,17 @@ public class FleetController {
                                 case 90: // vertical -- cara apuntando hacia abajo
                                     clonedPane.setLayoutX(newLayoutX - 25);
                                     clonedPane.setLayoutY(newLayoutY + 50);
+                                    address=1;
                                     break;
                                 case 180: // horizontal -- cara apuntando hacia izquierda
                                     clonedPane.setLayoutX(newLayoutX + 15);
                                     clonedPane.setLayoutY(newLayoutY + 9);
+                                    address=2;
                                     break;
                                 case 270: // vertical -- cara apuntando hacia arriba
                                     clonedPane.setLayoutX(newLayoutX - 25);
                                     clonedPane.setLayoutY(newLayoutY + 40);
+                                    address=3;
                                     break;
                                 default:
                                     clonedPane.setLayoutX(newLayoutX);
@@ -326,14 +358,17 @@ public class FleetController {
                                 case 90: // vertical -- cara apuntando hacia abajo
                                     clonedPane.setLayoutX(newLayoutX - 15);
                                     clonedPane.setLayoutY(newLayoutY + 20);
+                                    address=1;
                                     break;
                                 case 180: // horizontal -- cara apuntando hacia izquierda
                                     clonedPane.setLayoutX(newLayoutX + 10);
                                     clonedPane.setLayoutY(newLayoutY + 5.5);
+                                    address=2;
                                     break;
                                 case 270: // vertical -- cara apuntando hacia arriba
                                     clonedPane.setLayoutX(newLayoutX - 15);
                                     clonedPane.setLayoutY(newLayoutY + 30);
+                                    address=3;
                                     break;
                                 default:
                                     clonedPane.setLayoutX(newLayoutX);
@@ -349,14 +384,17 @@ public class FleetController {
                                 case 90: // vertical -- cara apuntando hacia abajo
                                     clonedPane.setLayoutX(newLayoutX + 1);
                                     clonedPane.setLayoutY(newLayoutY + 5);
+                                    address=1;
                                     break;
                                 case 180: // horizontal -- cara apuntando hacia izquierda
                                     clonedPane.setLayoutX(newLayoutX + 1);
                                     clonedPane.setLayoutY(newLayoutY + 5.8);
+                                    address=2;
                                     break;
                                 case 270: // vertical -- cara apuntando hacia arriba
                                     clonedPane.setLayoutX(newLayoutX + 1);
                                     clonedPane.setLayoutY(newLayoutY + 5);
+                                    address=3;
                                     break;
                                 default:
                                     clonedPane.setLayoutX(newLayoutX);
@@ -368,6 +406,7 @@ public class FleetController {
                             clonedPane.setLayoutY(newLayoutY);
                         }
                     }
+
                     // < end >
 
                     // desativar movimiento del barco
@@ -382,27 +421,80 @@ public class FleetController {
                         int col = (int) position.getY() - 1;
 
 
+                            if (counter == 0 ) {
+                                                rowI = row;
+                                                colI = col;
+                                    fleetCoordinatesPlayer.get(totalShip).set(0, associatedShip.getSize());
+                            }
+                            if (counter == associatedShip.getSize()-1) {
+                                rowE = row;
+                                colE = col;
+                            }
+
+
+
+                            counter++;
+
                         switch (associatedShip.getSize()) {
                             case 4 -> {
-                                Game.getInstance().getPlayerBoard().get(row).set(col, 4);
+                                game.getPlayerBoard().get(row).set(col, 4);
+
                             }
                             case 3 -> {
-                                Game.getInstance().getPlayerBoard().get(row).set(col, 3);
+                                game.getPlayerBoard().get(row).set(col, 3);
                             }
                             case 2 -> {
-                                Game.getInstance().getPlayerBoard().get(row).set(col, 2);
+                                game.getPlayerBoard().get(row).set(col, 2);
                             }
                             case 1 -> {
-                                Game.getInstance().getPlayerBoard().get(row).set(col, 1);
+                                game.getPlayerBoard().get(row).set(col, 1);
                             }
                             default -> {
-                                Game.getInstance().getPlayerBoard().get(row).set(col, 0);
+                                game.getPlayerBoard().get(row).set(col, 0);
                             }
                         }
                     }
 
                     // Agregar el barco al playerAnchorPane si no está ya
                     if (!playerAnchorPane.getChildren().contains(clonedPane)) {
+
+                        if (rowI == rowE && colI == colE) {
+                            // Si las coordenadas inicial y final son iguales, asignarlas directamente
+                            fleetCoordinatesPlayer.get(totalShip).set(1, rowI); // Fila
+                            fleetCoordinatesPlayer.get(totalShip).set(2, colI); // Columna
+                            fleetCoordinatesPlayer.get(totalShip).set(3, rowI); // Fila (repetida, ya que es la misma celda)
+                            fleetCoordinatesPlayer.get(totalShip).set(4, colI); // Columna (repetida)
+
+                        } else {
+                            // Lógica normal para múltiples celdas
+                            int[][] positions = {
+                                    {rowI, Math.max(colI, colE), rowI, Math.min(colI, colE)}, // case 0
+                                    {Math.max(rowI, rowE), colI, Math.min(rowI, rowE), colI}, // case 1
+                                    {rowE, Math.min(colI, colE), rowE, Math.max(colI, colE)}, // case 2
+                                    {Math.min(rowI, rowE), colE, Math.max(rowI, rowE), colE}  // case 3
+                            };
+
+                            if (address >= 0 && address <= 3) {
+                                int[] coords = positions[address];
+                                fleetCoordinatesPlayer.get(totalShip).set(1, coords[0]); // Fila inicial o final
+                                fleetCoordinatesPlayer.get(totalShip).set(2, coords[1]); // Columna inicial o final
+                                fleetCoordinatesPlayer.get(totalShip).set(3, coords[2]); // Fila final o inicial
+                                fleetCoordinatesPlayer.get(totalShip).set(4, coords[3]); // Columna final o inicial
+                            }
+                        }
+
+
+                        rowE=0;
+                        colE=0;
+                        rowI=0;
+                        colI=0;
+                        totalShip++;
+                        System.out.println("Tablero del Jugador:");
+                        for (ArrayList<Integer> t : fleetCoordinatesPlayer) {
+                            System.out.println(t);
+                        }
+
+                        
                         playerAnchorPane.getChildren().add(clonedPane);
                         boardWater.getChildren().remove(clonedPane);
 
@@ -431,8 +523,93 @@ public class FleetController {
                     System.out.println("Ubicación inválida. El barco no puede colocarse aquí.");
                     boardWater.getChildren().remove(clonedPane);
                 }
+
+
+
+
+
             });
         });
 
     }
+
+    /**
+     * Rotates all ships on the water board 90 degrees to the left (counterclockwise).
+     * This method iterates over all nodes in the water board and applies the rotation
+     * only to nodes associated with a ship through UserData.
+     * @param event The action event triggered when the rotate left button is clicked.
+     * @throws IllegalStateException if a node's UserData is not an instance of IShip.
+     */
+    @FXML
+    void rotateShipsLeft(ActionEvent event) {
+        //System.out.println("Método rotateShipsLeft llamado.");
+        //System.out.println("Nodos en boardWater: " + boardWater.getChildren().size());
+
+        for (Node node : boardWater.getChildren()) {
+            //System.out.println("Iterando sobre nodo...");
+            if (node instanceof Pane) {
+                //System.out.println("Nodo es StackPane.");
+                Pane shipPane = (Pane) node;
+
+                if (shipPane.getUserData() == null) {
+                    //System.out.println("El StackPane no tiene userData.");
+                    continue;
+                }
+
+                if (shipPane.getUserData() instanceof IShip) {
+                    //System.out.println("Nodo asociado con IShip.");
+                    IShip ship = (IShip) shipPane.getUserData();
+
+                    int newRotation = (ship.getCurrentRotation() - 90) % 360;
+                    if (newRotation < 0) {
+                        newRotation += 360;
+                    }
+                    //System.out.println("Rotación anterior: " + ship.getCurrentRotation());
+                    //System.out.println("Nueva rotación: " + newRotation);
+
+                    ship.setCurrentRotation(newRotation);
+                    shipPane.setRotate(newRotation);
+                } else {
+                    System.out.println("El userData no es una instancia de IShip.");
+                }
+            } else {
+                System.out.println("Nodo no es StackPane.");
+            }
+        }
+    }
+
+    /**
+     * Rotates all ships on the water board 90 degrees to the right (clockwise).
+     * This method iterates over all nodes in the water board and applies the rotation
+     * only to nodes associated with a ship through UserData.
+     * @param event The action event triggered when the rotate right button is clicked.
+     * @throws IllegalStateException if a node's UserData is not an instance of IShip.
+     * @throws NullPointerException if a node does not have associated UserData.
+     */
+    @FXML
+    void rotateShipsRight(ActionEvent event) {
+        for (Node node : boardWater.getChildren()) {
+            if (node instanceof Pane) {
+                Pane shipPane = (Pane) node;
+
+                if (shipPane.getUserData() == null) {
+                    continue;
+                }
+
+                if (shipPane.getUserData() instanceof IShip) {
+                    IShip ship = (IShip) shipPane.getUserData();
+
+                    int newRotation = (ship.getCurrentRotation() + 90) % 360;
+
+                    ship.setCurrentRotation(newRotation);
+                    shipPane.setRotate(newRotation);
+                } else {
+                    System.out.println("El userData no es una instancia de IShip.");
+                }
+            } else {
+                System.out.println("Nodo no es StackPane.");
+            }
+        }
+    }
+
 }

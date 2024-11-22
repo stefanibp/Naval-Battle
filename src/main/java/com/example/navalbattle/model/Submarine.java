@@ -9,88 +9,118 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Polygon;
 
+/**
+ * Represents a submarine ship in the Naval Battle game.
+ * Implements the {@link IShip} interface to define the submarine's properties and rendering logic.
+ *
+ * @author Jerson Alexis Ortiz Velasco
+ * @author Jhon Antony Murillo Olave
+ * @author Stefania Bolaños Perdomo
+ * @version 1.0
+ * @since 1.0
+ */
 public class Submarine implements IShip {
-
     private int currentRotation = 0;
 
+    /**
+     * Returns the name of the ship.
+     *
+     * @return the name of the submarine, "Submarine".
+     */
     @Override
     public String getName() {
         return "Submarine";
     }
 
+    /**
+     * Returns the size of the submarine in terms of grid cells.
+     *
+     * @return the size of the submarine, which is 3 cells.
+     */
     @Override
     public int getSize() {
-        return 3; // El tamaño en celdas
+        return 3; // The size in grid cells
     }
 
+    /**
+     * Renders a visual representation of the submarine.
+     * Creates and arranges various shapes such as rectangles, ellipses, and polygons to form the submarine.
+     *
+     * @return a {@link Pane} containing the graphical elements of the submarine.
+     */
     @Override
-    public StackPane render() {
-        StackPane root = new StackPane();
+    public Pane render() {
+        // Creates a Pane with dimensions of 120px in length and 40px in width
+        Pane root = new Pane();
+        root.setPrefSize(120, 40); // Set Pane dimensions
 
-        Rectangle body = Shape.square(50, 100, 90, 20, Color.BLACK);
+        // Adjust starting coordinates to occupy the entire space
+        double startX = 0;  // Starting X coordinate
+        double startY = 0;  // Starting Y coordinate
+
+        // Draw the submarine's body with adjusted coordinates
+        Rectangle body = Shape.square(startX + 15, startY + 10, 90, 20, Color.DARKGRAY);
+
         body.setArcWidth(40);
         body.setArcHeight(40);
         root.getChildren().add(body);
 
+        // Draw the submarine's front triangle
         Polygon triangle1 = new Polygon();
         triangle1.getPoints().addAll(
-                55.0, 105.0,
-                40.0, 110.0,
-                55.0, 115.0);
-
-        triangle1.setFill(Color.BLACK);
+                startX + 20.0, startY + 15.0,
+                startX + 5.0, startY + 20.0,
+                startX + 20.0, startY + 25.0);
+        triangle1.setFill(Color.DARKGRAY);
         root.getChildren().addAll(triangle1);
 
-        triangle1.setTranslateX(-45);
-        triangle1.setTranslateY(0);
-
-        Ellipse propeller1 = new Ellipse(43, 110, 3, 8);
-        propeller1.setFill(Color.BLACK);
+        // Draw the rear propeller
+        Ellipse propeller1 = new Ellipse(startX + 13, startY + 20, 3, 8);
+        propeller1.setFill(Color.DARKGRAY);
         root.getChildren().addAll(propeller1);
 
-        propeller1.setTranslateX(-50);
-        propeller1.setTranslateY(0);
-
-        Ellipse hatch1 = Shape.ellipseStyle(60, 110, 3, 3, Color.WHITE);
-        Ellipse hatch2 = Shape.ellipseStyle(80, 110, 3, 3, Color.WHITE);
-        Ellipse hatch3 = Shape.ellipseStyle(115, 110, 3, 3, Color.WHITE);
+        // Draw the hatches
+        Ellipse hatch1 = Shape.ellipseStyle(startX + 30, startY + 20, 3, 3, Color.WHITE);
+        Ellipse hatch2 = Shape.ellipseStyle(startX + 50, startY + 20, 3, 3, Color.WHITE);
+        Ellipse hatch3 = Shape.ellipseStyle(startX + 85, startY + 20, 3, 3, Color.WHITE);
         root.getChildren().addAll(hatch1, hatch2, hatch3);
 
-        hatch1.setTranslateX(20);
-        hatch1.setTranslateY(0);
-
-        hatch2.setTranslateX(-15);
-        hatch2.setTranslateY(0);
-
-        hatch3.setTranslateX(-30);
-        hatch3.setTranslateY(0);
-
-        Line fins1 = Shape.lineStyle(115, 98, 115, 100, Color.BLACK, 4.0);
-        Line fins2 = Shape.lineStyle(115, 122, 115, 120, Color.BLACK, 4.0);
+        // Draw the rear fins
+        Line fins1 = Shape.lineStyle(startX + 85, startY + 8, startX + 85, startY + 10, Color.DARKGRAY, 4.0);
+        Line fins2 = Shape.lineStyle(startX + 85, startY + 32, startX + 85, startY + 30, Color.DARKGRAY, 4.0);
         root.getChildren().addAll(fins1, fins2);
-
-        fins1.setTranslateX(20);
-        fins1.setTranslateY(10);
-
-        fins2.setTranslateX(20);
-        fins2.setTranslateY(-10);
 
         return root;
     }
 
+    /**
+     * Creates and returns a clone of this submarine.
+     *
+     * @return a new {@link Submarine} instance.
+     */
     @Override
-    public IShip clone(){
+    public IShip clone() {
         return new Submarine();
     }
 
+    /**
+     * Retrieves the current rotation of the submarine.
+     *
+     * @return the current rotation value.
+     */
     @Override
     public int getCurrentRotation() {
         return currentRotation;
     }
 
+
+    /**
+     * Sets the current rotation of the submarine.
+     *
+     * @param currentRotation the rotation value to set.
+     */
     @Override
     public void setCurrentRotation(int currentRotation) {
         this.currentRotation = currentRotation;
     }
 }
-
