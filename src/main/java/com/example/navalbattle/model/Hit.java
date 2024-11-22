@@ -16,30 +16,31 @@ public class Hit implements IMove {
     @Override
     public Pane renderEffect() {
         Pane pane = new Pane();
+        pane.setPrefSize(40, 40); // Tamaño del pane
 
         // Cuerpo de la bomba
-        Circle body = new Circle(25, 25, 15, Color.BLACK);
+        Circle body = new Circle(20, 20, 10, Color.BLACK); // Ajustar tamaño y posición
 
         // Mecha de la bomba
-        Line fuse = new Line(25, 10, 25, 0);
+        Line fuse = new Line(20, 10, 20, 0);
         fuse.setStroke(Color.GRAY);
-        fuse.setStrokeWidth(2);
+        fuse.setStrokeWidth(1);
 
         // Explosión en forma de estrella
         Polygon explosion = new Polygon();
         explosion.getPoints().addAll(
-                25.0, -5.0,
-                27.0, -2.0,
-                30.0, -2.0,
-                28.0, 0.0,
-                30.0, 3.0,
-                27.0, 3.0,
-                25.0, 5.0,
-                23.0, 3.0,
-                20.0, 3.0,
-                22.0, 0.0,
-                20.0, -2.0,
-                23.0, -2.0
+                20.0, 5.0,
+                21.0, 8.0,
+                24.0, 8.0,
+                22.0, 10.0,
+                24.0, 13.0,
+                21.0, 13.0,
+                20.0, 15.0,
+                19.0, 13.0,
+                16.0, 13.0,
+                18.0, 10.0,
+                16.0, 8.0,
+                19.0, 8.0
         );
         explosion.setFill(Color.ORANGE);
 

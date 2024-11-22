@@ -27,8 +27,22 @@
                   <Image url="@enemig.png" />
                </image>
             </ImageView>
-            <AnchorPane fx:id="enemyAnchorPane" layoutX="571.0" layoutY="204.0" prefHeight="440.0" prefWidth="440.0" style="-fx-background-image: url('image.mar.jpg');" />
-            <AnchorPane fx:id="playerAnchorPane" layoutX="94.0" layoutY="204.0" prefHeight="440.0" prefWidth="440.0" />
+            <AnchorPane fx:id="enemyAnchorPane" layoutX="571.0" layoutY="204.0" prefHeight="440.0" prefWidth="440.0" style="-fx-background-image: url('image.mar.jpg');">
+               <children>
+                  <ImageView fitHeight="440.0" fitWidth="440.0">
+                     <image>
+                        <Image url="@seaImagen.gif" />
+                     </image>
+                  </ImageView>
+               </children></AnchorPane>
+            <AnchorPane fx:id="playerAnchorPane" layoutX="94.0" layoutY="204.0" prefHeight="440.0" prefWidth="440.0">
+               <children>
+                  <ImageView fitHeight="440.0" fitWidth="440.0">
+                     <image>
+                        <Image url="@seaImagen.gif" />
+                     </image>
+                  </ImageView>
+               </children></AnchorPane>
             <Button layoutX="969.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClickExit" prefHeight="51.0" prefWidth="54.0" stylesheets="@css/index.css" text="X" />
             <Label layoutX="69.0" layoutY="667.0" prefHeight="53.0" prefWidth="89.0" text="Agua">
                <font>

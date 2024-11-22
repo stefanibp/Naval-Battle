@@ -29,9 +29,9 @@ public class AircraftCarrier implements IShip {
         Pane root = new Pane();
         root.setPrefSize(160, 40); // Establecemos el tamaño del pane
 
-        // Ajustamos las coordenadas para centrar el portaaviones sin dejar espacio
-        double startX = 0;  // Coordenada X de inicio
-        double startY = 0;  // Coordenada Y de inicio
+        // Ajustamos las coordenadas para centrar el portaaviones
+        double startX = (root.getPrefWidth() - 160) / 2;  // Coordenada X de inicio centrada
+        double startY = (root.getPrefHeight() - 40) / 2;  // Coordenada Y de inicio centrada
 
         // Dibujamos las partes del portaaviones, ahora ajustados para no dejar espacios vacíos
         Ellipse back = new Ellipse(startX + 10, startY + 20, 10, 15);  // Ajustamos la posición
@@ -95,6 +95,4 @@ public class AircraftCarrier implements IShip {
     public void setCurrentRotation(int currentRotation) {
         this.currentRotation = currentRotation;
     }
-    
-
 }

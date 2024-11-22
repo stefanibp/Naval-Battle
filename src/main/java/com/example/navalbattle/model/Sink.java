@@ -17,6 +17,9 @@ public class Sink implements IMove {
     public Pane renderEffect() {
         Pane pane = new Pane();
 
+        // Calcular la nueva escala para hacer la figura un poco más grande
+        double scale = Math.min(48.0 / 40.0, 48.0 / 40.0); // Escala ligeramente mayor
+
         // Crear un degradado de colores para la llama
         LinearGradient gradient = new LinearGradient(
                 0, 0, 1, 1, true, null,
@@ -25,19 +28,19 @@ public class Sink implements IMove {
                 new Stop(1, Color.YELLOW)
         );
 
-        // Llama de hundido
+        // Llama de hundido: escalado y movida hacia la izquierda
         Polygon flame = new Polygon();
         flame.getPoints().addAll(
-                10.0, 0.0,
-                15.0, 10.0,
-                20.0, 5.0,
-                25.0, 15.0,
-                30.0, 5.0,
-                35.0, 10.0,
-                40.0, 0.0,
-                35.0, 20.0,
-                25.0, 30.0,
-                15.0, 20.0
+                (10.0 - 7.0) * scale, 0.0 * scale,  // Mover hacia la izquierda y agrandar
+                (15.0 - 7.0) * scale, 10.0 * scale,
+                (20.0 - 7.0) * scale, 5.0 * scale,
+                (25.0 - 7.0) * scale, 15.0 * scale,
+                (30.0 - 7.0) * scale, 5.0 * scale,
+                (35.0 - 7.0) * scale, 10.0 * scale,
+                (40.0 - 7.0) * scale, 0.0 * scale,
+                (35.0 - 7.0) * scale, 20.0 * scale,
+                (25.0 - 7.0) * scale, 30.0 * scale,
+                (15.0 - 7.0) * scale, 20.0 * scale
         );
         flame.setFill(gradient);
 
@@ -45,4 +48,3 @@ public class Sink implements IMove {
         return pane;
     }
 }
-

@@ -40,7 +40,7 @@ public class WelcomeController {
         enemyFleet = new IAFleet();
         enemyFleet.placeEnemyFleet(game.getEnemyBoard());
         fleetCoordinatesEnemy = enemyFleet.getEnemyFleetCoordinates();
-        fleetCoordinatesPlayer = enemyFleet.getEnemyFleetCoordinates();///////opcional
+        //fleetCoordinatesPlayer = enemyFleet.getEnemyFleetCoordinates();///////opcional
         game.printBoard();
 
 
@@ -83,7 +83,9 @@ public class WelcomeController {
 
     @FXML
     public void handleClickExit(ActionEvent event) {
+
         WelcomeStage.deleteInstance();
+
     }
     public void printBoard() {
         System.out.println("Tablero del Jugador:");
@@ -95,6 +97,9 @@ public class WelcomeController {
         for (ArrayList<Integer> row : fleetCoordinatesEnemy) {
             System.out.println(row);
         }
+    }
+    public void setfleetCoordinatesPlayer(ArrayList<ArrayList<Integer>> fleetCoordinatesPlayer) {
+        this.fleetCoordinatesPlayer = fleetCoordinatesPlayer;
     }
 
     @FXML

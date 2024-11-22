@@ -15,12 +15,12 @@ public class Miss implements IMove {
     public Pane renderEffect() {
         Pane pane = new Pane();
 
-        // Efecto visual con una "X" (editar con la figura correspondiente)
-        Line line1 = new Line(10, 10, 40, 40);
+        // Efecto visual con una "X" (moverla hacia la izquierda y arriba)
+        Line line1 = new Line(10 - 5, 10 - 5, 40 - 5, 40 - 5); // Mover 5 píxeles a la izquierda y arriba
         line1.setStroke(Color.RED);
         line1.setStrokeWidth(2);
 
-        Line line2 = new Line(40, 10, 10, 40);
+        Line line2 = new Line(40 - 5, 10 - 5, 10 - 5, 40 - 5); // Mover 5 píxeles a la izquierda y arriba
         line2.setStroke(Color.RED);
         line2.setStrokeWidth(2);
 
