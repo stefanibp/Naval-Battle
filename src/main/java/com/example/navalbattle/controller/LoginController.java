@@ -12,9 +12,6 @@ import javafx.scene.control.TextField;
  * The controller class for managing the login functionality in the naval battle game.
  * It handles the user's input for the username and manages transitions to the game stages.
  *
- * @author Jerson Alexis Ortiz Velasco
- * @author Jhon Antony Murillo Olave
- * @author Stefania Bolaños Perdomo
  * @version 1.0
  * @since 1.0
  */
@@ -34,26 +31,31 @@ public class LoginController {
      */
     @FXML
     void buttonPlayGame(ActionEvent event) {
-        if (userTxt != null && !userTxt.getText().isEmpty()) {
-            String userInput = userTxt.getText();
-            System.out.println("The user entered: " + userInput);
+        try {
+            if (userTxt != null && !userTxt.getText().isEmpty()) {
+                String userInput = userTxt.getText();
+                System.out.println("The user entered: " + userInput);
 
-            // Save the username to a file (optional)
-            PlainTextFileHandler fileHandler = new PlainTextFileHandler();
-            fileHandler.writeToFile("usuario.txt", userInput);
+                // Save the username to a file (optional)
+                PlainTextFileHandler fileHandler = new PlainTextFileHandler();
+                fileHandler.writeToFile("usuario.txt", userInput);
 
-            // Set the username in the GameController
-            game = WelcomeController.getInstance().getGame();
-            saveGameBoards(game);
+                // Set the username in the GameController
+                game = WelcomeController.getInstance().getGame();
+                saveGameBoards(game);
 
-            // Proceed with deleting the LoginStage instance and opening the FleetStage
-            LoginStage.deleteInstance();
-            FleetStage.getInstance();
+                // Proceed with deleting the LoginStage instance and opening the FleetStage
+                LoginStage.deleteInstance();
+                FleetStage.getInstance();
 
-            // Create the enemy fleet and place it on the board
+                // Create the enemy fleet and place it on the board
 
-        } else {
-            System.out.println("No username was entered.");
+            } else {
+                System.out.println("No username was entered.");
+            }
+        } catch (Exception e) {
+            // Handle unchecked exception
+            System.err.println("Error during Play Game action: " + e.getMessage());
         }
     }
 
@@ -63,9 +65,14 @@ public class LoginController {
      * @param game the game object containing the game boards to be serialized
      */
     private void saveGameBoards(Game game) {
-        SerializableFileHandler fileHandler = new SerializableFileHandler();
-        String fileName = "game_boards.dat";
-        fileHandler.serialize(fileName, game);  // Serializes the entire game object
+        try {
+            SerializableFileHandler fileHandler = new SerializableFileHandler();
+            String fileName = "game_boards.dat";
+            fileHandler.serialize(fileName, game);  // Serializes the entire game object
+        } catch (Exception e) {
+            // Handle unchecked exception
+            System.err.println("Error saving game boards: " + e.getMessage());
+        }
     }
 
     /**
@@ -76,7 +83,21 @@ public class LoginController {
      */
     @FXML
     void handleClickExit(ActionEvent event) {
-        LoginStage.deleteInstance();
-        WelcomeStage.getInstance(); // Optional if you choose to reactivate this line
+        try {
+            LoginStage.deleteInstance();
+            WelcomeStage.getInstance(); // Optional if you choose to reactivate this line
+        } catch (Exception e) {
+            // Handle unchecked exception
+            System.err.println("Error during Exit action: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Custom exception for login-related errors.
+     */
+    public static class LoginException extends Exception {
+        public LoginException(String message, Throwable cause) {
+            super(message, cause);
+        }
     }
 }

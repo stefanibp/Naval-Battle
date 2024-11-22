@@ -54,7 +54,7 @@ public class Board {
         board.setLayoutX(0);
         board.setLayoutY(0);
 
-        // Letras para la primera fila
+
         String[] letters = {"A", "B", "C", "D", "E", "F", "G", "H", "I", "J"};
 
         for (int row = 0; row <= 10; row++) {
@@ -80,11 +80,7 @@ public class Board {
                     Button cell = new Button(String.valueOf(value));
                     cell.setPrefSize(40, 40);
 
-                   /* if (value == 0) {
-                        cell.setStyle("-fx-border-color: grey; -fx-background-color: #3e8ee8;");
-                    } else {
-                        cell.setStyle("-fx-border-color: white; -fx-background-color: red;");
-                    }      */
+
                     cell.setStyle("-fx-border-color: grey; -fx-background-color: transparent;");
                     board.add(cell, col, row);
                 }
