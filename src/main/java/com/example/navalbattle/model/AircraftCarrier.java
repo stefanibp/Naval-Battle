@@ -2,7 +2,6 @@ package com.example.navalbattle.model;
 
 import com.example.navalbattle.view.Shape;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
@@ -22,7 +21,6 @@ import javafx.scene.transform.Rotate;
  * @since 1.0
  */
 public class AircraftCarrier implements IShip {
-    private int currentRotation = 0;
 
     private int currentRotation = 0;
     private int rotationAngle = 0;  // Rotation angle (0, 90, 180, 270)
@@ -53,7 +51,6 @@ public class AircraftCarrier implements IShip {
      * @return A {@link Pane} containing the graphical representation of the Aircraft Carrier.
      */
     @Override
-
     public Pane render() {
         // Create a pane with dimensions of 160px in length and 40px in width
         Pane root = new Pane();
@@ -67,21 +64,14 @@ public class AircraftCarrier implements IShip {
         Ellipse back = new Ellipse(startX + 10, startY + 20, 10, 15);  // Adjusted position
         back.setFill(Color.DARKGRAY);
         root.getChildren().add(back);
-        back.setTranslateX(-55);
-        back.setTranslateY(0);
 
-
-        Rectangle body = Shape.square(60, 135, 120, 30, Color.BLACK);
+        Rectangle body = Shape.square(startX + 0, startY + 5, 120, 30, Color.DARKGRAY);  // Adjusted position
         root.getChildren().add(body);
 
-        Ellipse front = Shape.ellipseStyle(180, 150, 25, 15, Color.BLACK);
+        Ellipse front = Shape.ellipseStyle(startX + 120, startY + 20, 25, 15, Color.DARKGRAY);  // Adjusted position
         root.getChildren().add(front);
 
-        front.setTranslateX(55);
-        front.setTranslateY(0);
-
-        Line runway = new Line(70, 160, 150, 140);
-
+        Line runway = new Line(startX + 15, startY + 30, startX + 135, startY + 5);  // Adjusted position
         runway.setStroke(Color.WHITE);
         runway.setStrokeWidth(2);
         runway.getStrokeDashArray().addAll(6.0, 10.0);
@@ -93,12 +83,7 @@ public class AircraftCarrier implements IShip {
         // Create and add windows to the tower
         Rectangle window1 = Shape.square(startX + 135, startY + 2, 3, 3, Color.LIGHTGRAY);
         Rectangle window2 = Shape.square(startX + 142, startY + 2, 3, 3, Color.LIGHTGRAY);
-
         root.getChildren().addAll(window1, window2);
-        window1.setTranslateX(65);
-        window1.setTranslateY(-10);
-        window2.setTranslateX(55);
-        window2.setTranslateY(-10);
 
         // Create and add airplane shapes on the aircraft carrier
         Polygon airplane1 = createAirplane(startX + 25, startY + 10);  // Adjusted position
@@ -111,7 +96,7 @@ public class AircraftCarrier implements IShip {
         rotate.setPivotX(startX + 80);   // Set the rotation pivot X-coordinate
         rotate.setPivotY(startY + 20);   // Set the rotation pivot Y-coordinate
         root.getTransforms().add(rotate);
-      
+
         return root;
     }
 
@@ -128,7 +113,7 @@ public class AircraftCarrier implements IShip {
                 x - 5, y + 10,
                 x + 5, y + 10
         );
-        airplane.setFill(Color.WHITE);
+        airplane.setFill(Color.LIGHTGRAY);
         return airplane;
     }
 

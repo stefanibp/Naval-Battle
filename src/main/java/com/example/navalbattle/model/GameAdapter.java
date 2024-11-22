@@ -5,11 +5,6 @@ import java.util.ArrayList;
 public abstract class GameAdapter implements IGame {
 
     @Override
-    public ArrayList<ArrayList<Integer>> generateBoard10x10() {
-        return new ArrayList<>();
-    }
-
-    @Override
     public void initializeBoardList(){}
 
     @Override

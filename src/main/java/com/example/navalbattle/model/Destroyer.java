@@ -2,7 +2,6 @@ package com.example.navalbattle.model;
 
 import com.example.navalbattle.view.Shape;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Rectangle;
@@ -65,14 +64,12 @@ public class Destroyer implements IShip {
 
         // Create and add the body of the ship
         Rectangle body = Shape.square(10, 5, 60, 30, Color.DARKGRAY);
-
         body.setArcWidth(20);
         body.setArcHeight(40);
         root.getChildren().add(body);
 
         // Create and add squares to the body of the ship
         double squareSize = 10;
-
         Rectangle square1 = Shape.squareStyle(25, 8, squareSize, squareSize, Color.GREY);
         Rectangle square2 = Shape.squareStyle(38, 8, squareSize, squareSize, Color.GREY);
         Rectangle square3 = Shape.squareStyle(25, 22, squareSize, squareSize, Color.GREY);
@@ -90,7 +87,6 @@ public class Destroyer implements IShip {
                 30.0 + deltaX, 25.0 + deltaY,
                 30.0 + deltaX, 10.0 + deltaY
         );
-      
         hexagon.setFill(Color.GREY);
         hexagon.setStrokeWidth(0);
         root.getChildren().add(hexagon);
@@ -99,12 +95,6 @@ public class Destroyer implements IShip {
         Ellipse e1 = Shape.circleStyle(3, 3, Color.GREY, Color.BLACK, 1.0, 20, 25);
         Ellipse e2 = Shape.circleStyle(3, 3, Color.GREY, Color.BLACK, 1.0, 20, 15);
         root.getChildren().addAll(e1, e2);
-
-        e1.setTranslateX(-25);
-        e1.setTranslateY(-6);
-
-        e2.setTranslateX(-25);
-        e2.setTranslateY(6);
 
         return root;
     }
@@ -139,4 +129,3 @@ public class Destroyer implements IShip {
         this.currentRotation = currentRotation;
     }
 }
-

@@ -33,7 +33,11 @@ import java.util.List;
  * @since 1.0
  */
 public class FleetController {
-
+    /**
+     * Handles the start of the game by saving the player's fleet coordinates and switching to the game stage.
+     *
+     * @param event the action event triggered by the user to start the game
+     */
     @FXML
     private Game game;
     @FXML
@@ -62,27 +66,6 @@ public class FleetController {
 
     private int totalShip = 0, address = 0,  rowI = 0, rowE = 0, colI = 0, colE = 0;
 
-    /**
-     * Handles the start of the game by saving the player's fleet coordinates and switching to the game stage.
-     *
-     * @param event the action event triggered by the user to start the game
-     */
-    @FXML
-    private Pane boardWater;
-
-    private GridPane playerBoard;
-
-    private int frigateCount = 0; // Contador para las fragatas colocadas
-    private static final int MAX_FRIGATES = 4; // Límite máximo
-
-    private int destroyerCount = 0;
-    private static final int MAX_DESTROYER = 3;
-
-    private int aircraftCarrierCount = 0;
-    private static final int MAX_AIRCRAFTCARRIER = 1;
-
-    private int submarineCount = 0;
-    private static final int MAX_SUBMARINE = 2;
 
     @FXML
     void buttonStartGame(ActionEvent event) {
@@ -122,7 +105,7 @@ public class FleetController {
         initializeBoardList();
         game = WelcomeController.getInstance().getGame();
                 game.printBoard();
-    playerBoard = new Board().createBoardPlayer(game.getPlayerBoard());
+        playerBoard = new Board().createBoardPlayer(game.getPlayerBoard());
         playerAnchorPane.getChildren().add(playerBoard);
         fleetView();
     }
@@ -494,7 +477,7 @@ public class FleetController {
                             System.out.println(t);
                         }
 
-                        
+
                         playerAnchorPane.getChildren().add(clonedPane);
                         boardWater.getChildren().remove(clonedPane);
 
