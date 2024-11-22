@@ -222,13 +222,21 @@ public class FleetController {
 
                 if (isValidPlacement) {
                     // Ajustar el barco al inicio de las posiciones ocupadas
-                    Point2D startPosition = occupiedPositions.get(0);
-                    double newLayoutX = startPosition.getY() * cellSize; // Columna determina X
-                    double newLayoutY = startPosition.getX() * cellSize; // Fila determina Y
+                    double moveX = -10;  // Ajuste en X para mover hacia la izquierda (puedes cambiar este valor)
+                    double moveY = -5;  // Ajuste en Y para mover hacia arriba (puedes cambiar este valor)
 
-                    // < posicionando los barcos en el playerAnchordPane >
+// Ajustar el barco al inicio de las posiciones ocupadas
+                    Point2D startPosition = occupiedPositions.get(0);
+                    double newLayoutX = startPosition.getY() * cellSize + moveX; // Columna determina X
+                    double newLayoutY = startPosition.getX() * cellSize + moveY; // Fila determina Y
+
+// < posicionando los barcos en el playerAnchorPane >
                     @SuppressWarnings("unchecked")
                     T associatedShip = (T) clonedPane.getUserData();
+
+// Ajustar la posición del barco
+                    clonedPane.setLayoutX(newLayoutX);
+                    clonedPane.setLayoutY(newLayoutY);
 
 
                     switch (associatedShip.getSize()) {
