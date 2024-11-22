@@ -1,29 +1,53 @@
 package com.example.navalbattle.exceptions;
 
-// Excepción personalizada (no marcada)
+/**
+ * @author Jerson Alexis Ortiz Velasco
+ * @author Jhon Antony Murillo Olave
+ * @author Stefania Bolaños Perdomo
+ * @version 1.0
+ * @since 1.0
+ *
+ * Custom exception class for handling repeated shots in the game.
+ * This exception is thrown when the player attempts to shoot in the same spot again.
+ */
 public class RepeatedShotException extends RuntimeException {
 
-    // Constructor por defecto
+    /**
+     * Default constructor for the RepeatedShotException.
+     * Calls the constructor of the superclass RuntimeException.
+     */
     public RepeatedShotException() {
-        super(); // Llama al constructor de la clase RuntimeException
+        super(); // Calls the constructor of RuntimeException
     }
 
-    // Constructor con mensaje personalizado
+    /**
+     * Constructor with a custom message.
+     *
+     * @param message The detailed message explaining the cause of the exception.
+     */
     public RepeatedShotException(String message) {
-        super(message); // Pasa el mensaje al constructor de la clase RuntimeException
+        super(message); // Passes the message to the constructor of RuntimeException
     }
 
-    // Constructor con mensaje personalizado y causa
+    /**
+     * Constructor with a custom message and a cause.
+     *
+     * @param message The detailed message explaining the cause of the exception.
+     * @param cause The cause of the exception (can be another throwable).
+     */
     public RepeatedShotException(String message, Throwable cause) {
-        super(message, cause); // Pasa el mensaje y la causa al constructor de la clase RuntimeException
+        super(message, cause); // Passes the message and cause to the constructor of RuntimeException
     }
 
-    // Constructor con causa
+    /**
+     * Constructor with a cause.
+     *
+     * @param cause The cause of the exception (can be another throwable).
+     */
     public RepeatedShotException(Throwable cause) {
-        super(cause); // Pasa la causa al constructor de la clase RuntimeException
+        super(cause); // Passes the cause to the constructor of RuntimeException
     }
 }
-
 
 //(Excepción No Marcada, Personalizada)
 //Propósito: Prevenir que un jugador (humano o máquina) dispare dos veces a la misma celda.

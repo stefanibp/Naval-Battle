@@ -6,13 +6,31 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 
+/**
+ * @author Jerson Alexis Ortiz Velasco
+ * @author Jhon Antony Murillo Olave
+ * @author Stefania Bolaños Perdomo
+ * @version 1.0
+ * @since 1.0
+ *
+ * Class representing a hit move in the game. This class implements the IMove interface
+ * and is responsible for executing a "hit" action and rendering the visual effect of the hit.
+ */
 public class Hit implements IMove {
 
+    /**
+     * Executes the hit action by printing a message indicating that the target has been hit.
+     */
     @Override
     public void execute() {
         System.out.println("¡Tocado! El jugador puede volver a disparar.");
     }
 
+    /**
+     * Renders the visual effect of a hit, displaying an explosion effect on the game board.
+     *
+     * @return A Pane containing the visual effect of the hit (explosion).
+     */
     @Override
     public Pane renderEffect() {
         Pane pane = new Pane();
@@ -48,3 +66,4 @@ public class Hit implements IMove {
         return pane;
     }
 }
+
