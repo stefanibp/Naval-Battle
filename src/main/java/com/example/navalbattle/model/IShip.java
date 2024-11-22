@@ -37,6 +37,7 @@ public interface IShip {
      * @return A Pane containing the ship's visual representation.
      */
     Pane render();
+  
     IShip clone();
 
     int getCurrentRotation();

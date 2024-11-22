@@ -18,7 +18,6 @@ import java.util.Random;
  */
 public class Game implements IGame, Serializable {
 
-
     private static final long serialVersionUID = 1L;  // Añadido para compatibilidad de serialización
 
     private ArrayList<ArrayList<Integer>> playerBoard;
@@ -64,7 +63,21 @@ public class Game implements IGame, Serializable {
             playerBoard.add(playerRow);
             enemyBoard.add(enemyRow);
         }
+    }
 
+    @Override
+    public ArrayList<ArrayList<Integer>> generateBoard10x10() {
+        ArrayList<ArrayList<Integer>> board = new ArrayList<>();
+
+        // Crear una estructura de 11x11 llena de ceros
+        for (int i = 0; i < 10; i++) {
+            ArrayList<Integer> row = new ArrayList<>();
+            for (int j = 0; j < 10; j++) {
+                row.add(0); // Añadir un cero a cada celda
+            }
+            board.add(row); // Añadir cada fila a la lista principal
+        }
+        return board;
     }
 
     /**

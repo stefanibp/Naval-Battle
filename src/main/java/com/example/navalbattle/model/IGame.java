@@ -13,7 +13,6 @@ import java.util.ArrayList;
  * Provides methods to initialize boards, get and set board values, and print boards.
  */
 public interface IGame {
-
     /**
      * Initializes the boards for both the player and the enemy.
      */

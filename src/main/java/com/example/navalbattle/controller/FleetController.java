@@ -1,5 +1,6 @@
 package com.example.navalbattle.controller;
 
+
 import com.example.navalbattle.model.Board;
 import com.example.navalbattle.model.Game;
 import com.example.navalbattle.model.IAFleet;
@@ -8,6 +9,9 @@ import com.example.navalbattle.view.FleetStage;
 import com.example.navalbattle.view.GameStage;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Bounds;
+import javafx.geometry.Point2D;
+import javafx.scene.Node;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import java.util.ArrayList;
@@ -64,6 +68,23 @@ public class FleetController {
      * @param event the action event triggered by the user to start the game
      */
     @FXML
+    private Pane boardWater;
+
+    private GridPane playerBoard;
+
+    private int frigateCount = 0; // Contador para las fragatas colocadas
+    private static final int MAX_FRIGATES = 4; // Límite máximo
+
+    private int destroyerCount = 0;
+    private static final int MAX_DESTROYER = 3;
+
+    private int aircraftCarrierCount = 0;
+    private static final int MAX_AIRCRAFTCARRIER = 1;
+
+    private int submarineCount = 0;
+    private static final int MAX_SUBMARINE = 2;
+
+    @FXML
     void buttonStartGame(ActionEvent event) {
               /*  if(frigateCount == MAX_FRIGATES && destroyerCount == MAX_DESTROYER && aircraftCarrierCount == MAX_AIRCRAFTCARRIER && submarineCount == MAX_SUBMARINE){
                     FleetStage.deleteInstance();
@@ -80,7 +101,6 @@ public class FleetController {
 
         FleetStage.deleteInstance();
         GameStage.getInstance();
-
     }
 
     /**
@@ -106,6 +126,7 @@ public class FleetController {
         playerAnchorPane.getChildren().add(playerBoard);
         fleetView();
     }
+
 
     /**
      * Initializes the list of fleet coordinates with default values.

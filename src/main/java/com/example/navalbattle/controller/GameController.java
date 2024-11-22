@@ -1,5 +1,6 @@
 package com.example.navalbattle.controller;
 
+
 import com.example.navalbattle.model.*;
 import com.example.navalbattle.view.*;
 import com.example.navalbattle.view.GameStage;
@@ -62,6 +63,7 @@ public class GameController {
 
     @FXML
     private Label idUser;
+
     private static String staticUserName; // Static variable to temporarily store the username
     private String userName; // Local variable in the controller instance
 

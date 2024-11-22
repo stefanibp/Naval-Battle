@@ -2,9 +2,11 @@ package com.example.navalbattle.model;
 
 import com.example.navalbattle.view.Shape;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
+import javafx.geometry.Insets;
 
 /**
  * Represents a Frigate ship in the Naval Battle game.
@@ -20,6 +22,7 @@ import javafx.scene.shape.Polygon;
 public class Frigate implements IShip {
 
     private int currentRotation = 0;
+
 
     /**
      * Gets the name of the ship.
@@ -47,6 +50,7 @@ public class Frigate implements IShip {
      * @return A {@link Pane} containing the graphical representation of the Frigate.
      */
     @Override
+
     public Pane render() {
         // Create a Pane for the Frigate's graphical representation
         Pane root = new Pane();
@@ -78,6 +82,7 @@ public class Frigate implements IShip {
 
         return root;
     }
+
 
     /**
      * Creates a copy of the current Frigate object.

@@ -2,6 +2,7 @@ package com.example.navalbattle.model;
 
 import com.example.navalbattle.view.Shape;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Ellipse;
 import javafx.scene.shape.Line;
@@ -59,6 +60,7 @@ public class Submarine implements IShip {
 
         // Draw the submarine's body with adjusted coordinates
         Rectangle body = Shape.square(startX + 15, startY + 10, 90, 20, Color.DARKGRAY);
+
         body.setArcWidth(40);
         body.setArcHeight(40);
         root.getChildren().add(body);
@@ -110,6 +112,7 @@ public class Submarine implements IShip {
     public int getCurrentRotation() {
         return currentRotation;
     }
+
 
     /**
      * Sets the current rotation of the submarine.

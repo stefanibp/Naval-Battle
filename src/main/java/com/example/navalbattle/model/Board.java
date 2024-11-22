@@ -1,5 +1,6 @@
 package com.example.navalbattle.model;
 
+
 import com.example.navalbattle.controller.WelcomeController;
 import javafx.animation.PauseTransition;
 import javafx.geometry.Point2D;
@@ -11,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.Node;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,7 +92,6 @@ public class Board {
      * @return a GridPane representing the player's board.
      */
     public GridPane createBoardPlayer(ArrayList<ArrayList<Integer>> boards) {
-
         GridPane board = new GridPane();
         board.setPrefSize(440, 440);
         board.setLayoutX(0);
@@ -119,7 +120,6 @@ public class Board {
                             + "-fx-background-color: #c8c8c8; -fx-font-weight: bold;");
                     board.add(label, col, row);
                 } else if (row > 0 && col > 0) {
-
                     int value = boards.get(row - 1).get(col - 1);
                     Button cell = new Button(String.valueOf(value));
                     cell.setPrefSize(40, 40);
@@ -235,7 +235,6 @@ public class Board {
 
                     } else {
                         boardPlayer = board;
-
                     }
 
                     board.add(cell, col, row);

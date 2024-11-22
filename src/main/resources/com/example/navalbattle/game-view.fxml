@@ -46,17 +46,17 @@
             <Button layoutX="969.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleClickExit" prefHeight="51.0" prefWidth="54.0" stylesheets="@css/index.css" text="X" />
             <Label layoutX="69.0" layoutY="667.0" prefHeight="53.0" prefWidth="89.0" text="Agua">
                <font>
-                  <Font size="36.0" />
+                  <Font size="25.0" />
                </font>
             </Label>
             <Label layoutX="232.0" layoutY="668.0" prefHeight="53.0" prefWidth="122.0" text="Tocado">
                <font>
-                  <Font size="36.0" />
+                  <Font size="25.0" />
                </font>
             </Label>
             <Label layoutX="429.0" layoutY="667.0" prefHeight="53.0" prefWidth="142.0" text="Hundido">
                <font>
-                  <Font size="36.0" />
+                  <Font size="25.0" />
                </font>
             </Label>
             <Label fx:id="idUser" layoutX="51.0" layoutY="47.0" prefHeight="72.0" prefWidth="917.0" />

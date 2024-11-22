@@ -12,7 +12,7 @@
          <children>
             <ImageView fitHeight="746.0" fitWidth="749.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@node-navy.gif" />
+                  <Image url="@com/example/navalbattle/node-navy.gif" />
                </image>
             </ImageView>
             <Button layoutX="653.0" layoutY="16.0" mnemonicParsing="false" onAction="#handleClickExit" prefHeight="51.0" prefWidth="54.0" stylesheets="@css/index.css" text="X" />
@@ -21,7 +21,7 @@
                   <Font name="Consolas Bold" size="24.0" />
                </font>
             </Button>
-            <Button fx:id="buttonPlayGame1" layoutX="21.0" layoutY="630.0" mnemonicParsing="false" onAction="#handleClickContinue" prefHeight="94.0" prefWidth="319.0" stylesheets="@css/index.css" text="CONTINUAR" textFill="#f5f5f5">
+            <Button fx:id="buttonPlayGame1" layoutX="21.0" layoutY="630.0" mnemonicParsing="false" onAction="#handleClickContinue" prefHeight="94.0" prefWidth="319.0" stylesheets="@com/example/navalbattle/css/index.css" text="CONTINUAR" textFill="#f5f5f5">
                <font>
                   <Font name="Consolas Bold" size="24.0" />
                </font>
