@@ -1,6 +1,7 @@
 package com.example.navalbattle.model;
 
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 
 /**
  * Represents a ship in the Naval Battle game.
@@ -36,4 +37,9 @@ public interface IShip {
      * @return A Pane containing the ship's visual representation.
      */
     Pane render();
+    IShip clone();
+
+    int getCurrentRotation();
+
+    void setCurrentRotation(int currentRotation);
 }

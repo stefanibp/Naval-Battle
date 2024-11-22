@@ -4,37 +4,35 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
+ * Represents the AI-controlled fleet placement logic for the Naval Battle game.
+ * This class is responsible for randomly placing ships on the enemy's game board while ensuring valid placements.
+ * Ships are surrounded by water and do not overlap.
+ *
  * @author Jerson Alexis Ortiz Velasco
- * @author Jhon Antony Murillo Olave
+ * @author Jhon Antony Murillo
  * @author Stefania Bolaños Perdomo
  * @version 1.0
  * @since 1.0
- *
- * Class to represent the enemy fleet and its logic in the game.
- * Handles the placement of the enemy fleet on the board, ensuring that ships do not overlap
- * and are placed in valid locations. It also stores and prints the fleet's information.
  */
 public class IAFleet {
 
-    private static final int boardSize = 10; // Board size (adjust as necessary)
-    private ArrayList<String> enemyFleetInfo;
+    private static final int boardSize = 10; // Board size
+    private ArrayList<ArrayList<Integer>> enemyFleetCoordinates; // Nested list for fleet coordinates
 
     /**
-     * Constructor to initialize the enemy fleet information list.
+     * Constructor to initialize the AI Fleet.
      */
     public IAFleet() {
-        enemyFleetInfo = new ArrayList<>();
+        enemyFleetCoordinates = new ArrayList<>();
     }
 
     /**
-     * Places the enemy fleet on the board. It ensures that the ships are placed in valid positions
-     * and does not overlap with other ships.
-     * The fleet consists of ships of different sizes, and their placement is random.
+     * Places the enemy fleet randomly on the game board.
      *
-     * @param enemyBoard The board where the enemy fleet will be placed.
+     * @param enemyBoard A 2D board represented as a list of lists where ships are placed.
      */
     public void placeEnemyFleet(ArrayList<ArrayList<Integer>> enemyBoard) {
-        // Ships with their respective sizes
+        // Define the fleet: size and quantity of ships
         int[][] fleet = {
                 {4, 1}, // 1 aircraft carrier of size 4
                 {3, 2}, // 2 submarines of size 3
@@ -52,25 +50,25 @@ public class IAFleet {
                 boolean placed = false;
 
                 while (!placed) {
-                    int row = rand.nextInt(boardSize);
-                    int col = rand.nextInt(boardSize);
+                    int rowStart = rand.nextInt(boardSize);
+                    int colStart = rand.nextInt(boardSize);
                     boolean horizontal = rand.nextBoolean();
 
-                    if (canPlaceShip(row, col, size, horizontal, enemyBoard)) {
-                        placeShip(row, col, size, horizontal, size, enemyBoard);
+                    if (canPlaceShip(rowStart, colStart, size, horizontal, enemyBoard)) {
+                        int rowEnd = horizontal ? rowStart : rowStart + size - 1;
+                        int colEnd = horizontal ? colStart + size - 1 : colStart;
 
-                        // Determine ship's direction
-                        String direction = "";
-                        if (horizontal) {
-                            direction = col > 0 ? "right" : "left";  // Determine horizontal direction
-                        } else {
-                            direction = row > 0 ? "down" : "up";  // Determine vertical direction
-                        }
+                        placeShip(rowStart, colStart, size, horizontal, size, enemyBoard);
 
-                        // Save ship info as a string with direction
-                        String shipInfo = "Ship of size " + size + " placed at (" + row + "," + col + ") "
-                                + (horizontal ? "horizontally towards " + direction : "vertically towards " + direction);
-                        enemyFleetInfo.add(shipInfo);
+                        // Store the size and coordinates in the nested list
+                        ArrayList<Integer> shipCoordinates = new ArrayList<>();
+                        shipCoordinates.add(size);
+                        shipCoordinates.add(rowStart);
+                        shipCoordinates.add(colStart);
+                        shipCoordinates.add(rowEnd);
+                        shipCoordinates.add(colEnd);
+
+                        enemyFleetCoordinates.add(shipCoordinates);
 
                         placed = true;
                     }
@@ -78,23 +76,16 @@ public class IAFleet {
             }
         }
 
-        // Print enemy fleet information
-        System.out.println("Enemy fleet information:");
-        for (String shipInfo : enemyFleetInfo) {
-            System.out.println(shipInfo);
+        // Print the fleet's coordinates
+        System.out.println("Enemy fleet coordinates:");
+        for (ArrayList<Integer> shipCoords : enemyFleetCoordinates) {
+            System.out.println("Ship of size " + shipCoords.get(0) +
+                    " from (" + shipCoords.get(1) + ", " + shipCoords.get(2) +
+                    ") to (" + shipCoords.get(3) + ", " + shipCoords.get(4) + ")");
         }
     }
 
-    /**
-     * Helper method to check if a ship can be placed at the specified position and direction.
-     *
-     * @param row The starting row of the ship.
-     * @param col The starting column of the ship.
-     * @param size The size of the ship.
-     * @param horizontal True if the ship is placed horizontally, false if vertically.
-     * @param board The game board to check placement validity.
-     * @return True if the ship can be placed, false otherwise.
-     */
+    // Helper method to check if a ship can be placed in a position and direction
     private boolean canPlaceShip(int row, int col, int size, boolean horizontal, ArrayList<ArrayList<Integer>> board) {
         int dr = horizontal ? 0 : 1; // Row increment if vertical
         int dc = horizontal ? 1 : 0; // Column increment if horizontal
@@ -111,16 +102,7 @@ public class IAFleet {
         return true;
     }
 
-    /**
-     * Helper method to place a ship on the board.
-     *
-     * @param row The starting row of the ship.
-     * @param col The starting column of the ship.
-     * @param size The size of the ship.
-     * @param horizontal True if the ship is placed horizontally, false if vertically.
-     * @param shipValue The value representing the ship on the board.
-     * @param board The game board where the ship will be placed.
-     */
+    // Helper method to place a ship on the board
     private void placeShip(int row, int col, int size, boolean horizontal, int shipValue, ArrayList<ArrayList<Integer>> board) {
         int dr = horizontal ? 0 : 1;
         int dc = horizontal ? 1 : 0;
@@ -132,25 +114,12 @@ public class IAFleet {
         }
     }
 
-    /**
-     * Checks if a cell is within the bounds of the board.
-     *
-     * @param row The row to check.
-     * @param col The column to check.
-     * @return True if the cell is within the board's bounds, false otherwise.
-     */
+    // Checks if a cell is within the board boundaries
     private boolean isWithinBounds(int row, int col) {
         return row >= 0 && row < boardSize && col >= 0 && col < boardSize;
     }
 
-    /**
-     * Checks if a cell is surrounded by water (no other ships adjacent).
-     *
-     * @param row The row of the cell to check.
-     * @param col The column of the cell to check.
-     * @param board The game board to check the surrounding cells.
-     * @return True if the cell is surrounded by water, false otherwise.
-     */
+    // Checks if a cell is surrounded by water
     private boolean isCellSurroundedByWater(int row, int col, ArrayList<ArrayList<Integer>> board) {
         for (int r = row - 1; r <= row + 1; r++) {
             for (int c = col - 1; c <= col + 1; c++) {
@@ -163,11 +132,11 @@ public class IAFleet {
     }
 
     /**
-     * Retrieves the enemy fleet's information.
+     * Public method to get the enemy fleet coordinates.
      *
-     * @return A list of strings containing information about the enemy fleet's ships.
+     * @return A nested list of enemy fleet coordinates.
      */
-    public ArrayList<String> getEnemyFleetInfo() {
-        return enemyFleetInfo;
+    public ArrayList<ArrayList<Integer>> getEnemyFleetCoordinates() {
+        return enemyFleetCoordinates;
     }
 }

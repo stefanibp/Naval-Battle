@@ -14,7 +14,7 @@ import javafx.scene.shape.Polygon;
  * using a flame-like shape with a color gradient.
  *
  * @author Jerson Alexis Ortiz Velasco
- * @author Jhon Antony Murillo
+ * @author Jhon Antony Murillo Olave
  * @author Stefania Bolaños Perdomo
  * @version 1.0
  * @since 1.0
@@ -31,16 +31,19 @@ public class Sink implements IMove {
     }
 
     /**
-     * Renders a visual effect representing a sinking ship.
-     * The effect is depicted as a flame with a gradient transitioning from red to yellow.
+     * Renders a graphical effect representing the sinking of a ship.
+     * The effect is depicted as a flame-like shape with a gradient color transition.
      *
-     * @return a {@link Pane} containing the graphical elements of the sinking effect.
+     * @return a {@link Pane} containing the flame graphical effect.
      */
     @Override
     public Pane renderEffect() {
         Pane pane = new Pane();
 
-        // Create a gradient for the flame effect
+        // Calculate a new scale to enlarge the figure slightly
+        double scale = Math.min(48.0 / 40.0, 48.0 / 40.0); // Slightly larger scale
+
+        // Create a color gradient for the flame
         LinearGradient gradient = new LinearGradient(
                 0, 0, 1, 1, true, null,
                 new Stop(0, Color.RED),
@@ -48,19 +51,19 @@ public class Sink implements IMove {
                 new Stop(1, Color.YELLOW)
         );
 
-        // Define the flame shape
+        // Flame shape for the sinking effect: scaled and shifted left
         Polygon flame = new Polygon();
         flame.getPoints().addAll(
-                10.0, 0.0,
-                15.0, 10.0,
-                20.0, 5.0,
-                25.0, 15.0,
-                30.0, 5.0,
-                35.0, 10.0,
-                40.0, 0.0,
-                35.0, 20.0,
-                25.0, 30.0,
-                15.0, 20.0
+                (10.0 - 7.0) * scale, 0.0 * scale,  // Shifted left and enlarged
+                (15.0 - 7.0) * scale, 10.0 * scale,
+                (20.0 - 7.0) * scale, 5.0 * scale,
+                (25.0 - 7.0) * scale, 15.0 * scale,
+                (30.0 - 7.0) * scale, 5.0 * scale,
+                (35.0 - 7.0) * scale, 10.0 * scale,
+                (40.0 - 7.0) * scale, 0.0 * scale,
+                (35.0 - 7.0) * scale, 20.0 * scale,
+                (25.0 - 7.0) * scale, 30.0 * scale,
+                (15.0 - 7.0) * scale, 20.0 * scale
         );
         flame.setFill(gradient);
 
@@ -68,5 +71,4 @@ public class Sink implements IMove {
         return pane;
     }
 }
-
 

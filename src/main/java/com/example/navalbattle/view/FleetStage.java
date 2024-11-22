@@ -40,8 +40,7 @@ public class FleetStage extends Stage {
         }
         Scene scene = new Scene(root);
         setScene(scene);
-        setTitle("BATALLA NAVAL");
-        getIcons().add(new Image(String.valueOf(getClass().getResource("/com/example/navalbattle/favicon.png"))));
+        setTitle("Batalla naval");
         setResizable(false);
         show();
     }

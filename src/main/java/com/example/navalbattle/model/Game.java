@@ -14,16 +14,19 @@ public class Game implements IGame, Serializable {
     private ArrayList<ArrayList<Integer>> playerBoard;
     private ArrayList<ArrayList<Integer>> enemyBoard;
     private int boardSize;
+    private static Game instance;
 
     // Constructor
+
     public Game(int boardSize) {
-        this.boardSize = boardSize;
         this.boardSize = boardSize;
         this.playerBoard = new ArrayList<>();
         this.enemyBoard = new ArrayList<>();
     }
-    public int getSize() {
-        return boardSize;
+
+    public static Game getInstance() {
+      
+        return instance;
     }
 
     // Métodos de la interfaz IGame
@@ -43,26 +46,41 @@ public class Game implements IGame, Serializable {
     }
 
     public void modifyRandomCell() {
-
         Random rand = new Random();
 
-        // Elegir aleatoriamente si se modifica el tablero del jugador o el del enemigo
-        // Pero solo vamos a modificar el tablero del jugador con el número 5
-        boolean isPlayerBoard = true; // Siempre es el tablero del jugador en este caso
+        // Siempre modificamos el tablero del jugador
+        boolean isPlayerBoard = true;
 
         // Seleccionar una fila y una columna aleatoria
         int row = rand.nextInt(boardSize); // Genera un número aleatorio entre 0 y boardSize - 1
         int col = rand.nextInt(boardSize); // Genera un número aleatorio entre 0 y boardSize - 1
 
         if (isPlayerBoard) {
-            // Colocar un "Miss" (5) en el tablero del jugador en la celda aleatoria seleccionada
-            playerBoard.get(row).set(col, 5); // Asignamos el valor 5 (Miss) en esa celda
-        } else {
-            // Si decidieras modificar el tablero del enemigo, puedes agregar código aquí
+            // Capturamos el valor actual en la celda seleccionada
+            int currentCellValue = playerBoard.get(row).get(col);
+
+            // Lógica de modificación dependiendo del valor actual
+            if (currentCellValue == 0) {
+                // Si es agua, cambiamos a 5 (Miss)
+                modifyArraylist(row, col, 5, "Player");
+            } else if (currentCellValue >= 1 && currentCellValue <= 4) {
+                // Si es parte de un barco, la marcamos como tocada (6)
+                modifyArraylist(row, col, 6, "Player");
+
+                // Verificamos si el barco debe hundirse
+                checkAndSinkShip(row, col, currentCellValue, "Player");
+            } else if (currentCellValue == 6) {
+                // Si ya está tocada, verificamos si el barco completo puede hundirse
+                List<int[]> shipCells = new ArrayList<>();
+
+                // Determinamos las celdas asociadas al barco
+                checkAndSinkShip(row, col, currentCellValue, "Player");
+            } else if (currentCellValue == 7) {
+                // Si ya está hundido, no hacemos nada
+                System.out.println("La celda seleccionada ya pertenece a un barco hundido.");
+            }
         }
     }
-
-
 
 
     @Override
@@ -103,6 +121,7 @@ public class Game implements IGame, Serializable {
             System.out.println(row);
         }
     }
+
     public void modifyArraylist(int row, int col, int value, String boardType) {
         // Variable para almacenar el valor actual de la celda antes de modificarla
         int currentCellValue = 0;
@@ -143,8 +162,6 @@ public class Game implements IGame, Serializable {
         printBoard();
     }
     // Tableros globales
-
-
 
     public void checkAndSinkShip(int row, int col, int currentCellValue, String boardType) {
         List<int[]> shipCells = new ArrayList<>();

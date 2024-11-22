@@ -1,7 +1,9 @@
 package com.example.navalbattle.controller;
 
 import com.example.navalbattle.model.Game;
+import com.example.navalbattle.model.IAFleet;
 import com.example.navalbattle.model.SerializableFileHandler;
+import com.example.navalbattle.model.SerializableFileHandlerPosition;
 import com.example.navalbattle.view.GameStage;
 import com.example.navalbattle.view.LoginStage;
 import com.example.navalbattle.view.WelcomeStage;
@@ -9,114 +11,106 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
-/**
- * @author Jerson Alexis Ortiz Velasco
- * @author Jhon Antony Murillo Olave
- * @author Stefania Bolaños Perdomo
- * @version 1.0
- * @since 1.0
- *
- * Controller for the Welcome Stage in the naval battle game.
- * This controller handles user interactions for starting a new game, continuing an existing one,
- * and exiting the game.
- */
 public class WelcomeController {
-    private Game game; // Game instance
-    private static String userName;  // Variable to store the username extracted from the file
-    private static WelcomeController instance; // Singleton instance
+    private Game game;
+    private IAFleet enemyFleet;    private static String userName;  // Variable para almacenar el nombre de usuario extraído del archivo
+    private static WelcomeController instance;
 
-    /**
-     * Constructor for the WelcomeController.
-     * Saves the instance when creating the WelcomeController.
-     */
+    private ArrayList<ArrayList<Integer>> fleetCoordinatesEnemy;
+    private ArrayList<ArrayList<Integer>> fleetCoordinatesPlayer;
     public WelcomeController() {
-        // Save this instance when WelcomeController is created
+        // Guardar esta instancia al crear WelcomeController
         instance = this;
     }
 
-    /**
-     * Gets the singleton instance of the WelcomeController.
-     *
-     * @return The instance of WelcomeController.
-     */
     public static WelcomeController getInstance() {
         return instance;
     }
 
-    /**
-     * Gets the current Game object.
-     *
-     * @return The game object.
-     */
     public Game getGame() {
         return game;
     }
 
-    /**
-     * Handles the Play button click event.
-     * Deletes the current instance of WelcomeStage and opens the LoginStage.
-     *
-     * @param event The action event triggered by the Play button.
-     * @throws IOException If an error occurs while loading the LoginStage.
-     */
     @FXML
     void handleClickPlay(ActionEvent event) throws IOException {
+
         WelcomeStage.deleteInstance();
-        LoginStage.getInstance(); // Opens the login stage
+        enemyFleet = new IAFleet();
+        enemyFleet.placeEnemyFleet(game.getEnemyBoard());
+        fleetCoordinatesEnemy = enemyFleet.getEnemyFleetCoordinates();
+        //fleetCoordinatesPlayer = enemyFleet.getEnemyFleetCoordinates();///////opcional
+        game.printBoard();
+
+
+
+        LoginStage.getInstance();
     }
 
-    /**
-     * Handles the Continue button click event.
-     * Deletes the current instance of WelcomeStage and loads the previously saved game state.
-     *
-     * @param event The action event triggered by the Continue button.
-     */
+    public ArrayList<ArrayList<Integer>> getFleetCoordinatesEnemy() {
+        return fleetCoordinatesEnemy;
+    }
+
+    public ArrayList<ArrayList<Integer>> getFleetCoordinatesPlayer() {
+        return fleetCoordinatesPlayer;
+    }
+
     @FXML
     void handleClickContinue(ActionEvent event) {
-        WelcomeStage.deleteInstance(); // Closes the WelcomeStage
+        WelcomeStage.deleteInstance();
 
-        // Loads the game boards from the saved file
+        // Carga el nombre de usuario desde el archivo
+
         loadGameBoards(game);
-        // Initializes the GameStage
+        // Inicia GameStage
         GameStage.getInstance();
+
     }
 
-    /**
-     * Loads the saved game boards using the SerializableFileHandler.
-     *
-     * @param game The Game object to load the boards into.
-     */
     private void loadGameBoards(Game game) {
         SerializableFileHandler fileHandler = new SerializableFileHandler();
-        String fileName = "game_boards.dat"; // Name of the saved file
-        fileHandler.deserialize(fileName, game);  // Deserializes the boards and loads them into the game object
-        game.printBoard();  // Prints the loaded boards for verification
+        String fileName = "game_boards.dat";
+        fileHandler.deserialize(fileName, game);  // Deserializa los tableros y los carga en el objeto 'game'
+        game.printBoard();  // Imprime los tableros cargados para verificar
+
+        SerializableFileHandlerPosition fileHandlerPosition = new SerializableFileHandlerPosition();
+        String fileNamePosition = "game_boardsPositions.dat";
+
+        fileHandlerPosition.deserialize(fileNamePosition, fleetCoordinatesEnemy, fleetCoordinatesPlayer);
+        printBoard();
     }
 
-    /**
-     * Handles the Exit button click event.
-     * Closes the WelcomeStage.
-     *
-     * @param event The action event triggered by the Exit button.
-     */
     @FXML
     public void handleClickExit(ActionEvent event) {
-        WelcomeStage.deleteInstance(); // Closes the WelcomeStage
+
+        WelcomeStage.deleteInstance();
+
+    }
+    public void printBoard() {
+        System.out.println("Tablero del Jugador:");
+        for (ArrayList<Integer> row : fleetCoordinatesPlayer) {
+            System.out.println(row);
+        }
+
+        System.out.println("Tablero del Enemigo:");
+        for (ArrayList<Integer> row : fleetCoordinatesEnemy) {
+            System.out.println(row);
+        }
+    }
+    public void setfleetCoordinatesPlayer(ArrayList<ArrayList<Integer>> fleetCoordinatesPlayer) {
+        this.fleetCoordinatesPlayer = fleetCoordinatesPlayer;
     }
 
-    /**
-     * Initializes the WelcomeController.
-     * This method is automatically called when the controller is loaded.
-     */
     @FXML
     public void initialize() {
-        // Initialize the game
+        fleetCoordinatesEnemy = new ArrayList<>();
+        fleetCoordinatesPlayer = new ArrayList<>();
+        //loadUserNameFromFile();
         game = new Game(10);
-
-        // Deserialize the saved game boards at the start
-        // If no saved file is found, initialize the game boards
-        game.initializeBoardList();
-        game.printBoard();  // Prints the initial game boards
+        // Deserializamos los tableros al inicio
+        // Si no se encontró ningún archivo guardado, inicializamos los tableros
+            game.initializeBoardList();
+        game.printBoard();
     }
 }

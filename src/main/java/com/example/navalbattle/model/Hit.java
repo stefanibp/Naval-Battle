@@ -7,19 +7,21 @@ import javafx.scene.shape.Line;
 import javafx.scene.shape.Polygon;
 
 /**
+ * Represents the action and visual effect of a successful hit in the Naval Battle game.
+ * This class implements the {@link IMove} interface to define behavior and rendering
+ * of the "Hit" event.
+ *
  * @author Jerson Alexis Ortiz Velasco
- * @author Jhon Antony Murillo Olave
+ * @author Jhon Antony Murillo
  * @author Stefania Bolaños Perdomo
  * @version 1.0
  * @since 1.0
- *
- * Class representing a hit move in the game. This class implements the IMove interface
- * and is responsible for executing a "hit" action and rendering the visual effect of the hit.
  */
 public class Hit implements IMove {
 
     /**
-     * Executes the hit action by printing a message indicating that the target has been hit.
+     * Executes the logic for a successful hit.
+     * Prints a message indicating that the player may take another shot.
      */
     @Override
     public void execute() {
@@ -27,43 +29,44 @@ public class Hit implements IMove {
     }
 
     /**
-     * Renders the visual effect of a hit, displaying an explosion effect on the game board.
+     * Renders the visual effect for a successful hit.
+     * Displays a bomb with a fuse and a star-shaped explosion.
      *
-     * @return A Pane containing the visual effect of the hit (explosion).
+     * @return A {@link Pane} containing the graphical elements of the hit effect.
      */
     @Override
     public Pane renderEffect() {
         Pane pane = new Pane();
+        pane.setPrefSize(40, 40); // Set the size of the pane
 
-        // Cuerpo de la bomba
-        Circle body = new Circle(25, 25, 15, Color.BLACK);
+        // Bomb body
+        Circle body = new Circle(20, 20, 10, Color.BLACK);
 
-        // Mecha de la bomba
-        Line fuse = new Line(25, 10, 25, 0);
+        // Bomb fuse
+        Line fuse = new Line(20, 10, 20, 0);
         fuse.setStroke(Color.GRAY);
-        fuse.setStrokeWidth(2);
+        fuse.setStrokeWidth(1);
 
-        // Explosión en forma de estrella
+        // Explosion in the shape of a star
         Polygon explosion = new Polygon();
         explosion.getPoints().addAll(
-                25.0, -5.0,
-                27.0, -2.0,
-                30.0, -2.0,
-                28.0, 0.0,
-                30.0, 3.0,
-                27.0, 3.0,
-                25.0, 5.0,
-                23.0, 3.0,
-                20.0, 3.0,
-                22.0, 0.0,
-                20.0, -2.0,
-                23.0, -2.0
+                20.0, 5.0,
+                21.0, 8.0,
+                24.0, 8.0,
+                22.0, 10.0,
+                24.0, 13.0,
+                21.0, 13.0,
+                20.0, 15.0,
+                19.0, 13.0,
+                16.0, 13.0,
+                18.0, 10.0,
+                16.0, 8.0,
+                19.0, 8.0
         );
         explosion.setFill(Color.ORANGE);
 
-        // Añadir elementos al pane
+        // Add all graphical elements to the pane
         pane.getChildren().addAll(body, fuse, explosion);
         return pane;
     }
 }
-

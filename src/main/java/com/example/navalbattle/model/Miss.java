@@ -5,10 +5,12 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 
 /**
- * Represents the "Miss" move in the Naval Battle game.
- * This move occurs when a shot does not hit any ship, and the turn passes to the opponent.
+ * Represents a "Miss" action in the Naval Battle game.
+ * Implements the {@link IMove} interface to define the behavior and visual effect
+ * for when a shot does not hit any target.
  *
- * It includes functionality for executing the move logic and rendering its visual effect.
+ * The class provides a textual notification and renders a graphical "X" symbol
+ * to indicate the miss.
  *
  * @author Jerson Alexis Ortiz Velasco
  * @author Jhon Antony Murillo Olave
@@ -19,8 +21,8 @@ import javafx.scene.shape.Line;
 public class Miss implements IMove {
 
     /**
-     * Executes the logic for the "Miss" move.
-     * Indicates that the shot missed and passes the turn to the opponent.
+     * Executes the "Miss" action.
+     * Prints a message indicating that the shot missed and the turn passes to the opponent.
      */
     @Override
     public void execute() {
@@ -28,21 +30,22 @@ public class Miss implements IMove {
     }
 
     /**
-     * Renders the visual effect for the "Miss" move.
-     * This is represented by a red "X" drawn on the screen.
+     * Renders the visual effect for a "Miss."
+     * Displays a red "X" symbol, slightly shifted to the left and upwards for alignment.
      *
-     * @return A Pane containing the visual representation of a "Miss."
+     * @return a {@link Pane} containing the "X" graphical effect.
      */
     @Override
     public Pane renderEffect() {
         Pane pane = new Pane();
 
-        // Visual effect with a red "X"
-        Line line1 = new Line(10, 10, 40, 40);
+        // Create the first line of the "X"
+        Line line1 = new Line(10 - 5, 10 - 5, 40 - 5, 40 - 5); // Shift 5 pixels left and up
         line1.setStroke(Color.RED);
         line1.setStrokeWidth(2);
 
-        Line line2 = new Line(40, 10, 10, 40);
+        // Create the second line of the "X"
+        Line line2 = new Line(40 - 5, 10 - 5, 10 - 5, 40 - 5); // Shift 5 pixels left and up
         line2.setStroke(Color.RED);
         line2.setStrokeWidth(2);
 
@@ -50,4 +53,3 @@ public class Miss implements IMove {
         return pane;
     }
 }
-

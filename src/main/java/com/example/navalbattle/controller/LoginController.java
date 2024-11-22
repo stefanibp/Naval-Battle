@@ -1,9 +1,6 @@
 package com.example.navalbattle.controller;
 
-import com.example.navalbattle.model.IAFleet;
-import com.example.navalbattle.model.Game;
-import com.example.navalbattle.model.PlainTextFileHandler;
-import com.example.navalbattle.model.SerializableFileHandler;
+import com.example.navalbattle.model.*;
 import com.example.navalbattle.view.FleetStage;
 import com.example.navalbattle.view.LoginStage;
 import com.example.navalbattle.view.WelcomeStage;
@@ -12,34 +9,31 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 
 /**
+ * The controller class for managing the login functionality in the naval battle game.
+ * It handles the user's input for the username and manages transitions to the game stages.
+ *
  * @author Jerson Alexis Ortiz Velasco
  * @author Jhon Antony Murillo Olave
  * @author Stefania Bolaños Perdomo
  * @version 1.0
  * @since 1.0
- *
- * Controller for the Login Stage in the naval battle game.
- * This controller manages user login, saves the username, and handles
- * transitioning to the fleet setup stage.
  */
 public class LoginController {
 
     @FXML
-    private TextField userTxt; // TextField for the user input (username)
+    private TextField userTxt;
 
-    private Game game; // Game object
-    private IAFleet enemyFleet; // Enemy fleet for the game
+    private Game game;
 
     /**
-     * Handles the Play Game button click event.
-     * Validates the username input, saves it, serializes the game state,
-     * and transitions to the FleetStage.
+     * Handles the action of the Play Game button.
+     * It validates the user's input, saves the username to a file, and prepares the game boards.
+     * Then, it transitions from the login stage to the fleet stage of the game.
      *
-     * @param event The action event triggered by the Play button.
+     * @param event the action event triggered by clicking the Play Game button
      */
     @FXML
     void buttonPlayGame(ActionEvent event) {
-        // Check if the user has entered a valid username
         if (userTxt != null && !userTxt.getText().isEmpty()) {
             String userInput = userTxt.getText();
             System.out.println("The user entered: " + userInput);
@@ -48,43 +42,41 @@ public class LoginController {
             PlainTextFileHandler fileHandler = new PlainTextFileHandler();
             fileHandler.writeToFile("usuario.txt", userInput);
 
-            // Set the username in the Game object (accessible through WelcomeController)
+            // Set the username in the GameController
             game = WelcomeController.getInstance().getGame();
             saveGameBoards(game);
 
-            // Delete the current instance of LoginStage and open FleetStage
+            // Proceed with deleting the LoginStage instance and opening the FleetStage
             LoginStage.deleteInstance();
             FleetStage.getInstance();
 
-            // Create the enemy fleet and place it on the enemy board
-            enemyFleet = new IAFleet();
-            enemyFleet.placeEnemyFleet(game.getEnemyBoard());
+            // Create the enemy fleet and place it on the board
+
         } else {
-            System.out.println("No username entered.");
+            System.out.println("No username was entered.");
         }
     }
 
     /**
-     * Saves the current game state to a file by serializing the game object.
+     * Saves the game boards to a file using serialization.
      *
-     * @param game The Game object to be serialized and saved.
+     * @param game the game object containing the game boards to be serialized
      */
     private void saveGameBoards(Game game) {
         SerializableFileHandler fileHandler = new SerializableFileHandler();
-        String fileName = "game_boards.dat"; // Name of the saved file
+        String fileName = "game_boards.dat";
         fileHandler.serialize(fileName, game);  // Serializes the entire game object
     }
 
     /**
-     * Handles the Exit button click event.
-     * Deletes the current instance of LoginStage and optionally
-     * opens the WelcomeStage.
+     * Handles the action of the Exit button.
+     * It deletes the current instance of the LoginStage and optionally opens the WelcomeStage.
      *
-     * @param event The action event triggered by the Exit button.
+     * @param event the action event triggered by clicking the Exit button
      */
     @FXML
     void handleClickExit(ActionEvent event) {
         LoginStage.deleteInstance();
-        WelcomeStage.getInstance(); // Optionally reopens the WelcomeStage
+        WelcomeStage.getInstance(); // Optional if you choose to reactivate this line
     }
 }

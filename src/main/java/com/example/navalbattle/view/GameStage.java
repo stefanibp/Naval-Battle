@@ -6,6 +6,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -35,7 +36,7 @@ public class GameStage extends Stage {
         try {
             root = loader.load();
             gameController = loader.getController();
-        } catch (IOException e) {
+        } catch (IOException e){
             e.printStackTrace();
         }
         Scene scene = new Scene(root);
@@ -43,6 +44,7 @@ public class GameStage extends Stage {
         setTitle("BATALLA NAVAL");
         getIcons().add(new Image(String.valueOf(getClass().getResource("/com/example/navalbattle/favicon.png"))));
         setResizable(false);
+       initStyle(StageStyle.UNDECORATED);
         show();
     }
 
