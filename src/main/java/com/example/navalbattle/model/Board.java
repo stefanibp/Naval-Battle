@@ -41,7 +41,7 @@ public class Board {
     int counter;
     GridPane boardPlayer = new GridPane();
     GridPane boardEnemy = new GridPane();
-    private Board WelcomeController;
+    //private Board WelcomeController;
     WelcomeController welcomeController = WelcomeController.getInstance();
     private ArrayList<ArrayList<Integer>> fleetCoordinatesEnemy;
     private ArrayList<ArrayList<Integer>> fleetCoordinatesPlayer;
